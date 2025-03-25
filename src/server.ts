@@ -1,9 +1,11 @@
 import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 import { AppDataSource } from "./db/db.config";
 import { authRouter } from "./routes/auth/authRoute";
+import { userRouter } from "./routes/user/userRoute";
 
 //configiring with .env file
 dotenv.config();
@@ -11,7 +13,9 @@ dotenv.config();
 //Creating Express App
 const app = express();
 
+//middlewares
 app.use(express.json());
+app.use(cookieParser());
 
 //cors
 app.use(
@@ -23,6 +27,7 @@ app.use(
 
 //Routes
 app.use("/auth", authRouter);
+app.use("/user", userRouter);
 
 //Initialize database
 AppDataSource.initialize()

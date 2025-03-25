@@ -1,34 +1,35 @@
 import { Request, Response } from "express";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 
-import { userRepository } from "../repositories/dataRepositories";
+import {
+  createNewUser,
+  encryptPassword,
+  findUserByEmail,
+  generateAccessToken,
+  verifyPassword,
+} from "../services/authServices";
+
+import { User } from "../types/type";
 
 export const register = async (req: Request, res: Response) => {
-  const { userName, email, password } = req.body;
+  const { userName, email, password }: User = req.body;
 
   try {
-    // Check if the user already exists
-    const existingUser = await userRepository.findOne({
-      where: { email: email },
-    });
+    const existingUser = await findUserByEmail(email);
 
     // If the user already exists
     if (existingUser) {
       res.status(400).json({ message: "Email is already registered." });
     } else {
       // Hash the password
-      const hashPassword = await bcrypt.hash(password, 10);
+      // const hashPassword = await bcrypt.hash(password, 10);
+      const hashPassword = await encryptPassword(password);
 
-      // Create a new user
-      const newUser = userRepository.create({
+      // Create a new user by calling the createNewUser function
+      const user = await createNewUser({
         userName,
         email,
         password: hashPassword,
       });
-
-      // Save the new user to the database
-      const user = await userRepository.save(newUser);
 
       res.status(201).json({
         message: "User Registered Successfully.",
@@ -45,28 +46,20 @@ export const login = async (req: Request, res: Response) => {
 
   try {
     //find user with email
-    const user = await userRepository.findOne({ where: { email: email } });
+    const user = await findUserByEmail(email);
 
     if (user) {
-      const passwordMatch = await bcrypt.compare(password, user.password);
+      // const passwordMatch = await bcrypt.compare(password, user.password);
+      const passwordMatch = await verifyPassword(password, user.password);
 
       if (passwordMatch) {
-        //payload
-        const payload = {
-          id: user.id,
-          email: user.email,
-          userName: user.userName,
-        };
+        const accessToken = await generateAccessToken(user.id, user.email);
 
-        //token generation
-        const secret = process.env.SECRET as string;
-        const token = jwt.sign(payload, secret, {
-          expiresIn: "1hr",
-        });
+        res.cookie("access_token", accessToken);
 
         res.status(201).json({
           message: "User Logged-In Successfully.",
-          token: token,
+          accessToken,
         });
       } else {
         res.status(401).json({ message: "Incorrect password entered" });

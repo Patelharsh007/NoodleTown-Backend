@@ -1,0 +1,16 @@
+import { Request, Response } from "express";
+
+import { usersAllList } from "../services/userServices";
+
+export const getUsers = async (req: Request, res: Response) => {
+  try {
+    const users = await usersAllList();
+
+    res.status(201).json({
+      message: "Users listed",
+      users,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "An unexpected error occurred." });
+  }
+};
