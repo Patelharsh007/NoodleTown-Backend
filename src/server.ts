@@ -26,8 +26,8 @@ app.use(
 );
 
 //Routes
-app.use("/auth", authRouter);
-app.use("/user", userRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/user", userRouter);
 
 //Initialize database
 AppDataSource.initialize()
