@@ -1,5 +1,7 @@
 import express, { Request, Response } from "express";
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
+import cors from "cors";
+
 import { AppDataSource } from "./db/db.config";
 import { authRouter } from "./routes/auth/authRoute";
 
@@ -11,8 +13,15 @@ const app = express();
 
 app.use(express.json());
 
-//Routes
+//cors
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 
+//Routes
 app.use("/auth", authRouter);
 
 //Initialize database

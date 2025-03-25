@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+
 import { userRepository } from "../repositories/dataRepositories";
 
 export const register = async (req: Request, res: Response) => {
@@ -39,5 +41,42 @@ export const register = async (req: Request, res: Response) => {
 };
 
 export const login = async (req: Request, res: Response) => {
-  res.send("Logg inn");
+  const { email, password } = req.body;
+
+  try {
+    //find user with email
+    const user = await userRepository.findOne({ where: { email: email } });
+
+    if (user) {
+      const passwordMatch = await bcrypt.compare(password, user.password);
+
+      if (passwordMatch) {
+        //payload
+        const payload = {
+          id: user.id,
+          email: user.email,
+          userName: user.userName,
+        };
+
+        //token generation
+        const secret = process.env.SECRET as string;
+        const token = jwt.sign(payload, secret, {
+          expiresIn: "1hr",
+        });
+
+        res.status(201).json({
+          message: "User Logged-In Successfully.",
+          token: token,
+        });
+      } else {
+        res.status(401).json({ message: "Incorrect password entered" });
+      }
+    } else {
+      res
+        .status(400)
+        .json({ message: "No registered user found with the entered email." });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "An unexpected error occurred." });
+  }
 };
