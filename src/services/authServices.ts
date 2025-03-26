@@ -26,9 +26,13 @@ export const createNewUser = async ({ userName, email, password }: User) => {
   return await userRepository.save(newUser);
 };
 
-export const generateAccessToken = (id: number, email: string): string => {
+export const generateAccessToken = (
+  id: number,
+  email: string,
+  userName: string
+): string => {
   const secret = process.env.SECRET as string;
-  const payload = { id, email };
+  const payload = { id, userName, email };
   const token = jwt.sign(payload, secret, { expiresIn: "1hr" });
   return token;
 };

@@ -1,9 +1,8 @@
-import { UserEntity } from "../entities/User";
+import { UserReq } from "./type";
 
-declare global {
-  namespace Express {
-    interface Request {
-      user?: UserEntity;
-    }
+declare module "express" {
+  interface Request {
+    user?: UserReq;
   }
 }
+console.log("Custom Express types loaded");

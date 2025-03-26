@@ -7,11 +7,21 @@ import {
 
 // Helper function to format validation errors
 const formatValidationErrors = (errors: any[]) => {
-  return errors.map((error) => {
+  const formattedErrors: any[] = [];
+
+  errors.forEach((error) => {
     const field = error.property;
-    const message = Object.values(error.constraints || {}).join(", ");
-    return { field, message };
+    const constraints = error.constraints;
+
+    // Check if there are multiple constraints (like length and pattern)
+    if (constraints) {
+      Object.values(constraints).forEach((message) => {
+        formattedErrors.push({ field, message });
+      });
+    }
   });
+
+  return formattedErrors;
 };
 
 // Middleware to validate registration input
@@ -30,14 +40,15 @@ export const validateRegister = async (
   const errors = await validate(registerValidation); // Validate the object
 
   if (errors.length > 0) {
-    // Format and send the error response
     const formattedErrors = formatValidationErrors(errors);
-    res
-      .status(400)
-      .json({ message: "Validation failed", errors: formattedErrors });
+    res.status(400).json({
+      status: "error",
+      message: "Validation failed",
+      errors: formattedErrors,
+    });
     return;
   }
-  next(); // If no errors, pass control to the next middleware/controller
+  next();
 };
 
 // Middleware to validate login input
@@ -52,15 +63,16 @@ export const validateLogin = async (
   loginValidation.email = email;
   loginValidation.password = password;
 
-  const errors = await validate(loginValidation); // Validate the object
+  const errors = await validate(loginValidation);
 
   if (errors.length > 0) {
-    // Format and send the error response
     const formattedErrors = formatValidationErrors(errors);
-    res
-      .status(400)
-      .json({ message: "Validation failed", errors: formattedErrors });
+    res.status(400).json({
+      status: "error",
+      message: "Validation failed",
+      errors: formattedErrors,
+    });
     return;
   }
-  next(); // If no errors, pass control to the next middleware/controller
+  next();
 };
