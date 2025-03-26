@@ -6,6 +6,8 @@ import cookieParser from "cookie-parser";
 import { AppDataSource } from "./db/db.config";
 import { authRouter } from "./routes/auth/authRoute";
 import { userRouter } from "./routes/user/userRoute";
+import { restaurantRouter } from "./routes/restaurant/restaurantRoute";
+import { mealRouter } from "./routes/meal/mealRoute";
 
 //configiring with .env file
 dotenv.config();
@@ -32,6 +34,8 @@ app.use(
 //Routes
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
+app.use("/api/restaurant", restaurantRouter);
+app.use("/api/meal", mealRouter);
 
 //Initialize database
 AppDataSource.initialize()
