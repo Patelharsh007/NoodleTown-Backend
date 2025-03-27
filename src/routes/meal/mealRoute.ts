@@ -1,5 +1,5 @@
 import express from "express";
-import { uploadMealData } from "../../controllers/mealCOntoller";
+import { uploadMealData } from "../../controllers/mealContoller";
 
 const router = express.Router();
 

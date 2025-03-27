@@ -2,16 +2,16 @@ import { Request, Response } from "express";
 import { AppDataSource } from "../db/db.config";
 import { RestaurantEntity } from "../entities/Restaurant";
 import { restaurants } from "../data/restaurantsData";
-import { getBrands } from "../services/restaurantServices";
+import { getBrands, getREstaurantById } from "../services/restaurantServices";
 
-export const restaurantList = async (req: Request, res: Response) => {
+export const topbrands = async (req: Request, res: Response) => {
   try {
     const restaurants = await getBrands();
 
     if (restaurants) {
       res.status(201).json({
         status: "success",
-        message: "Restaurants etched succesfully",
+        message: "Restaurants fetched succesfully",
         restaurants,
       });
     } else {
@@ -21,6 +21,34 @@ export const restaurantList = async (req: Request, res: Response) => {
     }
   } catch (error) {
     res.status(400).json({ status: "error", message: error });
+  }
+};
+
+export const restaurantbyID = async (req: Request, res: Response) => {
+  const restaurantId = req.params.id;
+
+  if (restaurantId) {
+    try {
+      const restaurant = await getREstaurantById(restaurantId);
+
+      if (restaurant.length > 0) {
+        res.status(201).json({
+          status: "success",
+          message: "Restaurant Details fetched succesfully",
+          restaurant,
+        });
+      } else {
+        res
+          .status(400)
+          .json({ status: "error", message: "No restaurant found" });
+      }
+    } catch (error) {
+      res.status(400).json({ status: "error", message: error });
+    }
+  } else {
+    res
+      .status(400)
+      .json({ status: "error", message: "No restaurants id passed..." });
   }
 };
 

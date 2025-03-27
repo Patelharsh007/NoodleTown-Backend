@@ -6,3 +6,12 @@ export const getBrands = async () => {
   });
   return restaurants;
 };
+
+export const getREstaurantById = async (id: string) => {
+  const restaurantDetail = await restaurantRepository.find({
+    where: {
+      restaurantId: id,
+    },
+  });
+  return restaurantDetail;
+};
