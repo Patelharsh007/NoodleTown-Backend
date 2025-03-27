@@ -9,7 +9,9 @@ export class RestaurantEntity {
   @Column({ type: "varchar", unique: true })
   restaurantId: string;
 
-  @OneToMany(() => MealEntity, (meal) => meal.restaurant)
+  @OneToMany(() => MealEntity, (meal) => meal.restaurant, {
+    cascade: ["remove"],
+  })
   meals: MealEntity[];
 
   @Column({ type: "varchar", length: 255 })
@@ -18,10 +20,10 @@ export class RestaurantEntity {
   @Column({ type: "varchar", length: 255 })
   logo: string;
 
-  @Column("simple-array")
+  @Column("jsonb")
   posterImages: string[];
 
-  @Column("simple-array")
+  @Column("jsonb")
   cuisines: string[];
 
   @Column({ type: "decimal", precision: 10, scale: 2 })
@@ -36,10 +38,10 @@ export class RestaurantEntity {
   @Column({ type: "varchar", length: 255 })
   timing: string;
 
-  @Column("simple-array")
+  @Column("jsonb")
   menuImages: string[];
 
-  @Column("simple-array")
+  @Column("jsonb")
   categories: string[];
 
   @Column({ type: "boolean" })

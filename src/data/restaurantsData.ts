@@ -21,8 +21,9 @@ export const restaurants: RestaurantItem[] = [
     title: "KFC",
     // logo: `${assets.images.restaurantLogo.kfc}`,
     logo: `https://e7.pngegg.com/pngimages/117/377/png-clipart-kfc-logo-kfc-icon-food-kentucky-fried-chicken.png`,
+
     posterImages: [
-      "https://b.zmtcdn.com/data/pictures/4/2700044/9410759d611db9c62c3acc23c1f27e06.jpg?fit=around|750:500&crop=750:500;*,*",
+      "https://b.zmtcdn.com/data/pictures/4/2700044/9410759d611db9c62c3acc23c1f27e06.jpg?fit=around|750:500&crop=750:500",
       "https://static.vecteezy.com/system/resources/thumbnails/028/647/940/small_2x/fried-chicken-wings-with-kethcup-generative-ai-photo.jpg",
       "https://t4.ftcdn.net/jpg/05/17/27/83/360_F_517278381_npC0cMTTo14wDSQMHtbM5qI1BN0jhEpB.jpg",
     ],
@@ -182,9 +183,9 @@ export const restaurants: RestaurantItem[] = [
     // logo: `${assets.images.restaurantLogo.starBucks}`,
     logo: `https://seekvectors.com/files/download/star-bucks-logo-05.jpg`,
     posterImages: [
-      "https://img.etimg.com/thumb/width-420,height-315,imgsize-91518,resizemode-75,msid-116510855/industry/cons-products/food/starbucks-fully-committed-to-indian-market-says-india-jv-tata-starbucks/starbucks.jpg",
-      "https://assets.gqindia.com/photos/5cdc75d38e62990b13f38389/4:3/w_1440,h_1080,c_limit/starbucks-cup-hed-2013.jpg",
-      "https://wallpapers.com/images/featured/starbucks-pictures-q3r2gukezl5tqwdu.jpg",
+      "https://th.bing.com/th/id/R.368740130aef30b7bf5eaf019cf7ac6b?rik=PMASES06Gow1Mw&riu=http%3a%2f%2fimages5.fanpop.com%2fimage%2fphotos%2f25000000%2fCoffee-Shop-starbucks-25055149-1280-1024.jpg&ehk=Ch0CbMsyfC1rZzJKtylTIkoTYJlAwrrTMpQyBIV9Kxs%3d&risl=&pid=ImgRaw&r=0",
+      "https://assets.gqindia.com/photos/5cdc75d38e62990b13f38389/4:3/c_limit/starbucks-cup-hed-2013.jpg",
+      "https://th.bing.com/th/id/OIP._LSgxbyCTDgyiVXK8gD0jAHaEK?rs=1&pid=ImgDetMain",
     ],
     cuisines: ["Coffee", "Beverages", "American"],
     avgCostPerPerson: 400,
@@ -215,7 +216,7 @@ export const restaurants: RestaurantItem[] = [
     // logo: "https://images.seeklogo.com/logo-png/28/1/dunkin-donuts-logo-png_seeklogo-286018.png",
     logo: "https://images.seeklogo.com/logo-png/28/1/dunkin-donuts-logo-png_seeklogo-286018.png",
     posterImages: [
-      "https://b.zmtcdn.com/data/pictures/chains/6/303576/47ea6e038d50ecb90c8d3e57e798fb07.jpg?fit=around|750:500&crop=750:500;*,*",
+      "https://b.zmtcdn.com/data/pictures/chains/6/303576/47ea6e038d50ecb90c8d3e57e798fb07.jpg?fit=around|750:500&crop=750:500",
       "https://images.unsplash.com/photo-1551024506-0bccd828d307",
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQVeTHb92eQxHINlQqVwHxaEoT30njc7Cu7A&s",
     ],
@@ -280,7 +281,7 @@ export const restaurants: RestaurantItem[] = [
     posterImages: [
       "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b",
       "https://images.unsplash.com/photo-1552332386-f8dd00dc2f85",
-      "https://b.zmtcdn.com/data/pictures/4/20356944/509b8f6ec56dc5cbf00d90a5ea3ce05c.jpg?fit=around|750:500&crop=750:500;*,*",
+      "https://b.zmtcdn.com/data/pictures/4/20356944/509b8f6ec56dc5cbf00d90a5ea3ce05c.jpg?fit=around|750:500&crop=750:500",
     ],
     cuisines: ["Mexican", "Fast Food", "Tex-Mex"],
     avgCostPerPerson: 200,
@@ -309,7 +310,7 @@ export const restaurants: RestaurantItem[] = [
     title: "Papa John's",
     logo: "https://production-zenput-static.s3.amazonaws.com/static/i/site/logos/papa-johns-logo.png",
     posterImages: [
-      "https://media-cdn.grubhub.com/image/upload/d_search:browse-images:default.jpg/w_150,q_auto:low,fl_lossy,dpr_2.0,c_fill,f_auto,h_150/wyivgk1pvqowswlg1gnl",
+      "https://clipground.com/images/papa-johns-pizza-logo-5.png",
       "https://images.deliveryhero.io/image/fd-ph/LH/xtaj-listing.jpg",
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPRfh4-HeufTkhqyIUmw-Zk0yuQycpOPqjlw&s",
     ],

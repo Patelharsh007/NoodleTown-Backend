@@ -2,7 +2,11 @@ import { Request, Response } from "express";
 import { AppDataSource } from "../db/db.config";
 import { RestaurantEntity } from "../entities/Restaurant";
 import { restaurants } from "../data/restaurantsData";
-import { getBrands, getREstaurantById } from "../services/restaurantServices";
+import {
+  getBrands,
+  getRestaurantById,
+  getRestaurantMeal,
+} from "../services/restaurantServices";
 
 export const topbrands = async (req: Request, res: Response) => {
   try {
@@ -29,7 +33,7 @@ export const restaurantbyID = async (req: Request, res: Response) => {
 
   if (restaurantId) {
     try {
-      const restaurant = await getREstaurantById(restaurantId);
+      const restaurant = await getRestaurantById(restaurantId);
 
       if (restaurant.length > 0) {
         res.status(201).json({
@@ -66,5 +70,33 @@ export const uploadData = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Error inserting data:", error);
     res.status(400).json({ status: "error", message: error });
+  }
+};
+
+export const restaurantmeal = async (req: Request, res: Response) => {
+  const restaurantId = req.params.id;
+
+  if (restaurantId) {
+    try {
+      const restaurant = await getRestaurantMeal(restaurantId);
+
+      if (restaurant.length > 0) {
+        res.status(201).json({
+          status: "success",
+          message: "Restaurant Details fetched succesfully",
+          restaurant,
+        });
+      } else {
+        res
+          .status(400)
+          .json({ status: "error", message: "No restaurant found" });
+      }
+    } catch (error) {
+      res.status(400).json({ status: "error", message: error });
+    }
+  } else {
+    res
+      .status(400)
+      .json({ status: "error", message: "No restaurants id passed..." });
   }
 };

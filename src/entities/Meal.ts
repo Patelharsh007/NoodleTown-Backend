@@ -10,10 +10,10 @@ import { RestaurantEntity } from "./Restaurant";
 @Entity({ name: "meals" })
 export class MealEntity {
   @PrimaryGeneratedColumn()
-  mealId: number;
+  id: number;
 
   @Column({ type: "varchar" })
-  id: string;
+  mealId: string;
 
   @Column({ type: "varchar" })
   restaurantId: string;
@@ -21,9 +21,6 @@ export class MealEntity {
   @ManyToOne(() => RestaurantEntity, (restaurant) => restaurant.meals)
   @JoinColumn({ name: "restaurantId", referencedColumnName: "restaurantId" })
   restaurant: RestaurantEntity;
-
-  // @Column()
-  // restaurantName: string;
 
   @Column({ type: "varchar" })
   category: string;
@@ -37,12 +34,12 @@ export class MealEntity {
   @Column({ type: "varchar", length: 500 })
   shortDescription: string;
 
-  @Column("simple-array")
+  @Column("jsonb")
   fullDescription: string[];
 
   @Column({ type: "varchar" })
   price: number;
 
-  @Column({ type: "varchar" })
+  @Column({ type: "boolean" })
   isPopular: boolean;
 }

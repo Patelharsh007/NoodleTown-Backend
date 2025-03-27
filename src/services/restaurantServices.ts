@@ -1,3 +1,4 @@
+import { title } from "process";
 import { restaurantRepository } from "../repositories/dataRepositories";
 
 export const getBrands = async () => {
@@ -7,11 +8,21 @@ export const getBrands = async () => {
   return restaurants;
 };
 
-export const getREstaurantById = async (id: string) => {
+export const getRestaurantById = async (id: string) => {
   const restaurantDetail = await restaurantRepository.find({
     where: {
       restaurantId: id,
     },
+  });
+  return restaurantDetail;
+};
+export const getRestaurantMeal = async (id: string) => {
+  const restaurantDetail = await restaurantRepository.find({
+    where: {
+      restaurantId: id,
+    },
+    relations: ["meals"],
+    select: ["restaurantId", "meals"],
   });
   return restaurantDetail;
 };

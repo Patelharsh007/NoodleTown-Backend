@@ -1,5 +1,5 @@
 interface MealItem {
-  id: string;
+  mealId?: string;
   restaurantId: string;
   // restaurantName: string;
   category: string;
@@ -13,7 +13,7 @@ interface MealItem {
 
 export const meals: MealItem[] = [
   {
-    id: "mcdonalds-burger-1",
+    mealId: "mcdonalds-burger-1",
     restaurantId: "mcdonalds-1",
     // restaurantName: "McDonald's",
     category: "Burgers",
@@ -30,7 +30,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "mcdonalds-breakfast-1",
+    mealId: "mcdonalds-breakfast-1",
     restaurantId: "mcdonalds-1",
     // restaurantName: "McDonald's",
     category: "Breakfast",
@@ -48,7 +48,7 @@ export const meals: MealItem[] = [
     isPopular: false,
   },
   {
-    id: "mcdonalds-dessert-1",
+    mealId: "mcdonalds-dessert-1",
     restaurantId: "mcdonalds-1",
     // restaurantName: "McDonald's",
     category: "Desserts",
@@ -65,7 +65,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "mcdonalds-sides-1",
+    mealId: "mcdonalds-sides-1",
     restaurantId: "mcdonalds-1",
     // restaurantName: "McDonald's",
     category: "Sides",
@@ -82,7 +82,7 @@ export const meals: MealItem[] = [
     isPopular: false,
   },
   {
-    id: "mcdonalds-mccafe-1",
+    mealId: "mcdonalds-mccafe-1",
     restaurantId: "mcdonalds-1",
     // restaurantName: "McDonald's",
     category: "McCafe",
@@ -100,7 +100,7 @@ export const meals: MealItem[] = [
     isPopular: false,
   },
   {
-    id: "mcdonalds-happy-1",
+    mealId: "mcdonalds-happy-1",
     restaurantId: "mcdonalds-1",
     // restaurantName: "McDonald's",
     category: "Happy Meals",
@@ -119,9 +119,8 @@ export const meals: MealItem[] = [
   },
 
   {
-    id: "kfc-chicken-1",
+    mealId: "kfc-chicken-1",
     restaurantId: "kfc-1",
-    // restaurantName: "KFC",
     category: "Chicken",
     image: "https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58",
     title: "Original Recipe Chicken",
@@ -136,9 +135,8 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "kfc-chicken-2",
+    mealId: "kfc-chicken-2",
     restaurantId: "kfc-1",
-    // restaurantName: "KFC",
     category: "Chicken",
     image: "https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58",
     title: "Extra Crispy Chicken",
@@ -153,9 +151,8 @@ export const meals: MealItem[] = [
     isPopular: false,
   },
   {
-    id: "kfc-chicken-3",
+    mealId: "kfc-chicken-3",
     restaurantId: "kfc-1",
-    // restaurantName: "KFC",
     category: "Chicken",
     image: "https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58",
     title: "Hot & Spicy Chicken",
@@ -172,9 +169,8 @@ export const meals: MealItem[] = [
 
   // Category: Burgers
   {
-    id: "kfc-burger-1",
+    mealId: "kfc-burger-1",
     restaurantId: "kfc-1",
-    // restaurantName: "KFC",
     category: "Burgers",
     image:
       "https://geekculture.co/wp-content/uploads/2021/09/KFC_Original-Recipe-STACKER_ALC.png",
@@ -190,9 +186,8 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "kfc-burger-2",
+    mealId: "kfc-burger-2",
     restaurantId: "kfc-1",
-    // restaurantName: "KFC",
     category: "Burgers",
     image:
       "https://kfcrestaurants.be/wp-content/uploads/2019/05/zinner-burger.jpg",
@@ -208,9 +203,8 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "kfc-burger-3",
+    mealId: "kfc-burger-3",
     restaurantId: "kfc-1",
-    // restaurantName: "KFC",
     category: "Burgers",
     image:
       "https://kfcrestaurants.be/wp-content/uploads/2020/08/filetburger.jpg",
@@ -228,9 +222,8 @@ export const meals: MealItem[] = [
 
   // Category: Box Meals
   {
-    id: "kfc-box-1",
+    mealId: "kfc-box-1",
     restaurantId: "kfc-1",
-    // restaurantName: "KFC",
     category: "Box Meals",
     image:
       "https://th.bing.com/th/id/OIP.81PcO5Xs0pKZAm2mwarELAHaHA?rs=1&pid=ImgDetMain",
@@ -246,9 +239,9 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "kfc-box-2",
+    mealId: "kfc-box-2",
     restaurantId: "kfc-1",
-    // restaurantName: "KFC",
+
     category: "Box Meals",
     image:
       "https://th.bing.com/th/id/OIP.C5PkDnqVVElrR-477Hk6aAHaFj?rs=1&pid=ImgDetMain",
@@ -264,9 +257,9 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "kfc-box-3",
+    mealId: "kfc-box-3",
     restaurantId: "kfc-1",
-    // restaurantName: "KFC",
+
     category: "Box Meals",
     image:
       "https://th.bing.com/th/id/OIP.4XRPM2Hduv9fJ2FG33aMKgHaHa?rs=1&pid=ImgDetMain",
@@ -284,9 +277,9 @@ export const meals: MealItem[] = [
 
   // Category: Sides
   {
-    id: "kfc-sides-1",
+    mealId: "kfc-sides-1",
     restaurantId: "kfc-1",
-    // restaurantName: "KFC",
+
     category: "Sides",
     image:
       "https://th.bing.com/th/id/OIP.eyvtVsxJ_TYL_0jBuroKXgHaFj?rs=1&pid=ImgDetMain",
@@ -302,9 +295,9 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "kfc-sides-2",
+    mealId: "kfc-sides-2",
     restaurantId: "kfc-1",
-    // restaurantName: "KFC",
+
     category: "Sides",
     image: "https://cdn.cheapism.com/images/colesaw-kfc.min-720x376.jpg",
     title: "Creamy Coleslaw",
@@ -319,9 +312,9 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "kfc-sides-3",
+    mealId: "kfc-sides-3",
     restaurantId: "kfc-1",
-    // restaurantName: "KFC",
+
     category: "Sides",
     image:
       "https://copykat.com/wp-content/uploads/2023/06/KFC-Mac-and-Cheese-Pin-13.jpg",
@@ -339,9 +332,9 @@ export const meals: MealItem[] = [
 
   // Category: Desserts
   {
-    id: "kfc-dessert-1",
+    mealId: "kfc-dessert-1",
     restaurantId: "kfc-1",
-    // restaurantName: "KFC",
+
     category: "Desserts",
     image:
       "https://i0.wp.com/www.livewellbakeoften.com/wp-content/uploads/2017/02/Chocolate-Chip-Cookies-7.jpg?resize=1360,2040",
@@ -357,9 +350,9 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "kfc-dessert-2",
+    mealId: "kfc-dessert-2",
     restaurantId: "kfc-1",
-    // restaurantName: "KFC",
+
     category: "Desserts",
     image:
       "https://th.bing.com/th/id/OIP.lNV7mbPX_ITwDl7AyzLgnQHaLH?rs=1&pid=ImgDetMain",
@@ -375,9 +368,9 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "kfc-dessert-3",
+    mealId: "kfc-dessert-3",
     restaurantId: "kfc-1",
-    // restaurantName: "KFC",
+
     category: "Desserts",
     image:
       "https://th.bing.com/th/id/OIP.qbvMSk22nYQyf4I-q0SYhgAAAA?rs=1&pid=ImgDetMain",
@@ -394,7 +387,7 @@ export const meals: MealItem[] = [
   },
 
   {
-    id: "dominos-pizza-1",
+    mealId: "dominos-pizza-1",
     restaurantId: "dominos-1",
     // restaurantName: "Domino's Pizza",
     category: "Pizzas",
@@ -411,7 +404,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "dominos-pizza-2",
+    mealId: "dominos-pizza-2",
     restaurantId: "dominos-1",
     // restaurantName: "Domino's Pizza",
     category: "Pizzas",
@@ -428,7 +421,7 @@ export const meals: MealItem[] = [
     isPopular: false,
   },
   {
-    id: "dominos-sides-1",
+    mealId: "dominos-sides-1",
     restaurantId: "dominos-1",
     // restaurantName: "Domino's Pizza",
     category: "Sides",
@@ -446,7 +439,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "dominos-pasta-1",
+    mealId: "dominos-pasta-1",
     restaurantId: "dominos-1",
     // restaurantName: "Domino's Pizza",
     category: "Pasta",
@@ -464,7 +457,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "dominos-dessert-1",
+    mealId: "dominos-dessert-1",
     restaurantId: "dominos-1",
     // restaurantName: "Domino's Pizza",
     category: "Desserts",
@@ -482,7 +475,7 @@ export const meals: MealItem[] = [
     isPopular: false,
   },
   {
-    id: "dominos-beverage-1",
+    mealId: "dominos-beverage-1",
     restaurantId: "dominos-1",
     // restaurantName: "Domino's Pizza",
     category: "Beverages",
@@ -499,7 +492,7 @@ export const meals: MealItem[] = [
     isPopular: false,
   },
   {
-    id: "subway-sub-1",
+    mealId: "subway-sub-1",
     restaurantId: "subway-1",
     // restaurantName: "Subway",
     category: "Subs",
@@ -517,7 +510,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "subway-sub-2",
+    mealId: "subway-sub-2",
     restaurantId: "subway-1",
     // restaurantName: "Subway",
     category: "Subs",
@@ -535,7 +528,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "subway-sub-3",
+    mealId: "subway-sub-3",
     restaurantId: "subway-1",
     // restaurantName: "Subway",
     category: "Subs",
@@ -555,7 +548,7 @@ export const meals: MealItem[] = [
 
   // Category: Salads
   {
-    id: "subway-salad-1",
+    mealId: "subway-salad-1",
     restaurantId: "subway-1",
     // restaurantName: "Subway",
     category: "Salads",
@@ -573,7 +566,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "subway-salad-2",
+    mealId: "subway-salad-2",
     restaurantId: "subway-1",
     // restaurantName: "Subway",
     category: "Salads",
@@ -590,7 +583,7 @@ export const meals: MealItem[] = [
     isPopular: false,
   },
   {
-    id: "subway-salad-3",
+    mealId: "subway-salad-3",
     restaurantId: "subway-1",
     //restaurantName: "Subway",
     category: "Salads",
@@ -610,7 +603,7 @@ export const meals: MealItem[] = [
 
   // Category: Wraps
   {
-    id: "subway-wrap-1",
+    mealId: "subway-wrap-1",
     restaurantId: "subway-1",
     //restaurantName: "Subway",
     category: "Wraps",
@@ -628,7 +621,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "subway-wrap-2",
+    mealId: "subway-wrap-2",
     restaurantId: "subway-1",
     //restaurantName: "Subway",
     category: "Wraps",
@@ -646,7 +639,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "subway-wrap-3",
+    mealId: "subway-wrap-3",
     restaurantId: "subway-1",
     //restaurantName: "Subway",
     category: "Wraps",
@@ -664,7 +657,7 @@ export const meals: MealItem[] = [
     isPopular: false,
   },
   {
-    id: "pizzahut-pizza-1",
+    mealId: "pizzahut-pizza-1",
     restaurantId: "pizzahut-1",
     //restaurantName: "Pizza Hut",
     category: "Pizzas",
@@ -682,7 +675,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "pizzahut-pizza-2",
+    mealId: "pizzahut-pizza-2",
     restaurantId: "pizzahut-1",
     //restaurantName: "Pizza Hut",
     category: "Pizzas",
@@ -700,7 +693,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "pizzahut-pizza-3",
+    mealId: "pizzahut-pizza-3",
     restaurantId: "pizzahut-1",
     //restaurantName: "Pizza Hut",
     category: "Pizzas",
@@ -720,7 +713,7 @@ export const meals: MealItem[] = [
 
   // Category: Pasta
   {
-    id: "pizzahut-pasta-1",
+    mealId: "pizzahut-pasta-1",
     restaurantId: "pizzahut-1",
     //restaurantName: "Pizza Hut",
     category: "Pasta",
@@ -738,7 +731,7 @@ export const meals: MealItem[] = [
     isPopular: false,
   },
   {
-    id: "pizzahut-pasta-2",
+    mealId: "pizzahut-pasta-2",
     restaurantId: "pizzahut-1",
     //restaurantName: "Pizza Hut",
     category: "Pasta",
@@ -756,7 +749,7 @@ export const meals: MealItem[] = [
     isPopular: false,
   },
   {
-    id: "pizzahut-pasta-3",
+    mealId: "pizzahut-pasta-3",
     restaurantId: "pizzahut-1",
     //restaurantName: "Pizza Hut",
     category: "Pasta",
@@ -776,7 +769,7 @@ export const meals: MealItem[] = [
 
   // Category: Wings
   {
-    id: "pizzahut-wings-1",
+    mealId: "pizzahut-wings-1",
     restaurantId: "pizzahut-1",
     //restaurantName: "Pizza Hut",
     category: "Wings",
@@ -794,7 +787,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "pizzahut-wings-2",
+    mealId: "pizzahut-wings-2",
     restaurantId: "pizzahut-1",
     //restaurantName: "Pizza Hut",
     category: "Wings",
@@ -812,7 +805,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "pizzahut-wings-3",
+    mealId: "pizzahut-wings-3",
     restaurantId: "pizzahut-1",
     //restaurantName: "Pizza Hut",
     category: "Wings",
@@ -831,7 +824,7 @@ export const meals: MealItem[] = [
   },
 
   {
-    id: "starbucks-hot-1",
+    mealId: "starbucks-hot-1",
     restaurantId: "starbucks-1",
     //restaurantName: "Starbucks",
     category: "Hot Coffee",
@@ -849,7 +842,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "starbucks-hot-2",
+    mealId: "starbucks-hot-2",
     restaurantId: "starbucks-1",
     //restaurantName: "Starbucks",
     category: "Hot Coffee",
@@ -867,7 +860,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "starbucks-hot-3",
+    mealId: "starbucks-hot-3",
     restaurantId: "starbucks-1",
     //restaurantName: "Starbucks",
     category: "Hot Coffee",
@@ -887,7 +880,7 @@ export const meals: MealItem[] = [
 
   // Category: Cold Coffee
   {
-    id: "starbucks-cold-1",
+    mealId: "starbucks-cold-1",
     restaurantId: "starbucks-1",
     //restaurantName: "Starbucks",
     category: "Cold Coffee",
@@ -905,7 +898,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "starbucks-cold-2",
+    mealId: "starbucks-cold-2",
     restaurantId: "starbucks-1",
     //restaurantName: "Starbucks",
     category: "Cold Coffee",
@@ -923,7 +916,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "starbucks-cold-3",
+    mealId: "starbucks-cold-3",
     restaurantId: "starbucks-1",
     //restaurantName: "Starbucks",
     category: "Cold Coffee",
@@ -943,7 +936,7 @@ export const meals: MealItem[] = [
 
   // Category: Frappuccinos
   {
-    id: "starbucks-frapp-1",
+    mealId: "starbucks-frapp-1",
     restaurantId: "starbucks-1",
     //restaurantName: "Starbucks",
     category: "Frappuccinos",
@@ -961,7 +954,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "starbucks-frapp-2",
+    mealId: "starbucks-frapp-2",
     restaurantId: "starbucks-1",
     //restaurantName: "Starbucks",
     category: "Frappuccinos",
@@ -979,7 +972,7 @@ export const meals: MealItem[] = [
     isPopular: false,
   },
   {
-    id: "starbucks-frapp-3",
+    mealId: "starbucks-frapp-3",
     restaurantId: "starbucks-1",
     //restaurantName: "Starbucks",
     category: "Frappuccinos",
@@ -998,7 +991,7 @@ export const meals: MealItem[] = [
     isPopular: false,
   },
   {
-    id: "dunkin-donut-1",
+    mealId: "dunkin-donut-1",
     restaurantId: "dunkin-1",
     //restaurantName: "Dunkin' Donuts",
     category: "Donuts",
@@ -1016,7 +1009,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "dunkin-donut-2",
+    mealId: "dunkin-donut-2",
     restaurantId: "dunkin-1",
     //restaurantName: "Dunkin' Donuts",
     category: "Donuts",
@@ -1034,7 +1027,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "dunkin-donut-3",
+    mealId: "dunkin-donut-3",
     restaurantId: "dunkin-1",
     //restaurantName: "Dunkin' Donuts",
     category: "Donuts",
@@ -1054,7 +1047,7 @@ export const meals: MealItem[] = [
 
   // Category: Coffee
   {
-    id: "dunkin-coffee-1",
+    mealId: "dunkin-coffee-1",
     restaurantId: "dunkin-1",
     //restaurantName: "Dunkin' Donuts",
     category: "Coffee",
@@ -1072,7 +1065,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "dunkin-coffee-2",
+    mealId: "dunkin-coffee-2",
     restaurantId: "dunkin-1",
     //restaurantName: "Dunkin' Donuts",
     category: "Coffee",
@@ -1090,7 +1083,7 @@ export const meals: MealItem[] = [
     isPopular: false,
   },
   {
-    id: "dunkin-coffee-3",
+    mealId: "dunkin-coffee-3",
     restaurantId: "dunkin-1",
     //restaurantName: "Dunkin' Donuts",
     category: "Coffee",
@@ -1110,7 +1103,7 @@ export const meals: MealItem[] = [
 
   // Category: Breakfast Sandwiches
   {
-    id: "dunkin-breakfast-1",
+    mealId: "dunkin-breakfast-1",
     restaurantId: "dunkin-1",
     //restaurantName: "Dunkin' Donuts",
     category: "Breakfast Sandwiches",
@@ -1128,7 +1121,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "dunkin-breakfast-2",
+    mealId: "dunkin-breakfast-2",
     restaurantId: "dunkin-1",
     //restaurantName: "Dunkin' Donuts",
     category: "Breakfast Sandwiches",
@@ -1146,7 +1139,7 @@ export const meals: MealItem[] = [
     isPopular: false,
   },
   {
-    id: "dunkin-breakfast-3",
+    mealId: "dunkin-breakfast-3",
     restaurantId: "dunkin-1",
     //restaurantName: "Dunkin' Donuts",
     category: "Breakfast Sandwiches",
@@ -1164,7 +1157,7 @@ export const meals: MealItem[] = [
     isPopular: false,
   },
   {
-    id: "burgerking-burger-1",
+    mealId: "burgerking-burger-1",
     restaurantId: "burgerking-1",
     //restaurantName: "Burger King",
     category: "Flame Grilled Burgers",
@@ -1182,7 +1175,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "burgerking-burger-2",
+    mealId: "burgerking-burger-2",
     restaurantId: "burgerking-1",
     //restaurantName: "Burger King",
     category: "Flame Grilled Burgers",
@@ -1202,7 +1195,7 @@ export const meals: MealItem[] = [
 
   // Category: Chicken & Fish
   {
-    id: "burgerking-chicken-1",
+    mealId: "burgerking-chicken-1",
     restaurantId: "burgerking-1",
     //restaurantName: "Burger King",
     category: "Chicken & Fish",
@@ -1220,7 +1213,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "burgerking-chicken-2",
+    mealId: "burgerking-chicken-2",
     restaurantId: "burgerking-1",
     //restaurantName: "Burger King",
     category: "Chicken & Fish",
@@ -1241,7 +1234,7 @@ export const meals: MealItem[] = [
   // Taco Bell Items
   // Category: Tacos
   {
-    id: "tacobell-taco-1",
+    mealId: "tacobell-taco-1",
     restaurantId: "tacobell-1",
     //restaurantName: "Taco Bell",
     category: "Tacos",
@@ -1259,7 +1252,7 @@ export const meals: MealItem[] = [
     isPopular: false,
   },
   {
-    id: "tacobell-taco-2",
+    mealId: "tacobell-taco-2",
     restaurantId: "tacobell-1",
     //restaurantName: "Taco Bell",
     category: "Tacos",
@@ -1279,7 +1272,7 @@ export const meals: MealItem[] = [
 
   // Category: Burritos
   {
-    id: "tacobell-burrito-1",
+    mealId: "tacobell-burrito-1",
     restaurantId: "tacobell-1",
     //restaurantName: "Taco Bell",
     category: "Burritos",
@@ -1297,7 +1290,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "tacobell-burrito-2",
+    mealId: "tacobell-burrito-2",
     restaurantId: "tacobell-1",
     //restaurantName: "Taco Bell",
     category: "Burritos",
@@ -1315,7 +1308,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "papajohns-pizza-1",
+    mealId: "papajohns-pizza-1",
     restaurantId: "papajohns-1",
     //restaurantName: "Papa John's",
     category: "Pizzas",
@@ -1333,7 +1326,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "papajohns-pizza-2",
+    mealId: "papajohns-pizza-2",
     restaurantId: "papajohns-1",
     //restaurantName: "Papa John's",
     category: "Pizzas",
@@ -1351,7 +1344,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "papajohns-pizza-3",
+    mealId: "papajohns-pizza-3",
     restaurantId: "papajohns-1",
     //restaurantName: "Papa John's",
     category: "Pizzas",
@@ -1370,7 +1363,7 @@ export const meals: MealItem[] = [
 
   // Category: Wings
   {
-    id: "papajohns-wings-1",
+    mealId: "papajohns-wings-1",
     restaurantId: "papajohns-1",
     //restaurantName: "Papa John's",
     category: "Wings",
@@ -1388,7 +1381,7 @@ export const meals: MealItem[] = [
     isPopular: false,
   },
   {
-    id: "papajohns-wings-2",
+    mealId: "papajohns-wings-2",
     restaurantId: "papajohns-1",
     //restaurantName: "Papa John's",
     category: "Wings",
@@ -1406,7 +1399,7 @@ export const meals: MealItem[] = [
     isPopular: false,
   },
   {
-    id: "papajohns-wings-3",
+    mealId: "papajohns-wings-3",
     restaurantId: "papajohns-1",
     //restaurantName: "Papa John's",
     category: "Wings",
@@ -1427,7 +1420,7 @@ export const meals: MealItem[] = [
 
   // Category: Sides
   {
-    id: "papajohns-sides-1",
+    mealId: "papajohns-sides-1",
     restaurantId: "papajohns-1",
     //restaurantName: "Papa John's",
     category: "Sides",
@@ -1445,7 +1438,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "papajohns-sides-2",
+    mealId: "papajohns-sides-2",
     restaurantId: "papajohns-1",
     //restaurantName: "Papa John's",
     category: "Sides",
@@ -1463,7 +1456,7 @@ export const meals: MealItem[] = [
     isPopular: true,
   },
   {
-    id: "papajohns-sides-3",
+    mealId: "papajohns-sides-3",
     restaurantId: "papajohns-1",
     //restaurantName: "Papa John's",
     category: "Sides",
