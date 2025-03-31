@@ -4,6 +4,8 @@ import {
   mealbyID,
   getRandomMeal,
   getWeatherMeals,
+  menucategories,
+  menuByFilter,
 } from "../../controllers/mealContoller";
 
 const router = express.Router();
@@ -19,5 +21,11 @@ router.get("/:id", mealbyID);
 
 //get random meals by number
 router.get("/randomMeals/:id", getRandomMeal);
+
+// category by restaurant id
+router.get("/:id/categories", menucategories);
+
+//meal itme by restaurant id and filter
+router.get("/:id/menu", menuByFilter);
 
 export const mealRouter = router;

@@ -5,6 +5,8 @@ import { MealEntity } from "../entities/Meal";
 import { meals } from "../data/meals";
 import {
   getMealById,
+  getMenu,
+  getMenuCategories,
   getRandomNMeals,
   weatherMeals,
 } from "../services/mealServices";
@@ -33,7 +35,7 @@ export const mealbyID = async (req: Request, res: Response) => {
     try {
       const meal = await getMealById(restaurantId);
 
-      if (meal.length > 0) {
+      if (meal) {
         res.status(201).json({
           status: "success",
           message: "Meals Details fetched succesfully",
@@ -91,5 +93,63 @@ export const getRandomMeal = async (req: Request, res: Response) => {
     }
   } else {
     res.status(400).json({ status: "error", message: "No Meal id passed..." });
+  }
+};
+
+export const menuByFilter = async (req: Request, res: Response) => {
+  const restaurantId = req.params.id;
+  const categoryFilter = req.query.category as string;
+
+  console.log(restaurantId, categoryFilter);
+
+  if (restaurantId) {
+    try {
+      const menu = await getMenu(restaurantId, categoryFilter);
+
+      if (menu.length > 0) {
+        res.status(201).json({
+          status: "success",
+          message: "Menu  fetched succesfully",
+          menu,
+        });
+      } else {
+        res
+          .status(400)
+          .json({ status: "error", message: "No categories found" });
+      }
+    } catch (error) {
+      res.status(400).json({ status: "error", message: error });
+    }
+  } else {
+    res
+      .status(400)
+      .json({ status: "error", message: "No restaurants id passed..." });
+  }
+};
+export const menucategories = async (req: Request, res: Response) => {
+  const restaurantId = req.params.id;
+
+  if (restaurantId) {
+    try {
+      const categoriesCount = await getMenuCategories(restaurantId);
+
+      if (categoriesCount.length > 0) {
+        res.status(201).json({
+          status: "success",
+          message: "Menu Categories fetched succesfully",
+          categoriesCount,
+        });
+      } else {
+        res
+          .status(400)
+          .json({ status: "error", message: "No categories found" });
+      }
+    } catch (error) {
+      res.status(400).json({ status: "error", message: error });
+    }
+  } else {
+    res
+      .status(400)
+      .json({ status: "error", message: "No restaurants id passed..." });
   }
 };

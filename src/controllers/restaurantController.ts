@@ -4,10 +4,13 @@ import { RestaurantEntity } from "../entities/Restaurant";
 import { restaurants } from "../data/restaurantsData";
 import {
   getBrands,
+  // getFilteredMenu,
+  getMenuCategories,
   getRestaurantById,
   getRestaurantMeal,
 } from "../services/restaurantServices";
 
+// Top-Brands in menu page
 export const topbrands = async (req: Request, res: Response) => {
   try {
     const restaurants = await getBrands();
@@ -28,6 +31,7 @@ export const topbrands = async (req: Request, res: Response) => {
   }
 };
 
+//get restuarnt by id for restaurant page
 export const restaurantbyID = async (req: Request, res: Response) => {
   const restaurantId = req.params.id;
 
@@ -35,7 +39,7 @@ export const restaurantbyID = async (req: Request, res: Response) => {
     try {
       const restaurant = await getRestaurantById(restaurantId);
 
-      if (restaurant.length > 0) {
+      if (restaurant) {
         res.status(201).json({
           status: "success",
           message: "Restaurant Details fetched succesfully",
@@ -56,6 +60,7 @@ export const restaurantbyID = async (req: Request, res: Response) => {
   }
 };
 
+//to upload data from postman
 export const uploadData = async (req: Request, res: Response) => {
   const data = restaurants;
   try {
@@ -80,7 +85,7 @@ export const restaurantmeal = async (req: Request, res: Response) => {
     try {
       const restaurant = await getRestaurantMeal(restaurantId);
 
-      if (restaurant.length > 0) {
+      if (restaurant) {
         res.status(201).json({
           status: "success",
           message: "Restaurant Details fetched succesfully",
@@ -100,3 +105,63 @@ export const restaurantmeal = async (req: Request, res: Response) => {
       .json({ status: "error", message: "No restaurants id passed..." });
   }
 };
+
+// //to get list pof category and its count
+// export const menucategories = async (req: Request, res: Response) => {
+//   const restaurantId = req.params.id;
+
+//   if (restaurantId) {
+//     try {
+//       const categoriesCount = await getMenuCategories(restaurantId);
+
+//       if (categoriesCount.length > 0) {
+//         res.status(201).json({
+//           status: "success",
+//           message: "Menu Categories fetched succesfully",
+//           categoriesCount,
+//         });
+//       } else {
+//         res
+//           .status(400)
+//           .json({ status: "error", message: "No categories found" });
+//       }
+//     } catch (error) {
+//       res.status(400).json({ status: "error", message: error });
+//     }
+//   } else {
+//     res
+//       .status(400)
+//       .json({ status: "error", message: "No restaurants id passed..." });
+//   }
+// };
+
+//to get menu item of restaurant by id
+//to get list pof category and its count
+// export const menuItems = async (req: Request, res: Response) => {
+//   const restaurantId = req.params.id;
+//   const categoryFilter = req.query.category;
+
+//   if (restaurantId) {
+//     try {
+//       const categoryMeal = await getFilteredMenu(restaurantId, categoryFilter);
+
+//       if (categoryMeal.length > 0) {
+//         res.status(201).json({
+//           status: "success",
+//           message: "Menu Categories fetched succesfully",
+//           categoryMeal,
+//         });
+//       } else {
+//         res
+//           .status(400)
+//           .json({ status: "error", message: "No matching data found" });
+//       }
+//     } catch (error) {
+//       res.status(400).json({ status: "error", message: error });
+//     }
+//   } else {
+//     res
+//       .status(400)
+//       .json({ status: "error", message: "No restaurants id passed..." });
+//   }
+// };

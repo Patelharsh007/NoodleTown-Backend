@@ -1,5 +1,7 @@
 import express from "express";
 import {
+  // menucategories,
+  // menuItems,
   restaurantbyID,
   restaurantmeal,
   topbrands,
@@ -15,5 +17,7 @@ const router = express.Router();
 router.get("/topbrands", topbrands);
 router.get("/:id", restaurantbyID);
 router.get("/restaurantmeal/:id", restaurantmeal);
+// router.get("/:id/categories", menucategories);
+// router.get("/:id/menu", menuItems);
 
 export const restaurantRouter = router;

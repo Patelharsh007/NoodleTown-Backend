@@ -1,7 +1,7 @@
 import { mealRepository } from "../repositories/dataRepositories";
 
 export const getMealById = async (id: string) => {
-  const mealDetail = await mealRepository.find({
+  const mealDetail = await mealRepository.findOne({
     where: {
       mealId: id,
     },
@@ -28,4 +28,57 @@ export const getRandomNMeals = async (n: string) => {
     .getMany();
 
   return randomMeals;
+};
+
+//Return unique categories and its count
+export const getMenuCategories = async (id: string) => {
+  const meals = await mealRepository.find({
+    where: {
+      restaurantId: id,
+    },
+    select: ["restaurantId", "category", "isPopular"],
+  });
+
+  if (meals.length == 0) {
+    return [];
+  }
+
+  //all distinct categories
+  const uniqueCategories = meals.map((meal) => meal.category);
+
+  //added recommended for popular meals
+  const categories = [...new Set(["Recommended"].concat(uniqueCategories))];
+
+  //counts of meal per category
+  const categoryCount = categories.map((category) => {
+    if (category === "Recommended") {
+      return { category, count: meals.filter((meal) => meal.isPopular).length };
+    } else {
+      return {
+        category,
+        count: meals?.filter((meal) => meal.category === category).length,
+      };
+    }
+  });
+
+  return categoryCount;
+};
+
+//Return unique categories and its count
+export const getMenu = async (id: string, categoryFilter: string) => {
+  if (categoryFilter === undefined) {
+    return await mealRepository.find({
+      where: {
+        restaurantId: id,
+        isPopular: true,
+      },
+    });
+  }
+
+  return await mealRepository.find({
+    where: {
+      restaurantId: id,
+      category: categoryFilter,
+    },
+  });
 };
