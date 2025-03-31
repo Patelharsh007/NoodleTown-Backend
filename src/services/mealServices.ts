@@ -118,6 +118,12 @@ export const getCarosuelItems = async (category: string) => {
       where: {
         category: category,
       },
+      relations: ["restaurant"],
+      select: {
+        restaurant: {
+          title: true, // Assuming 'name' is the column for the restaurant name
+        },
+      },
     });
   }
 };
