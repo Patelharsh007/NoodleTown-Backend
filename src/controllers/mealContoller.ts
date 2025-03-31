@@ -3,6 +3,11 @@ import { AppDataSource } from "../db/db.config";
 
 import { MealEntity } from "../entities/Meal";
 import { meals } from "../data/meals";
+import {
+  getMealById,
+  getRandomNMeals,
+  weatherMeals,
+} from "../services/mealServices";
 
 export const uploadMealData = async (req: Request, res: Response) => {
   const data = meals;
@@ -18,5 +23,73 @@ export const uploadMealData = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Error inserting data:", error);
     res.status(200).json({ status: "error" });
+  }
+};
+
+export const mealbyID = async (req: Request, res: Response) => {
+  const restaurantId = req.params.id;
+
+  if (restaurantId) {
+    try {
+      const meal = await getMealById(restaurantId);
+
+      if (meal.length > 0) {
+        res.status(201).json({
+          status: "success",
+          message: "Meals Details fetched succesfully",
+          meal,
+        });
+      } else {
+        res.status(400).json({ status: "error", message: "No Meal found" });
+      }
+    } catch (error) {
+      res.status(400).json({ status: "error", message: error });
+    }
+  } else {
+    res.status(400).json({ status: "error", message: "No Meal id passed..." });
+  }
+};
+
+export const getWeatherMeals = async (req: Request, res: Response) => {
+  try {
+    const meals = await weatherMeals();
+
+    if (meals) {
+      res.status(201).json({
+        status: "success",
+        message: "Meals Details fetched succesfully",
+        meals,
+      });
+    } else {
+      res
+        .status(400)
+        .json({ status: "error", message: "No Meal found.........", meals });
+    }
+  } catch (error) {
+    res.status(400).json({ status: "error", message: error });
+  }
+};
+
+export const getRandomMeal = async (req: Request, res: Response) => {
+  const number = req.params.id;
+
+  if (number) {
+    try {
+      const meals = await getRandomNMeals(number);
+
+      if (meals.length > 0) {
+        res.status(201).json({
+          status: "success",
+          message: "Meals Details fetched succesfully",
+          meals,
+        });
+      } else {
+        res.status(400).json({ status: "error", message: "No Meal found" });
+      }
+    } catch (error) {
+      res.status(400).json({ status: "error", message: error });
+    }
+  } else {
+    res.status(400).json({ status: "error", message: "No Meal id passed..." });
   }
 };

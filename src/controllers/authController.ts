@@ -75,7 +75,7 @@ export const login = async (req: Request, res: Response) => {
           secure: false,
           sameSite: "lax",
           path: "/", // Available to all paths on the domain
-          maxAge: 3600000,
+          maxAge: 1 * 60 * 60 * 1000, //hr*60*60*1000
         });
 
         res.status(201).json({

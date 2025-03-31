@@ -20,7 +20,7 @@ export const restaurants: RestaurantItem[] = [
     restaurantId: "kfc-1",
     title: "KFC",
     // logo: `${assets.images.restaurantLogo.kfc}`,
-    logo: `https://e7.pngegg.com/pngimages/117/377/png-clipart-kfc-logo-kfc-icon-food-kentucky-fried-chicken.png`,
+    logo: `https://wallpapers.com/images/hd/classic-kfc-logo-transparent-png-05252024-2k9sgpu8w5goz4hh.png`,
 
     posterImages: [
       "https://b.zmtcdn.com/data/pictures/4/2700044/9410759d611db9c62c3acc23c1f27e06.jpg?fit=around|750:500&crop=750:500",
@@ -149,7 +149,7 @@ export const restaurants: RestaurantItem[] = [
     restaurantId: "mcdonalds-1",
     title: "McDonald's",
     // logo: `${assets.images.restaurantLogo.macD}`,
-    logo: `https://www.citypng.com/public/uploads/preview/-11600735522qbwj7xtpxu.png`,
+    logo: `https://pngimg.com/uploads/mcdonalds/mcdonalds_PNG13.png`,
     posterImages: [
       "https://viver-myexlusive-server.s3.ap-south-1.amazonaws.com/blog/wp-content/uploads/2024/08/24072656/CompressJPEG.Online_1_100kb_2364-1024x521.jpg",
       "https://s7d1.scene7.com/is/image/mcdonalds/1PUB_bestburger_trendingnow:publication-column-mobile?resmode=sharp2",
@@ -245,7 +245,7 @@ export const restaurants: RestaurantItem[] = [
     restaurantId: "burgerking-1",
     title: "Burger King",
     // logo: `${assets.images.restaurantLogo.burgerKing}`,
-    logo: `https://th.bing.com/th/id/OIP.k8sBYv8LOZ-09JIYTvsvyAHaIX?rs=1&pid=ImgDetMain`,
+    logo: `https://www.festisite.com/static/partylogo/img/logos/burger-king.png`,
     posterImages: [
       "https://lh3.googleusercontent.com/aYUUZKXpJHVFlaI5ADj1-0VAMClDR8al-qwk1JHZ3ZZPLJvw2w_f2p-U2m7M2zZNot6o7JDxyyMxmopZ6ADsJtC_kFDBxiQPf0tPsaHI=w1200-rw",
       "https://t3.ftcdn.net/jpg/04/13/22/78/360_F_413227880_HiUXEU9zICBzyQeRexFsHus19E8WNJDU.jpg",

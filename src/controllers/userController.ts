@@ -3,7 +3,9 @@ import { Request, Response } from "express";
 import { usersAllList } from "../services/userServices";
 
 export const verifyUser = async (req: Request, res: Response) => {
-  res.status(200).json({ status: "success", user: req.user });
+  res
+    .status(200)
+    .json({ status: "success", message: "User Authenticated", user: req.user });
 };
 
 // export const getUsers = async (req: Request, res: Response) => {
