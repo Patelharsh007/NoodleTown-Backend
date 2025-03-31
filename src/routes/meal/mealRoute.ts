@@ -6,6 +6,8 @@ import {
   getWeatherMeals,
   menucategories,
   menuByFilter,
+  getCategories,
+  carosuelItems,
 } from "../../controllers/mealContoller";
 
 const router = express.Router();
@@ -16,11 +18,16 @@ const router = express.Router();
 //get all meal
 router.get("/weatherMeals", getWeatherMeals);
 
-//get meal item by id
-router.get("/:id", mealbyID);
-
 //get random meals by number
 router.get("/randomMeals/:id", getRandomMeal);
+
+//get top 6 categories for item carousel
+router.get("/categories", getCategories);
+//get top 6 categories for item carousel
+router.get("/carosuelItems", carosuelItems);
+
+//get meal item by id
+router.get("/:id", mealbyID);
 
 // category by restaurant id
 router.get("/:id/categories", menucategories);

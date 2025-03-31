@@ -82,3 +82,42 @@ export const getMenu = async (id: string, categoryFilter: string) => {
     },
   });
 };
+
+export const getCarosuelCategories = async () => {
+  const meals = await mealRepository.find();
+
+  if (meals.length == 0) {
+    return [];
+  }
+
+  //added recommended for popular meals
+  const Categories = [...new Set(meals.map((meal) => meal.category))];
+
+  //counts of meal per category
+  const categoryCount = Categories.map((category) => {
+    return {
+      category,
+      count: meals?.filter((meal) => meal.category === category).length,
+    };
+  });
+
+  //sorting in descending and geeting top 5
+  const carouselCategory = categoryCount
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 5)
+    .map((item) => item.category);
+
+  return carouselCategory;
+};
+
+export const getCarosuelItems = async (category: string) => {
+  if (category === undefined) {
+    return await mealRepository.find();
+  } else {
+    return await mealRepository.find({
+      where: {
+        category: category,
+      },
+    });
+  }
+};

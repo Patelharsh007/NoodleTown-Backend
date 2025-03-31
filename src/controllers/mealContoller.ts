@@ -4,6 +4,8 @@ import { AppDataSource } from "../db/db.config";
 import { MealEntity } from "../entities/Meal";
 import { meals } from "../data/meals";
 import {
+  getCarosuelCategories,
+  getCarosuelItems,
   getMealById,
   getMenu,
   getMenuCategories,
@@ -151,5 +153,40 @@ export const menucategories = async (req: Request, res: Response) => {
     res
       .status(400)
       .json({ status: "error", message: "No restaurants id passed..." });
+  }
+};
+export const getCategories = async (req: Request, res: Response) => {
+  try {
+    const categories = await getCarosuelCategories();
+
+    if (categories.length > 0) {
+      res.status(201).json({
+        status: "success",
+        message: "Categories fetched succesfully",
+        categories,
+      });
+    } else {
+      res.status(400).json({ status: "error", message: "No categories found" });
+    }
+  } catch (error) {
+    res.status(400).json({ status: "error", message: error });
+  }
+};
+export const carosuelItems = async (req: Request, res: Response) => {
+  const category = req.query.category as string;
+  try {
+    const carosuelItem = await getCarosuelItems(category);
+
+    if (carosuelItem.length > 0) {
+      res.status(201).json({
+        status: "success",
+        message: "Menu Categories fetched succesfully",
+        carosuelItem,
+      });
+    } else {
+      res.status(400).json({ status: "error", message: "No categories found" });
+    }
+  } catch (error) {
+    res.status(400).json({ status: "error", message: error });
   }
 };
