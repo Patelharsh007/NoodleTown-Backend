@@ -1,5 +1,7 @@
 import { title } from "process";
 import { restaurantRepository } from "../repositories/dataRepositories";
+import { Brackets, ILike } from "typeorm";
+import { RestaurantEntity } from "../entities/Restaurant";
 
 //get brands for brand page
 export const getBrands = async () => {
@@ -70,41 +72,42 @@ export const getMenuCategories = async (id: string) => {
   return categoryCount;
 };
 
-//get filtered menu
-export const getFilteredMenu = async (id: string, categoryFilter: string) => {
-  const restaurant = await restaurantRepository.find({
-    where: {
-      restaurantId: id,
-    },
-    relations: ["meals"],
-    select: ["restaurantId", "meals"],
-  });
+export const getSearchResult = async (city: string, value: string) => {
+  const restaurants = await restaurantRepository
+    .createQueryBuilder("restaurant")
+    .leftJoinAndSelect("restaurant.meals", "meal")
+    .where("LOWER(restaurant.address) LIKE LOWER(:addresspattern)", {
+      addresspattern: `%${city}%`,
+    })
+    .andWhere(
+      new Brackets((qb) => {
+        qb.where("LOWER(restaurant.address) LIKE LOWER(:value)", {
+          value: `%${value}%`,
+        })
+          .orWhere("LOWER(meal.title) LIKE LOWER(:value)", {
+            value: `%${value}%`,
+          })
+          .orWhere("LOWER(meal.category) LIKE LOWER(:value)", {
+            value: `%${value}%`,
+          });
+      })
+    )
+    .getMany();
 
-  if (restaurant.length === 0) {
-    return [];
-  }
+  const restaurantData = restaurants.map((resturant) => ({
+    ...resturant,
+    meals: undefined,
+  }));
 
-  //all distinct categories
-  const uniqueCategories = restaurant[0].meals.map((meal) => meal.category);
+  const mealsData = restaurants
+    .map((restaurant) => {
+      if (restaurant.meals.length === 1) {
+        return restaurant.meals[0]; // If there is only one meal, return the single object
+      } else {
+        return restaurant.meals;
+      }
+    })
+    .flat();
 
-  //added recommended for popular meals
-  const categories = [...new Set(["Recommended"].concat(uniqueCategories))];
-
-  //counts of meal per category
-  const categoryCount = categories.map((category) => {
-    if (category === "Recommended") {
-      return {
-        category,
-        count: restaurant[0].meals.filter((meal) => meal.isPopular).length,
-      };
-    } else {
-      return {
-        category,
-        count: restaurant[0].meals?.filter((meal) => meal.category === category)
-          .length,
-      };
-    }
-  });
-
-  return categoryCount;
+  return { restaurants, restaurantData, mealsData };
 };

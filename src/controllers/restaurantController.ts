@@ -8,6 +8,7 @@ import {
   getMenuCategories,
   getRestaurantById,
   getRestaurantMeal,
+  getSearchResult,
 } from "../services/restaurantServices";
 
 // Top-Brands in menu page
@@ -97,7 +98,7 @@ export const restaurantmeal = async (req: Request, res: Response) => {
           .json({ status: "error", message: "No restaurant found" });
       }
     } catch (error) {
-      res.status(400).json({ status: "error", message: error });
+      res.status(400).json({ status: "error", message: "Error occured" });
     }
   } else {
     res
@@ -106,62 +107,55 @@ export const restaurantmeal = async (req: Request, res: Response) => {
   }
 };
 
-// //to get list pof category and its count
-// export const menucategories = async (req: Request, res: Response) => {
-//   const restaurantId = req.params.id;
+export const searchBarRestaurant = async (req: Request, res: Response) => {
+  const cityParam = req.query.city as string;
+  const valueParam = req.query.value as string;
 
-//   if (restaurantId) {
-//     try {
-//       const categoriesCount = await getMenuCategories(restaurantId);
+  if (cityParam && valueParam) {
+    console.log(cityParam, valueParam);
+    try {
+      const { restaurantData } = await getSearchResult(cityParam, valueParam);
 
-//       if (categoriesCount.length > 0) {
-//         res.status(201).json({
-//           status: "success",
-//           message: "Menu Categories fetched succesfully",
-//           categoriesCount,
-//         });
-//       } else {
-//         res
-//           .status(400)
-//           .json({ status: "error", message: "No categories found" });
-//       }
-//     } catch (error) {
-//       res.status(400).json({ status: "error", message: error });
-//     }
-//   } else {
-//     res
-//       .status(400)
-//       .json({ status: "error", message: "No restaurants id passed..." });
-//   }
-// };
+      if (restaurantData.length > 0) {
+        res.status(201).json({
+          status: "success",
+          message: "Search Data fetched succesfully",
+          restaurantData,
+        });
+      } else {
+        res
+          .status(400)
+          .json({ status: "error", message: "No restaurant found" });
+      }
+    } catch (error) {
+      res.status(400).json({ status: "error", message: "Some error occured" });
+    }
+  } else {
+    res.status(400).json({ status: "error", message: "Some error occured" });
+  }
+};
+export const searchBarMeal = async (req: Request, res: Response) => {
+  const cityParam = req.query.city as string;
+  const valueParam = req.query.value as string;
 
-//to get menu item of restaurant by id
-//to get list pof category and its count
-// export const menuItems = async (req: Request, res: Response) => {
-//   const restaurantId = req.params.id;
-//   const categoryFilter = req.query.category;
+  if (cityParam && valueParam) {
+    console.log(cityParam, valueParam);
+    try {
+      const { mealsData } = await getSearchResult(cityParam, valueParam);
 
-//   if (restaurantId) {
-//     try {
-//       const categoryMeal = await getFilteredMenu(restaurantId, categoryFilter);
-
-//       if (categoryMeal.length > 0) {
-//         res.status(201).json({
-//           status: "success",
-//           message: "Menu Categories fetched succesfully",
-//           categoryMeal,
-//         });
-//       } else {
-//         res
-//           .status(400)
-//           .json({ status: "error", message: "No matching data found" });
-//       }
-//     } catch (error) {
-//       res.status(400).json({ status: "error", message: error });
-//     }
-//   } else {
-//     res
-//       .status(400)
-//       .json({ status: "error", message: "No restaurants id passed..." });
-//   }
-// };
+      if (mealsData.length > 0) {
+        res.status(201).json({
+          status: "success",
+          message: "Search Data fetched succesfully",
+          mealsData,
+        });
+      } else {
+        res.status(400).json({ status: "error", message: "No Meal found" });
+      }
+    } catch (error) {
+      res.status(400).json({ status: "error", message: "Some error occured" });
+    }
+  } else {
+    res.status(400).json({ status: "error", message: "Some error occured" });
+  }
+};

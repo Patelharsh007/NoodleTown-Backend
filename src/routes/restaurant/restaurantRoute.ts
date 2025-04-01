@@ -4,6 +4,8 @@ import {
   // menuItems,
   restaurantbyID,
   restaurantmeal,
+  searchBarMeal,
+  searchBarRestaurant,
   topbrands,
   uploadData,
 } from "../../controllers/restaurantController";
@@ -15,8 +17,10 @@ const router = express.Router();
 
 //get top brands for menu page
 router.get("/topbrands", topbrands);
-router.get("/:id", restaurantbyID);
 router.get("/restaurantmeal/:id", restaurantmeal);
+router.get("/searchMeal", searchBarMeal);
+router.get("/searchRestaurant", searchBarRestaurant);
+router.get("/:id", restaurantbyID);
 // router.get("/:id/categories", menucategories);
 // router.get("/:id/menu", menuItems);
 
