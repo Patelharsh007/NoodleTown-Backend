@@ -4,15 +4,16 @@ import {
   Entity,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from "typeorm";
 import { RestaurantEntity } from "./Restaurant";
-
+import { CartItemEntity } from "./CartItem";
 @Entity({ name: "meals" })
 export class MealEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: "varchar" })
+  @Column({ type: "varchar", unique: true })
   mealId: string;
 
   @Column({ type: "varchar" })
@@ -21,6 +22,9 @@ export class MealEntity {
   @ManyToOne(() => RestaurantEntity, (restaurant) => restaurant.meals)
   @JoinColumn({ name: "restaurantId", referencedColumnName: "restaurantId" })
   restaurant: RestaurantEntity;
+
+  @OneToMany(() => CartItemEntity, (cartItem) => cartItem.meal)
+  cartItems: CartItemEntity[];
 
   @Column({ type: "varchar" })
   category: string;
@@ -37,7 +41,7 @@ export class MealEntity {
   @Column("jsonb")
   fullDescription: string[];
 
-  @Column({ type: "varchar" })
+  @Column({ type: "decimal", precision: 10, scale: 2 })
   price: number;
 
   @Column({ type: "boolean" })

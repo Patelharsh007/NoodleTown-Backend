@@ -99,15 +99,7 @@ export const getSearchResult = async (city: string, value: string) => {
     meals: undefined,
   }));
 
-  const mealsData = restaurants
-    .map((restaurant) => {
-      if (restaurant.meals.length === 1) {
-        return restaurant.meals[0]; // If there is only one meal, return the single object
-      } else {
-        return restaurant.meals;
-      }
-    })
-    .flat();
+  const mealsData = restaurants.map((restaurant) => restaurant.meals).flat();
 
   return { restaurants, restaurantData, mealsData };
 };
