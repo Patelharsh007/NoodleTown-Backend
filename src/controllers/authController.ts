@@ -101,3 +101,29 @@ export const login = async (req: Request, res: Response) => {
       .json({ status: "error", message: "An unexpected error occurred." });
   }
 };
+
+export const logout = async (req: Request, res: Response) => {
+  {
+    try {
+      // Clear the access_token cookie
+      res.clearCookie("access_token", {
+        httpOnly: true, // Make sure the cookie is not accessible from JavaScript (XSS protection)
+        secure: false,
+        sameSite: "lax", // Prevent CSRF attacks
+        path: "/", // Ensure the correct path is cleared
+      });
+
+      // Respond with a success message
+      res.status(200).json({
+        status: "success",
+        message: "Logged out successfully",
+      });
+    } catch (error) {
+      console.error("Logout error:", error);
+      res.status(500).json({
+        status: "error",
+        message: "An error occurred while logging out",
+      });
+    }
+  }
+};

@@ -13,15 +13,19 @@ export class CartItemEntity {
   id: number;
 
   @Column()
+  mealId: string;
+
+  @Column()
+  email: string;
+
+  @Column({ default: 1 })
   quantity: number;
 
   @ManyToOne(() => MealEntity, (meal) => meal.cartItems)
   @JoinColumn({ name: "mealId", referencedColumnName: "mealId" })
   meal: MealEntity;
 
-  @Column()
-  mealId: string;
-
   @ManyToOne(() => UserEntity, (user) => user.cartItems)
+  @JoinColumn({ name: "email", referencedColumnName: "email" })
   user: UserEntity;
 }

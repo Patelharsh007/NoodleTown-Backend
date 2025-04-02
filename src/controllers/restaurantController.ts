@@ -10,6 +10,7 @@ import {
   getRestaurantMeal,
   getSearchResult,
 } from "../services/restaurantServices";
+import { restaurantRepository } from "../repositories/dataRepositories";
 
 // Top-Brands in menu page
 export const topbrands = async (req: Request, res: Response) => {
@@ -65,11 +66,8 @@ export const restaurantbyID = async (req: Request, res: Response) => {
 export const uploadData = async (req: Request, res: Response) => {
   const data = restaurants;
   try {
-    // Get the repository for the entity
-    const myEntityRepository = AppDataSource.getRepository(RestaurantEntity);
-
     // Insert all the data in one go
-    const result = await myEntityRepository.insert(data);
+    const result = await restaurantRepository.insert(data);
 
     console.log(`${result.identifiers.length} records inserted.`);
     res.status(200).json({ status: "success" });

@@ -2,7 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import { verifyAccessToken } from "../services/authServices";
 import { UserReq } from "../types/type";
 import jwt from "jsonwebtoken";
-export const verifyTokenMiddleware = async (
+
+export const authenticateUserMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
