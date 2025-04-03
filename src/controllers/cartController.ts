@@ -21,24 +21,28 @@ export const getCartData = async (req: Request, res: Response) => {
       if (cartItem.length !== 0) {
         res.status(200).json({
           status: "success",
-          message: "Cart data feteched succesfully",
+          message: "Cart data fetched successfully",
           cartItem,
         });
       } else {
         res
-          .status(400)
+          .status(404)
           .json({ status: "error", message: "No cart data found." });
       }
     } catch (error) {
       console.error("Error retrieving data:", error);
-      res
-        .status(400)
-        .json({ status: "error", message: "Error retrieving cart data." });
+      res.status(500).json({
+        status: "error",
+        message: "Internal Server error.",
+      });
     }
   } else {
-    res.status(403).json({ status: "error", message: "No user found" });
+    res
+      .status(403)
+      .json({ status: "error", message: "User not authenticated" });
   }
 };
+
 export const getCartMealData = async (req: Request, res: Response) => {
   const mealId = req.params.id;
   const userEmail = req.user?.email;
@@ -47,27 +51,32 @@ export const getCartMealData = async (req: Request, res: Response) => {
     try {
       const cartItem = await getCartMealbyUser(mealId, userEmail);
 
-      // if (cartItem) {
-      //   res.status(200).json({
-      //     status: "success",
-      //     message: "Cart data feteched succesfully",
-      //     isInCart: !!cartItem,
-      //   });
-      // } else {
-      res.status(200).json({
-        status: "success",
-        // message: "No cart data found.",
-        isInCart: !!cartItem,
-      });
-      // }
+      if (cartItem) {
+        res.status(200).json({
+          status: "success",
+          message: "Cart data fetched successfully",
+          cartItem,
+          isInCart: true,
+        });
+      } else {
+        res.status(404).json({
+          status: "error",
+          message: "Item not found in cart",
+          isInCart: false,
+        });
+      }
     } catch (error) {
       console.error("Error retrieving data:", error);
-      res
-        .status(400)
-        .json({ status: "error", message: "Error retrieving cart data." });
+      res.status(500).json({
+        status: "error",
+        message: "Internal Server error.",
+      });
     }
   } else {
-    res.status(403).json({ status: "error", message: "No mealId found" });
+    res.status(400).json({
+      status: "error",
+      message: "Missing mealId or user information.",
+    });
   }
 };
 
@@ -80,8 +89,8 @@ export const addToCart = async (req: Request, res: Response) => {
       const data = await findCartByMealAndUser(mealId, userEmail);
       if (data) {
         res
-          .status(400)
-          .json({ status: "error", message: "Item Already in Cart" });
+          .status(409)
+          .json({ status: "error", message: "Item already in cart" });
       } else {
         const cartItem = await addMealToCart(mealId, userEmail);
 
@@ -92,14 +101,16 @@ export const addToCart = async (req: Request, res: Response) => {
         });
       }
     } catch (error) {
-      res
-        .status(400)
-        .json({ status: "error", message: "Error adding to the cart." });
+      res.status(500).json({
+        status: "error",
+        message: "Internal Server error.",
+      });
     }
   } else {
     res.status(400).json({ status: "error", message: "No mealId provided." });
   }
 };
+
 export const removeFromCart = async (req: Request, res: Response) => {
   const mealId = req.params.id;
   const userEmail = req.user?.email;
@@ -111,17 +122,18 @@ export const removeFromCart = async (req: Request, res: Response) => {
         await removeCartItem(mealId, userEmail);
         res
           .status(200)
-          .json({ status: "success", message: "Item removed from Cart" });
+          .json({ status: "success", message: "Item removed from cart" });
       } else {
-        res.status(400).json({
+        res.status(404).json({
           status: "error",
-          message: "Item not in cart",
+          message: "Item not found in cart",
         });
       }
     } catch (error) {
-      res
-        .status(400)
-        .json({ status: "error", message: "Error adding to the cart." });
+      res.status(500).json({
+        status: "error",
+        message: "Internal Server error.",
+      });
     }
   } else {
     res.status(400).json({ status: "error", message: "No mealId provided." });
@@ -137,28 +149,29 @@ export const incrementItem = async (req: Request, res: Response) => {
       const data = await findCartByMealAndUser(mealId, userEmail);
       if (data) {
         if (data.quantity >= 5) {
-          res.status(400).json({
+          res.status(409).json({
             status: "error",
-            message: "Item quantity cannot exceed limit 5.",
+            message: "Item quantity cannot exceed limit of 5.",
           });
         } else {
           const updatedData = await incrementCartItem(mealId, userEmail);
           res.status(200).json({
             status: "success",
-            message: "Item updated in cart successfully.",
+            message: "Item incremented in cart successfully.",
             updatedData,
           });
         }
       } else {
-        res.status(400).json({
+        res.status(404).json({
           status: "error",
-          message: "Item not in cart",
+          message: "Item not found in cart",
         });
       }
     } catch (error) {
-      res
-        .status(400)
-        .json({ status: "error", message: "Error adding to the cart." });
+      res.status(500).json({
+        status: "error",
+        message: "Internal Server error.",
+      });
     }
   } else {
     res.status(400).json({ status: "error", message: "No mealId provided." });
@@ -174,7 +187,7 @@ export const decrementItem = async (req: Request, res: Response) => {
       const data = await findCartByMealAndUser(mealId, userEmail);
       if (data) {
         if (data.quantity === 1) {
-          await removeCartItem(mealId, userEmail); //remove meal from record
+          await removeCartItem(mealId, userEmail); // Remove meal from record
           res.status(200).json({
             status: "success",
             message: "Item removed from cart.",
@@ -183,50 +196,52 @@ export const decrementItem = async (req: Request, res: Response) => {
           const updatedData = await decrementCartItem(mealId, userEmail);
           res.status(200).json({
             status: "success",
-            message: "Item updated in cart successfully.",
+            message: "Item decremented in cart successfully.",
             updatedData,
           });
         }
       } else {
-        res.status(400).json({
+        res.status(404).json({
           status: "error",
-          message: "Item not in cart",
+          message: "Item not found in cart",
         });
       }
     } catch (error) {
-      res
-        .status(400)
-        .json({ status: "error", message: "Error adding to the cart." });
+      res.status(500).json({
+        status: "error",
+        message: "Internal Server error.",
+      });
     }
   } else {
     res.status(400).json({ status: "error", message: "No mealId provided." });
   }
 };
+
 export const clearCart = async (req: Request, res: Response) => {
   const userEmail = req.user?.email;
 
   if (userEmail) {
     try {
       const data = await getCartbyUser(userEmail);
-      console.log("Data", data);
 
       if (data.length !== 0) {
         await emptyCart(userEmail);
 
         res.status(200).json({
           status: "success",
-          message: "Cart emptied succesfully",
+          message: "Cart emptied successfully",
         });
       } else {
-        res.status(400).json({
+        res.status(404).json({
           status: "error",
           message: "Cart is already empty.",
         });
       }
     } catch (error) {
-      res
-        .status(400)
-        .json({ status: "error", message: "Error clearing the cart." });
+      res.status(500).json({
+        status: "error",
+        message: "Internal Server error.",
+      });
     }
   } else {
     res
