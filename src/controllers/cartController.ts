@@ -89,7 +89,7 @@ export const addToCart = async (req: Request, res: Response) => {
       const data = await findCartByMealAndUser(mealId, userEmail);
       if (data) {
         res
-          .status(409)
+          .status(400)
           .json({ status: "error", message: "Item already in cart" });
       } else {
         const cartItem = await addMealToCart(mealId, userEmail);
@@ -149,7 +149,7 @@ export const incrementItem = async (req: Request, res: Response) => {
       const data = await findCartByMealAndUser(mealId, userEmail);
       if (data) {
         if (data.quantity >= 5) {
-          res.status(409).json({
+          res.status(400).json({
             status: "error",
             message: "Item quantity cannot exceed limit of 5.",
           });
