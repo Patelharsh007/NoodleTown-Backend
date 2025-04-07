@@ -59,7 +59,7 @@ export const getCartMealData = async (req: Request, res: Response) => {
           isInCart: true,
         });
       } else {
-        res.status(404).json({
+        res.status(200).json({
           status: "error",
           message: "Item not found in cart",
           isInCart: false,

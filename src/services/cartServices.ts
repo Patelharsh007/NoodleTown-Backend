@@ -1,7 +1,10 @@
 import { cartRepository } from "../repositories/dataRepositories";
 
 export const getCartbyUser = async (email: string) => {
-  return await cartRepository.find({ where: { email: email } });
+  return await cartRepository.find({
+    where: { email: email },
+    relations: ["meal"],
+  });
 };
 
 export const getCartMealbyUser = async (mealId: string, email: string) => {
