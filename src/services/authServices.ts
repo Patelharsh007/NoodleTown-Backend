@@ -27,7 +27,7 @@ export const createNewUser = async ({ userName, email, password }: User) => {
 };
 
 export const generateAccessToken = (
-  id: number,
+  id: string,
   email: string,
   userName: string
 ): string => {

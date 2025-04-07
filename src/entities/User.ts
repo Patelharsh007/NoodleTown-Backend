@@ -5,8 +5,8 @@ import { CartItemEntity } from "./CartItem";
 
 @Entity({ name: "users" })
 export class UserEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column({ type: "varchar", length: 255 })
   userName: string;

@@ -6,7 +6,7 @@ import { RestaurantEntity } from "../entities/Restaurant";
 //get brands for brand page
 export const getBrands = async () => {
   const restaurants = await restaurantRepository.find({
-    select: ["restaurantId", "logo", "title"], // Specify the columns to fetch
+    select: ["id", "logo", "title"], // Specify the columns to fetch
   });
   return restaurants;
 };
@@ -15,7 +15,7 @@ export const getBrands = async () => {
 export const getRestaurantById = async (id: string) => {
   const restaurantDetail = await restaurantRepository.findOne({
     where: {
-      restaurantId: id,
+      id: id,
     },
   });
   return restaurantDetail;
@@ -25,10 +25,10 @@ export const getRestaurantById = async (id: string) => {
 export const getRestaurantMeal = async (id: string) => {
   const restaurantDetail = await restaurantRepository.find({
     where: {
-      restaurantId: id,
+      id: id,
     },
     relations: ["meals"],
-    select: ["restaurantId", "meals"],
+    select: ["id", "meals"],
   });
   return restaurantDetail;
 };
@@ -37,10 +37,10 @@ export const getRestaurantMeal = async (id: string) => {
 export const getMenuCategories = async (id: string) => {
   const restaurant = await restaurantRepository.find({
     where: {
-      restaurantId: id,
+      id: id,
     },
     relations: ["meals"],
-    select: ["restaurantId", "meals"],
+    select: ["id", "meals"],
   });
 
   if (restaurant.length === 0) {

@@ -8,19 +8,13 @@ import {
 } from "typeorm";
 import { RestaurantEntity } from "./Restaurant";
 import { CartItemEntity } from "./CartItem";
+
 @Entity({ name: "meals" })
 export class MealEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({ type: "varchar", unique: true })
-  mealId: string;
-
-  @Column({ type: "varchar" })
-  restaurantId: string;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @ManyToOne(() => RestaurantEntity, (restaurant) => restaurant.meals)
-  @JoinColumn({ name: "restaurantId", referencedColumnName: "restaurantId" })
   restaurant: RestaurantEntity;
 
   @OneToMany(() => CartItemEntity, (cartItem) => cartItem.meal)

@@ -3,18 +3,15 @@ import { MealEntity } from "./Meal";
 
 @Entity({ name: "restaurants" })
 export class RestaurantEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({ type: "varchar", unique: true })
-  restaurantId: string;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @OneToMany(() => MealEntity, (meal) => meal.restaurant, {
     cascade: ["remove"],
   })
   meals: MealEntity[];
 
-  @Column({ type: "varchar", length: 255 })
+  @Column({ type: "varchar", length: 255, unique: true })
   title: string;
 
   @Column({ type: "varchar", length: 255 })
@@ -40,9 +37,6 @@ export class RestaurantEntity {
 
   @Column("jsonb")
   menuImages: string[];
-
-  // @Column("jsonb")
-  // categories: string[];
 
   @Column({ type: "boolean" })
   isFeatured: boolean;
