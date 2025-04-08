@@ -17,11 +17,17 @@ export const findUserByEmail = async (email: string) => {
   });
 };
 
-export const createNewUser = async ({ userName, email, password }: User) => {
+export const createNewUser = async ({
+  userName,
+  email,
+  password,
+  profileImage,
+}: User) => {
   const newUser = userRepository.create({
     userName,
     email,
     password,
+    profileImage,
   });
   return await userRepository.save(newUser);
 };
