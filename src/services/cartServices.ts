@@ -4,6 +4,7 @@ export const getCartbyUser = async (email: string) => {
   return await cartRepository.find({
     where: { email: email },
     relations: ["meal"],
+    order: { meal: { title: "ASC" } },
   });
 };
 

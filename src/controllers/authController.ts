@@ -81,6 +81,7 @@ export const login = async (req: Request, res: Response) => {
         id: user.id,
         userName: user.userName,
         email: user.email,
+        profileImage: user.profileImage,
       };
       // const passwordMatch = await bcrypt.compare(password, user.password);
       const passwordMatch = await verifyPassword(password, user.password);
@@ -89,7 +90,8 @@ export const login = async (req: Request, res: Response) => {
         const accessToken = await generateAccessToken(
           logUser.id,
           logUser.email,
-          logUser.userName
+          logUser.userName,
+          logUser.profileImage
         );
 
         res.cookie("access_token", accessToken, {

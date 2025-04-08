@@ -35,7 +35,8 @@ export const createNewUser = async ({
 export const generateAccessToken = (
   id: number,
   email: string,
-  userName: string
+  userName: string,
+  profileImage: string
 ): string => {
   const secret = process.env.SECRET as string;
   const payload = { id, userName, email };
