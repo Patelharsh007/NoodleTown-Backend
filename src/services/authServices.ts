@@ -33,7 +33,7 @@ export const generateAccessToken = (
 ): string => {
   const secret = process.env.SECRET as string;
   const payload = { id, userName, email };
-  const token = jwt.sign(payload, secret, { expiresIn: "1hr" });
+  const token = jwt.sign(payload, secret, { expiresIn: "1d" });
   return token;
 };
 
