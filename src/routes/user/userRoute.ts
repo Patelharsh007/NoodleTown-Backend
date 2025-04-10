@@ -7,7 +7,14 @@ import {
   updateAddress,
   deleteAddress,
 } from "../../controllers/addressContoller";
-import { verifyUser, updatePassword } from "../../controllers/userController";
+import {
+  verifyUser,
+  updatePassword,
+  changeProfileImage,
+} from "../../controllers/userController";
+
+import multer from "multer";
+const upload = multer({ storage: multer.memoryStorage() });
 
 const router = express.Router();
 
@@ -20,6 +27,12 @@ router.use(authenticateUserMiddleware);
 
 //update password
 router.post("/updatePassword", updatePassword);
+
+router.post(
+  "/changeProfileImage",
+  upload.single("profileImage"),
+  changeProfileImage
+);
 
 //get all user address
 router.get("/addresses", getAddresses);
