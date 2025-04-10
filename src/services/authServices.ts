@@ -40,11 +40,16 @@ export const createNewUser = async ({
 export const generateAccessToken = (
   id: number,
   email: string,
-  userName: string,
-  profileImage: string
+  userName: string
+  // profileImage: string
 ): string => {
   const secret = process.env.SECRET as string;
-  const payload = { id, userName, email, profileImage };
+  const payload = {
+    id,
+    userName,
+    email,
+    // profileImage
+  };
   const token = jwt.sign(payload, secret, { expiresIn: "1d" });
   return token;
 };
