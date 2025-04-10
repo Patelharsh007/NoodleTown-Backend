@@ -4,13 +4,28 @@ import {
   findUserById,
   verifyPassword,
 } from "../services/authServices";
-import { updateUserPassword } from "../services/userServices";
+import {
+  updateUserPassword,
+  updateUserProfileImage,
+} from "../services/userServices";
+import { uploadBufferToCloudinary } from "../services/cloudinaryService";
 
 export const verifyUser = async (req: Request, res: Response) => {
-  res
-    .status(200)
-    .json({ status: "success", message: "User Authenticated", user: req.user });
+  const userId = req.user?.id as number;
+
+  const user = await findUserById(userId);
+
+  if (user) {
+    res.status(200).json({
+      status: "success",
+      message: "User Authenticated",
+      user: req.user,
+      profileImage: user.profileImage,
+    });
+  }
 };
+
+// update password
 export const updatePassword = async (req: Request, res: Response) => {
   const { currentPassword, newPassword, confirmNew } = req.body;
   const userId = req.user?.id;
@@ -61,6 +76,55 @@ export const updatePassword = async (req: Request, res: Response) => {
     res.status(500).json({
       status: "error",
       message: "Internal Server Error",
+    });
+  }
+};
+
+//update profile pic
+export const changeProfileImage = async (req: Request, res: Response) => {
+  const userId = req.user?.id as number;
+  const profileImage = req.file;
+
+  try {
+    // Validate the uploaded image
+    if (!profileImage) {
+      res.status(400).json({
+        status: "error",
+        message: "No image file uploaded.",
+      });
+      return;
+    }
+
+    // Upload the new image to Cloudinary
+    const uploadResult = await uploadBufferToCloudinary(
+      profileImage.buffer,
+      "profile_pictures"
+    );
+
+    if (!uploadResult.secure_url) {
+      res.status(500).json({
+        status: "error",
+        message: "Failed to upload image to Cloudinary.",
+      });
+      return;
+    }
+    // Update the user's profile image URL in the database
+    const updatedUser = await updateUserProfileImage(
+      userId,
+      uploadResult.secure_url
+    );
+
+    res.status(200).json({
+      status: "success",
+      message: "Profile image updated successfully",
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.error("Error updating profile image:", error);
+    res.status(500).json({
+      status: "error",
+      message: "Failed to update profile image",
+      error: error instanceof Error ? error.message : "Unknown error",
     });
   }
 };

@@ -87,8 +87,8 @@ export const login = async (req: Request, res: Response) => {
         const accessToken = await generateAccessToken(
           logUser.id,
           logUser.email,
-          logUser.userName,
-          logUser.profileImage
+          logUser.userName
+          // logUser.profileImage
         );
 
         res.cookie("access_token", accessToken, {
@@ -104,6 +104,7 @@ export const login = async (req: Request, res: Response) => {
           message: "User Logged-In Successfully.",
           logUser,
           accessToken,
+          profileImage: logUser.profileImage,
         });
       } else {
         res
