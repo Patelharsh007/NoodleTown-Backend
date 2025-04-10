@@ -16,6 +16,11 @@ export const findUserByEmail = async (email: string) => {
     where: { email: email },
   });
 };
+export const findUserById = async (userId: number) => {
+  return await userRepository.findOne({
+    where: { id: userId },
+  });
+};
 
 export const createNewUser = async ({
   userName,
@@ -39,7 +44,7 @@ export const generateAccessToken = (
   profileImage: string
 ): string => {
   const secret = process.env.SECRET as string;
-  const payload = { id, userName, email };
+  const payload = { id, userName, email, profileImage };
   const token = jwt.sign(payload, secret, { expiresIn: "1d" });
   return token;
 };
