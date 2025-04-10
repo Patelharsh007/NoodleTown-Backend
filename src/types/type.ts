@@ -11,3 +11,13 @@ export interface UserReq {
   email: string;
   userName: string;
 }
+
+export interface Address {
+  id?: string;
+  recipientName: string;
+  street: string;
+  city: string;
+  state: string;
+  pincode: number;
+  country: string;
+}
