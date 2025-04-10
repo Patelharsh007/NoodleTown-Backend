@@ -15,10 +15,6 @@ import { User } from "../types/type";
 export const register = async (req: Request, res: Response) => {
   const { userName, email, password }: User = req.body;
   const profileImage = req.file;
-
-  // console.log("register - req.body:", req.body);
-  // console.log("register - req.file:", profileImage);
-
   try {
     const existingUser = await findUserByEmail(email);
     if (existingUser) {
@@ -83,6 +79,7 @@ export const login = async (req: Request, res: Response) => {
         email: user.email,
         profileImage: user.profileImage,
       };
+
       // const passwordMatch = await bcrypt.compare(password, user.password);
       const passwordMatch = await verifyPassword(password, user.password);
 

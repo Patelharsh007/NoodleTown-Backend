@@ -4,6 +4,7 @@ import { UserEntity } from "../entities/User";
 import { RestaurantEntity } from "../entities/Restaurant";
 import { MealEntity } from "../entities/Meal";
 import { CartItemEntity } from "../entities/CartItem";
+import { AddressEntity } from "../entities/Address";
 
 export const userRepository: Repository<UserEntity> =
   AppDataSource.getRepository(UserEntity);
@@ -16,3 +17,6 @@ export const mealRepository: Repository<MealEntity> =
 
 export const cartRepository: Repository<CartItemEntity> =
   AppDataSource.getRepository(CartItemEntity);
+
+export const addressRepository: Repository<AddressEntity> =
+  AppDataSource.getRepository(AddressEntity);
