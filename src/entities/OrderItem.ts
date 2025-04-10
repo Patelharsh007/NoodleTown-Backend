@@ -10,6 +10,9 @@ export class OrderItemEntity {
   itemName: string;
 
   @Column()
+  image: string;
+
+  @Column()
   quantity: number;
 
   @Column()
