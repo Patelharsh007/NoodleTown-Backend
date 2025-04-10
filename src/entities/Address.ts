@@ -1,10 +1,28 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  Unique,
+} from "typeorm";
 import { UserEntity } from "./User";
 
+@Unique([
+  "user",
+  "recipientName",
+  "street",
+  "city",
+  "state",
+  "pincode",
+  "country",
+])
 @Entity({ name: "addresses" })
 export class AddressEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   id: string;
+
+  @Column()
+  recipientName: string;
 
   @Column()
   street: string;
@@ -16,7 +34,10 @@ export class AddressEntity {
   state: string;
 
   @Column()
-  pincode: string;
+  country: string;
+
+  @Column()
+  pincode: number;
 
   @ManyToOne(() => UserEntity, (user) => user.addresses)
   user: UserEntity;
