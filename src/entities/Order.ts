@@ -7,6 +7,7 @@ import {
 } from "typeorm";
 import { UserEntity } from "./User";
 import { OrderItemEntity } from "./OrderItem";
+
 @Entity({ name: "orders" })
 export class OrderEntity {
   @PrimaryGeneratedColumn()
@@ -44,4 +45,14 @@ export class OrderEntity {
 
   @OneToMany(() => OrderItemEntity, (orderItem) => orderItem.order)
   items: OrderItemEntity[];
+
+  @Column({ type: "varchar", nullable: true })
+  stripePaymentIntentId: string;
+
+  @Column({
+    type: "enum",
+    enum: ["pending", "completed", "failed"],
+    default: "pending",
+  })
+  paymentStatus: string;
 }
