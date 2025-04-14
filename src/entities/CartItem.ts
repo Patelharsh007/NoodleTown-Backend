@@ -15,9 +15,6 @@ export class CartItemEntity {
   @Column()
   mealId: string;
 
-  @Column()
-  email: string;
-
   @Column({ default: 1 })
   quantity: number;
 
@@ -26,6 +23,5 @@ export class CartItemEntity {
   meal: MealEntity;
 
   @ManyToOne(() => UserEntity, (user) => user.cartItems)
-  @JoinColumn({ name: "email", referencedColumnName: "email" })
   user: UserEntity;
 }
