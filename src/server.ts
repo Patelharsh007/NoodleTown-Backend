@@ -9,6 +9,7 @@ import { userRouter } from "./routes/user/userRoute";
 import { restaurantRouter } from "./routes/restaurant/restaurantRoute";
 import { mealRouter } from "./routes/meal/mealRoute";
 import { cartRouter } from "./routes/cart/cartRoute";
+import { orderRouter } from "./routes/order/orderRoute";
 
 //configiring with .env file
 dotenv.config();
@@ -38,6 +39,7 @@ app.use("/api/user", userRouter);
 app.use("/api/restaurant", restaurantRouter);
 app.use("/api/meal", mealRouter);
 app.use("/api/cart", cartRouter);
+app.use("/api/order", orderRouter);
 
 //Initialize database
 AppDataSource.initialize()
