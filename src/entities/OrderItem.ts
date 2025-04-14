@@ -20,7 +20,6 @@ export class OrderItemEntity {
 
   @Column()
   itemTotal: number;
-
-  @ManyToOne(() => OrderEntity, (order) => order.items)
+  @ManyToOne(() => OrderEntity, (order) => order.items, { onDelete: "CASCADE" })
   order: OrderEntity;
 }
