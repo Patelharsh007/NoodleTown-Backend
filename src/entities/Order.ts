@@ -30,6 +30,9 @@ export class OrderEntity {
   discount: number;
 
   @Column()
+  delivery: number;
+
+  @Column()
   total: number;
 
   @Column("jsonb")
@@ -37,7 +40,7 @@ export class OrderEntity {
     street: string;
     city: string;
     state: string;
-    pincode: string;
+    pincode: number;
   };
 
   @ManyToOne(() => UserEntity, (user) => user.orders)
@@ -46,8 +49,8 @@ export class OrderEntity {
   @OneToMany(() => OrderItemEntity, (orderItem) => orderItem.order)
   items: OrderItemEntity[];
 
-  @Column({ type: "varchar", nullable: true })
-  stripePaymentIntentId: string;
+  @Column({ type: "varchar", unique: true })
+  stripePaymentId: string;
 
   @Column({
     type: "enum",
