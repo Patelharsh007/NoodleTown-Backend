@@ -56,6 +56,7 @@ export const placeOrder = async (
       street: addressData.street,
       city: addressData.city,
       state: addressData.state,
+      country: addressData.country,
       pincode: addressData.pincode,
     },
     stripePaymentId: "default",
