@@ -15,7 +15,14 @@ export class OrderEntity {
 
   @Column({
     type: "enum",
-    enum: ["pending", "completed", "cancelled"],
+    enum: [
+      "pending",
+      "completed",
+      "failed",
+      "cancelled",
+      "processing",
+      "shipped",
+    ],
     default: "pending",
   })
   status: string;
@@ -41,12 +48,16 @@ export class OrderEntity {
     city: string;
     state: string;
     pincode: number;
+    country: string;
   };
 
   @ManyToOne(() => UserEntity, (user) => user.orders)
   user: UserEntity;
 
-  @OneToMany(() => OrderItemEntity, (orderItem) => orderItem.order)
+  @OneToMany(() => OrderItemEntity, (orderItem) => orderItem.order, {
+    cascade: true,
+    onDelete: "CASCADE",
+  })
   items: OrderItemEntity[];
 
   @Column({ type: "varchar", unique: true })
