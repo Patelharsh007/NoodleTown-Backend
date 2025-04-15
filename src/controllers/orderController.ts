@@ -36,7 +36,7 @@ export const getOrdersbyUser = async (req: Request, res: Response) => {
     }
 
     res.status(200).json({
-      status: "error",
+      status: "success",
       message: "Orders fetched succesfully",
       orders: orders,
     });
@@ -121,17 +121,22 @@ export const verifyStripePayment = async (req: Request, res: Response) => {
 
       const delelteCart = await emptyCart(userId);
 
-      res
-        .status(200)
-        .json({ success: true, order, message: "Payment succesfully " });
+      res.status(200).json({
+        status: "success",
+        success: true,
+        order,
+        message: "Payment succesfully ",
+      });
       return;
     } else {
-      res.status(400).json({ message: "Payment not successful yet." });
+      res
+        .status(400)
+        .json({ status: "error", message: "Payment not successful yet." });
       return;
     }
   } catch (error) {
     console.error("Stripe verification failed", error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ status: "error", message: "Internal server error" });
     return;
   }
 };
