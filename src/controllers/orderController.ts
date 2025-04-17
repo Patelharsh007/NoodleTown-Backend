@@ -79,6 +79,7 @@ export const createOrderAndPayment = async (req: Request, res: Response) => {
     const orderItems = await setOrderItems(order, userId);
 
     const { order: updatedOrder, session } = await createPaymentSession(
+      userId,
       order,
       orderItems
     );
@@ -103,9 +104,6 @@ export const verifyStripePayment = async (req: Request, res: Response) => {
 
   try {
     const session = await verifyPaymentSession(sessionId);
-
-    console.log("Session", session);
-
     if (session.payment_status === "paid") {
       const orderId = session.metadata?.orderId;
 
@@ -117,14 +115,14 @@ export const verifyStripePayment = async (req: Request, res: Response) => {
         return;
       }
 
-      const order = await updateOrder(orderId);
+      // const order = await updateOrder(orderId);
 
-      const delelteCart = await emptyCart(userId);
+      // const delelteCart = await emptyCart(userId);
 
       res.status(200).json({
         status: "success",
         success: true,
-        order,
+        // order,
         message: "Payment succesfully ",
       });
       return;
