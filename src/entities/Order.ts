@@ -37,6 +37,7 @@ export class OrderEntity {
 
   @Column("jsonb")
   address: {
+    recipientName: string;
     street: string;
     city: string;
     state: string;
