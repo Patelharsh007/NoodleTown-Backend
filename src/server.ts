@@ -10,12 +10,16 @@ import { restaurantRouter } from "./routes/restaurant/restaurantRoute";
 import { mealRouter } from "./routes/meal/mealRoute";
 import { cartRouter } from "./routes/cart/cartRoute";
 import { orderRouter } from "./routes/order/orderRoute";
+import { stripeRouter } from "./routes/stripe/stripeRouter";
 
 //configiring with .env file
 dotenv.config();
 
 //Creating Express App
 const app = express();
+
+//stripe webhook
+app.use("/", stripeRouter);
 
 //middlewares
 app.use(express.json());
