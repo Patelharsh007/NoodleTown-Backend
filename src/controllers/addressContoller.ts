@@ -74,9 +74,9 @@ export const addAddress = async (req: Request, res: Response) => {
 
     if (!newAddress) {
       // Address already exists — no crash, just a nice message
-      res.status(200).json({
-        status: "info",
-        message: "Address already exists",
+      res.status(400).json({
+        status: "error",
+        message: "Duplicate address detected",
       });
       return;
     }
