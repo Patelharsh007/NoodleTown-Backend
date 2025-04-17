@@ -15,14 +15,7 @@ export class OrderEntity {
 
   @Column({
     type: "enum",
-    enum: [
-      "pending",
-      "completed",
-      "failed",
-      "cancelled",
-      "processing",
-      "shipped",
-    ],
+    enum: ["pending", "completed", "cancelled", "processing", "shipped"],
     default: "pending",
   })
   status: string;
