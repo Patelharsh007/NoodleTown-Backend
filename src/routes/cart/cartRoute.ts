@@ -28,10 +28,10 @@ router.post("/addToCart/:id", addToCart);
 router.delete("/removeFromCart/:id", removeFromCart);
 
 //increment quantity of mealid
-router.put("/increment/:id", incrementItem);
+router.patch("/increment/:id", incrementItem);
 
 //increment quantity of mealid
-router.put("/decrement/:id", decrementItem);
+router.patch("/decrement/:id", decrementItem);
 
 //clear cart for user
 router.delete("/clearCart", clearCart);

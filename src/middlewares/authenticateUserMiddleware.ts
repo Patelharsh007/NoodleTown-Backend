@@ -12,9 +12,10 @@ export const authenticateUserMiddleware = async (
 
   if (!token) {
     console.log("No token found in cookies.");
-    res
-      .status(401)
-      .json({ status: "error", message: "Invalid or expired token." });
+    res.status(401).json({
+      status: "error",
+      message: "Access denied. Please log in to continue.",
+    });
     return;
   }
 
@@ -24,16 +25,25 @@ export const authenticateUserMiddleware = async (
     next();
   } catch (error) {
     console.error("Error verifying token:", error);
+
     if (error instanceof jwt.TokenExpiredError) {
-      res.status(401).json({ status: "error", message: "Token has expired." });
+      res.status(401).json({
+        status: "error",
+        message: "Access token has expired. Please log in again.",
+      });
       return;
     } else if (error instanceof jwt.JsonWebTokenError) {
-      res.status(401).json({ status: "error", message: "Invalid token." });
+      res.status(401).json({
+        status: "error",
+        message: "Invalid token. Please log in again.",
+      });
       return;
     }
+
     res.status(500).json({
       status: "error",
-      message: "Server error during token verification.",
+      message:
+        "Server error during token verification. Please try again later.",
     });
     return;
   }

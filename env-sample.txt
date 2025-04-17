@@ -1,0 +1,18 @@
+PORT=''    //port number for backend
+SECRET=""  //JWT secret
+
+PGHOST=''   //neon db hostname
+PGDATABASE=''   //neon db databasename
+PGUSER=''   //neon db username
+PGPASSWORD=''   //neon db password
+
+CLOUDINARY_CLOUD_NAME=''
+CLOUDINARY_API_KEY=''
+CLOUDINARY_API_SECRET=''
+
+STRIPE_PUBLISHABLE_KEY=''
+STRIPE_SECRET_KEY=''
+STRIPE_WEBHOOK_SECRET=''
+
+# FRONTEND_URL='http://localhost:3000'
+

@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import * as fs from "fs";
 
 import {
   createNewUser,
@@ -8,42 +9,59 @@ import {
   verifyPassword,
 } from "../services/authServices";
 
-import { User, UserReq } from "../types/type";
-import { stat } from "fs";
+import { uploadBufferToCloudinary } from "../services/cloudinaryService";
+import { User } from "../types/type";
 
 export const register = async (req: Request, res: Response) => {
   const { userName, email, password }: User = req.body;
-
+  const profileImage = req.file;
   try {
     const existingUser = await findUserByEmail(email);
-
-    // If the user already exists
     if (existingUser) {
-      res
-        .status(400)
-        .json({ status: "error", message: "Email is already registered." });
-    } else {
-      // Hash the password
-      // const hashPassword = await bcrypt.hash(password, 10);
-      const hashPassword = await encryptPassword(password);
-
-      // Create a new user by calling the createNewUser function
-      const user = await createNewUser({
-        userName,
-        email,
-        password: hashPassword,
-      });
-
-      res.status(201).json({
-        status: "success",
-        message: "User Registered Successfully.",
-        user: user,
+      res.status(400).json({
+        status: "error",
+        message: "Email is already registered.",
       });
     }
+
+    // Upload profile image to Cloudinary
+    let profileImageUrl: string | undefined;
+    if (profileImage) {
+      const uploadResult = await uploadBufferToCloudinary(
+        profileImage.buffer,
+        "profile_pictures"
+      );
+      profileImageUrl = uploadResult.secure_url;
+    }
+
+    // Hash the password
+    const hashPassword = await encryptPassword(password);
+
+    // Create a new user
+    // console.log("profile url", profileImageUrl);
+    const user = await createNewUser({
+      userName,
+      email,
+      password: hashPassword,
+      profileImage: profileImageUrl,
+    });
+
+    res.status(201).json({
+      status: "success",
+      message: "User Registered Successfully.",
+      user: {
+        id: user.id,
+        userName: user.userName,
+        email: user.email,
+        profileImage: user.profileImage,
+      },
+    });
   } catch (error) {
-    res
-      .status(500)
-      .json({ status: "error", message: "An unexpected error occurred." });
+    console.error("Registration error:", error);
+    res.status(500).json({
+      status: "error",
+      message: "An unexpected error occurred.",
+    });
   }
 };
 
@@ -59,7 +77,9 @@ export const login = async (req: Request, res: Response) => {
         id: user.id,
         userName: user.userName,
         email: user.email,
+        profileImage: user.profileImage,
       };
+
       // const passwordMatch = await bcrypt.compare(password, user.password);
       const passwordMatch = await verifyPassword(password, user.password);
 
@@ -68,6 +88,7 @@ export const login = async (req: Request, res: Response) => {
           logUser.id,
           logUser.email,
           logUser.userName
+          // logUser.profileImage
         );
 
         res.cookie("access_token", accessToken, {
@@ -75,7 +96,7 @@ export const login = async (req: Request, res: Response) => {
           secure: false,
           sameSite: "lax",
           path: "/", // Available to all paths on the domain
-          maxAge: 1 * 60 * 60 * 1000, //hr*60*60*1000
+          maxAge: 24 * 60 * 60 * 1000, //hr*60*60*1000
         });
 
         res.status(201).json({
@@ -83,6 +104,7 @@ export const login = async (req: Request, res: Response) => {
           message: "User Logged-In Successfully.",
           logUser,
           accessToken,
+          profileImage: logUser.profileImage,
         });
       } else {
         res

@@ -4,10 +4,18 @@ import {
   validateLogin,
   validateRegister,
 } from "../../middlewares/authValidationMiddleware";
+import multer from "multer";
+
+const upload = multer({ storage: multer.memoryStorage() });
 
 const router = express.Router();
 
-router.post("/register", validateRegister, register);
+router.post(
+  "/register",
+  upload.single("profileImage"),
+  validateRegister,
+  register
+);
 router.post("/login", validateLogin, login);
 router.post("/logout", logout);
 

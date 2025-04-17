@@ -7,6 +7,7 @@ import {
 } from "typeorm";
 import { UserEntity } from "./User";
 import { OrderItemEntity } from "./OrderItem";
+
 @Entity({ name: "orders" })
 export class OrderEntity {
   @PrimaryGeneratedColumn()
@@ -14,7 +15,7 @@ export class OrderEntity {
 
   @Column({
     type: "enum",
-    enum: ["pending", "completed", "cancelled"],
+    enum: ["pending", "completed", "cancelled", "processing", "shipped"],
     default: "pending",
   })
   status: string;
@@ -29,19 +30,37 @@ export class OrderEntity {
   discount: number;
 
   @Column()
+  delivery: number;
+
+  @Column()
   total: number;
 
   @Column("jsonb")
   address: {
+    recipientName: string;
     street: string;
     city: string;
     state: string;
-    pincode: string;
+    pincode: number;
+    country: string;
   };
 
   @ManyToOne(() => UserEntity, (user) => user.orders)
   user: UserEntity;
 
-  @OneToMany(() => OrderItemEntity, (orderItem) => orderItem.order)
+  @OneToMany(() => OrderItemEntity, (orderItem) => orderItem.order, {
+    cascade: true,
+    onDelete: "CASCADE",
+  })
   items: OrderItemEntity[];
+
+  @Column({ type: "varchar", unique: true })
+  stripePaymentId: string;
+
+  @Column({
+    type: "enum",
+    enum: ["pending", "completed", "failed"],
+    default: "pending",
+  })
+  paymentStatus: string;
 }

@@ -12,78 +12,90 @@ import {
 } from "../services/cartServices";
 
 export const getCartData = async (req: Request, res: Response) => {
-  const userEmail = req.user?.email;
+  // const userEmail = req.user?.email;
+  const userId = req.user?.id;
 
-  if (userEmail) {
+  if (userId) {
     try {
-      const cartItem = await getCartbyUser(userEmail);
+      const cartItem = await getCartbyUser(userId);
 
       if (cartItem.length !== 0) {
         res.status(200).json({
           status: "success",
-          message: "Cart data feteched succesfully",
+          message: "Cart data fetched successfully",
           cartItem,
         });
       } else {
         res
-          .status(400)
+          .status(404)
           .json({ status: "error", message: "No cart data found." });
       }
     } catch (error) {
       console.error("Error retrieving data:", error);
-      res
-        .status(400)
-        .json({ status: "error", message: "Error retrieving cart data." });
+      res.status(500).json({
+        status: "error",
+        message: "Internal Server error.",
+      });
     }
   } else {
-    res.status(403).json({ status: "error", message: "No user found" });
+    res
+      .status(403)
+      .json({ status: "error", message: "User not authenticated" });
   }
 };
+
 export const getCartMealData = async (req: Request, res: Response) => {
   const mealId = req.params.id;
-  const userEmail = req.user?.email;
+  // const userEmail = req.user?.email;
+  const userId = req.user?.id;
 
-  if (mealId && userEmail) {
+  if (mealId && userId) {
     try {
-      const cartItem = await getCartMealbyUser(mealId, userEmail);
+      const cartItem = await getCartMealbyUser(mealId, userId);
 
-      // if (cartItem) {
-      //   res.status(200).json({
-      //     status: "success",
-      //     message: "Cart data feteched succesfully",
-      //     isInCart: !!cartItem,
-      //   });
-      // } else {
-      res.status(200).json({
-        status: "success",
-        // message: "No cart data found.",
-        isInCart: !!cartItem,
-      });
-      // }
+      if (cartItem) {
+        res.status(200).json({
+          status: "success",
+          message: "Cart data fetched successfully",
+          cartItem,
+          isInCart: true,
+        });
+      } else {
+        res.status(200).json({
+          status: "error",
+          message: "Item not found in cart",
+          isInCart: false,
+        });
+      }
     } catch (error) {
       console.error("Error retrieving data:", error);
-      res
-        .status(400)
-        .json({ status: "error", message: "Error retrieving cart data." });
+      res.status(500).json({
+        status: "error",
+        message: "Internal Server error.",
+      });
     }
   } else {
-    res.status(403).json({ status: "error", message: "No mealId found" });
+    res.status(400).json({
+      status: "error",
+      message: "Missing mealId or user information.",
+    });
   }
 };
 
 export const addToCart = async (req: Request, res: Response) => {
   const mealId = req.params.id;
-  const userEmail = req.user?.email;
+  // const userEmail = req.user?.email;
+  const userId = req.user?.id;
 
-  if (mealId && userEmail) {
+  if (mealId && userId) {
     try {
-      const data = await findCartByMealAndUser(mealId, userEmail);
+      const data = await findCartByMealAndUser(mealId, userId);
       if (data) {
         res
           .status(400)
-          .json({ status: "error", message: "Item Already in Cart" });
+          .json({ status: "error", message: "Item already in cart" });
       } else {
-        const cartItem = await addMealToCart(mealId, userEmail);
+        const cartItem = await addMealToCart(mealId, userId);
 
         res.status(201).json({
           status: "success",
@@ -92,36 +104,40 @@ export const addToCart = async (req: Request, res: Response) => {
         });
       }
     } catch (error) {
-      res
-        .status(400)
-        .json({ status: "error", message: "Error adding to the cart." });
+      res.status(500).json({
+        status: "error",
+        message: "Internal Server error.",
+      });
     }
   } else {
     res.status(400).json({ status: "error", message: "No mealId provided." });
   }
 };
+
 export const removeFromCart = async (req: Request, res: Response) => {
   const mealId = req.params.id;
-  const userEmail = req.user?.email;
+  // const userEmail = req.user?.email;
+  const userId = req.user?.id;
 
-  if (mealId && userEmail) {
+  if (mealId && userId) {
     try {
-      const data = await findCartByMealAndUser(mealId, userEmail);
+      const data = await findCartByMealAndUser(mealId, userId);
       if (data) {
-        await removeCartItem(mealId, userEmail);
+        await removeCartItem(mealId, userId);
         res
           .status(200)
-          .json({ status: "success", message: "Item removed from Cart" });
+          .json({ status: "success", message: "Item removed from cart" });
       } else {
-        res.status(400).json({
+        res.status(404).json({
           status: "error",
-          message: "Item not in cart",
+          message: "Item not found in cart",
         });
       }
     } catch (error) {
-      res
-        .status(400)
-        .json({ status: "error", message: "Error adding to the cart." });
+      res.status(500).json({
+        status: "error",
+        message: "Internal Server error.",
+      });
     }
   } else {
     res.status(400).json({ status: "error", message: "No mealId provided." });
@@ -130,35 +146,37 @@ export const removeFromCart = async (req: Request, res: Response) => {
 
 export const incrementItem = async (req: Request, res: Response) => {
   const mealId = req.params.id;
-  const userEmail = req.user?.email;
+  // const userEmail = req.user?.email;
+  const userId = req.user?.id;
 
-  if (mealId && userEmail) {
+  if (mealId && userId) {
     try {
-      const data = await findCartByMealAndUser(mealId, userEmail);
+      const data = await findCartByMealAndUser(mealId, userId);
       if (data) {
         if (data.quantity >= 5) {
           res.status(400).json({
             status: "error",
-            message: "Item quantity cannot exceed limit 5.",
+            message: "Item quantity cannot exceed limit of 5.",
           });
         } else {
-          const updatedData = await incrementCartItem(mealId, userEmail);
+          const updatedData = await incrementCartItem(mealId, userId);
           res.status(200).json({
             status: "success",
-            message: "Item updated in cart successfully.",
+            message: "Item incremented in cart successfully.",
             updatedData,
           });
         }
       } else {
-        res.status(400).json({
+        res.status(404).json({
           status: "error",
-          message: "Item not in cart",
+          message: "Item not found in cart",
         });
       }
     } catch (error) {
-      res
-        .status(400)
-        .json({ status: "error", message: "Error adding to the cart." });
+      res.status(500).json({
+        status: "error",
+        message: "Internal Server error.",
+      });
     }
   } else {
     res.status(400).json({ status: "error", message: "No mealId provided." });
@@ -167,66 +185,70 @@ export const incrementItem = async (req: Request, res: Response) => {
 
 export const decrementItem = async (req: Request, res: Response) => {
   const mealId = req.params.id;
-  const userEmail = req.user?.email;
+  // const userEmail = req.user?.email;
+  const userId = req.user?.id;
 
-  if (mealId && userEmail) {
+  if (mealId && userId) {
     try {
-      const data = await findCartByMealAndUser(mealId, userEmail);
+      const data = await findCartByMealAndUser(mealId, userId);
       if (data) {
         if (data.quantity === 1) {
-          await removeCartItem(mealId, userEmail); //remove meal from record
+          await removeCartItem(mealId, userId); // Remove meal from record
           res.status(200).json({
             status: "success",
             message: "Item removed from cart.",
           });
         } else {
-          const updatedData = await decrementCartItem(mealId, userEmail);
+          const updatedData = await decrementCartItem(mealId, userId);
           res.status(200).json({
             status: "success",
-            message: "Item updated in cart successfully.",
+            message: "Item decremented in cart successfully.",
             updatedData,
           });
         }
       } else {
-        res.status(400).json({
+        res.status(404).json({
           status: "error",
-          message: "Item not in cart",
+          message: "Item not found in cart",
         });
       }
     } catch (error) {
-      res
-        .status(400)
-        .json({ status: "error", message: "Error adding to the cart." });
+      res.status(500).json({
+        status: "error",
+        message: "Internal Server error.",
+      });
     }
   } else {
     res.status(400).json({ status: "error", message: "No mealId provided." });
   }
 };
-export const clearCart = async (req: Request, res: Response) => {
-  const userEmail = req.user?.email;
 
-  if (userEmail) {
+export const clearCart = async (req: Request, res: Response) => {
+  // const userEmail = req.user?.email;
+  const userId = req.user?.id;
+
+  if (userId) {
     try {
-      const data = await getCartbyUser(userEmail);
-      console.log("Data", data);
+      const data = await getCartbyUser(userId);
 
       if (data.length !== 0) {
-        await emptyCart(userEmail);
+        await emptyCart(userId);
 
         res.status(200).json({
           status: "success",
-          message: "Cart emptied succesfully",
+          message: "Cart emptied successfully",
         });
       } else {
-        res.status(400).json({
+        res.status(404).json({
           status: "error",
           message: "Cart is already empty.",
         });
       }
     } catch (error) {
-      res
-        .status(400)
-        .json({ status: "error", message: "Error clearing the cart." });
+      res.status(500).json({
+        status: "error",
+        message: "Internal Server error.",
+      });
     }
   } else {
     res

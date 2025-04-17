@@ -32,12 +32,15 @@ export const validateRegister = async (
 ) => {
   const { userName, email, password } = req.body;
 
+  // console.log("validateRegister - req.body validate:", req.body);
+  // console.log("validateRegister - req.file validate:", req.file); // Should be undefined here
+
   const registerValidation = new RegisterValidation();
   registerValidation.userName = userName;
   registerValidation.email = email;
   registerValidation.password = password;
 
-  const errors = await validate(registerValidation); // Validate the object
+  const errors = await validate(registerValidation);
 
   if (errors.length > 0) {
     const formattedErrors = formatValidationErrors(errors);

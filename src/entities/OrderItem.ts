@@ -10,6 +10,9 @@ export class OrderItemEntity {
   itemName: string;
 
   @Column()
+  image: string;
+
+  @Column()
   quantity: number;
 
   @Column()
@@ -17,7 +20,6 @@ export class OrderItemEntity {
 
   @Column()
   itemTotal: number;
-
-  @ManyToOne(() => OrderEntity, (order) => order.items)
+  @ManyToOne(() => OrderEntity, (order) => order.items, { onDelete: "CASCADE" })
   order: OrderEntity;
 }

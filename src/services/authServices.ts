@@ -16,12 +16,23 @@ export const findUserByEmail = async (email: string) => {
     where: { email: email },
   });
 };
+export const findUserById = async (userId: number) => {
+  return await userRepository.findOne({
+    where: { id: userId },
+  });
+};
 
-export const createNewUser = async ({ userName, email, password }: User) => {
+export const createNewUser = async ({
+  userName,
+  email,
+  password,
+  profileImage,
+}: User) => {
   const newUser = userRepository.create({
     userName,
     email,
     password,
+    profileImage,
   });
   return await userRepository.save(newUser);
 };
@@ -30,10 +41,16 @@ export const generateAccessToken = (
   id: number,
   email: string,
   userName: string
+  // profileImage: string
 ): string => {
   const secret = process.env.SECRET as string;
-  const payload = { id, userName, email };
-  const token = jwt.sign(payload, secret, { expiresIn: "1hr" });
+  const payload = {
+    id,
+    userName,
+    email,
+    // profileImage
+  };
+  const token = jwt.sign(payload, secret, { expiresIn: "1d" });
   return token;
 };
 
