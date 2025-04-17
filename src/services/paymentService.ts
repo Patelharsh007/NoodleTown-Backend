@@ -10,6 +10,7 @@ if (!process.env.STRIPE_SECRET_KEY) {
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const createPaymentSession = async (
+  userId: number,
   order: OrderEntity,
   orderItems: OrderItemEntity[]
 ) => {
@@ -74,7 +75,8 @@ export const createPaymentSession = async (
     success_url: `${process.env.FRONTEND_URL}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${process.env.FRONTEND_URL}/payment-failed`,
     metadata: {
-      orderId: order.id.toString(),
+      orderId: order.id,
+      userId: userId,
     },
   });
 
