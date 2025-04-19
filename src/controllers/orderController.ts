@@ -74,19 +74,24 @@ export const createOrderAndPayment = async (req: Request, res: Response) => {
       return;
     }
 
-    const order = await placeOrder(userId, discount, addressId);
-
-    const orderItems = await setOrderItems(order, userId);
-
-    const { order: updatedOrder, session } = await createPaymentSession(
+    // Create temporary order data without saving to database
+    const orderData = {
       userId,
-      order,
-      orderItems
-    );
+      addressId,
+      discount,
+      cartItems,
+      subTotal: cartItems.reduce(
+        (acc, item) => acc + item.meal.price * item.quantity,
+        0
+      ),
+      delivery: 40, // default delivery fee
+    };
+
+    // Create payment session with temporary order data
+    const { session } = await createPaymentSession(userId, orderData);
 
     res.status(200).json({
       status: "success",
-      orderId: order.id,
       session: session.id,
     });
   } catch (error) {
@@ -105,25 +110,10 @@ export const verifyStripePayment = async (req: Request, res: Response) => {
   try {
     const session = await verifyPaymentSession(sessionId);
     if (session.payment_status === "paid") {
-      const orderId = session.metadata?.orderId;
-
-      if (!orderId) {
-        res.status(400).json({
-          status: "error",
-          message: "Order not found.",
-        });
-        return;
-      }
-
-      // const order = await updateOrder(orderId);
-
-      // const delelteCart = await emptyCart(userId);
-
       res.status(200).json({
         status: "success",
         success: true,
-        // order,
-        message: "Payment succesfully ",
+        message: "Payment successful",
       });
       return;
     } else {

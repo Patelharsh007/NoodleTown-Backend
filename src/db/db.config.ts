@@ -9,6 +9,6 @@ export const AppDataSource = new DataSource({
   database: "noodletown",
   entities: ["src/entities/*{.ts,.js}"],
   synchronize: true,
-  // logging: true,
+  logging: true,
   ssl: true,
 });

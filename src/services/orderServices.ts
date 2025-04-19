@@ -93,7 +93,7 @@ export const updateOrder = async (orderId: string) => {
     throw new Error("Order not found");
   }
 
-  order.status = "pending";
+  order.status = "processing";
   order.paymentStatus = "completed";
 
   await orderRepository.save(order);

@@ -1,7 +1,6 @@
 import express from "express";
 import Stripe from "stripe";
-import { updateOrder } from "../../services/orderServices";
-import { emptyCart } from "../../services/cartServices";
+import { handleSuccessfulPayment } from "../../services/paymentService";
 
 const router = express.Router();
 
@@ -32,27 +31,14 @@ router.post(
 
     if (event.type === "checkout.session.completed") {
       const session = event.data.object as Stripe.Checkout.Session;
-      const orderId = session.metadata?.orderId;
-      const userId = session.metadata?.userId;
-
-      if (!userId) {
-        res.status(400).send("User ID not found in metadata");
-        return;
-      }
-
-      if (!orderId) {
-        res.status(400).send("Order ID not found in metadata");
-        return;
-      }
 
       try {
-        await updateOrder(orderId);
-        const delelteCart = await emptyCart(Number(userId));
-        console.log(`✅ Order ${orderId} updated successfully`);
-        res.status(200).send("Order status updated");
+        await handleSuccessfulPayment(session);
+        console.log(`✅ Order created successfully for session ${session.id}`);
+        res.status(200).send("Order created successfully");
       } catch (err: any) {
-        console.error("Error updating order:", err.message);
-        res.status(500).send("Failed to update order");
+        console.error("Error creating order:", err.message);
+        res.status(500).send("Failed to create order");
       }
     } else {
       res.status(200).send("Event received");
