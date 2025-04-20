@@ -5,9 +5,9 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "nodemon ./src/server.ts",
-    "build": "tsc -p .",
+    "build": "tsc -p . && rm -rf dist/**/*.d.ts",
     "start": "node dist/server.js",
-    "render-build": "npm install && npm run build"
+    "render-build": "npm install --production=false && npm run build"
   },
   "keywords": [],
   "author": "",
