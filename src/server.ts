@@ -32,17 +32,20 @@ app.use(cookieParser());
 //cors
 app.use(
   cors({
-    origin: process.env.NODE_ENV === "production" 
-      ? [process.env.FRONTEND_URL!] 
-      : [
-          "http://localhost:3000",
-          "http://localhost:3001",
-          "http://localhost:3002",
-          process.env.FRONTEND_URL!,
-        ],
+    origin: [
+      "https://noodle-town-frontend.vercel.app",
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "http://localhost:3002",
+    ],
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   })
 );
+
+// Add CORS preflight handling
+app.options("*", cors());
 
 //Routes
 app.use("/api/auth", authRouter);
