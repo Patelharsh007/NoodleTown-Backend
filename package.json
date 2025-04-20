@@ -2,9 +2,9 @@
   "name": "noodletown-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "dev": "nodemon --exec ts-node ./src/server.ts",
+    "dev": "nodemon ./src/server.ts",
     "build": "tsc -p .",
     "start": "node ./dist/server.js"
   },
@@ -15,7 +15,6 @@
     "@neondatabase/serverless": "^0.10.4",
     "@stripe/react-stripe-js": "^3.6.0",
     "@stripe/stripe-js": "^7.0.0",
-    "@types/node-cron": "^3.0.11",
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
@@ -32,6 +31,7 @@
     "typeorm": "^0.3.21"
   },
   "devDependencies": {
+    "@types/node-cron": "^3.0.11",
     "@types/bcrypt": "^5.0.2",
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",

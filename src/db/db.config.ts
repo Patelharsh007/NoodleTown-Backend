@@ -6,9 +6,11 @@ export const AppDataSource = new DataSource({
   port: 5432,
   username: process.env.PGUSER,
   password: process.env.PGPASSWORD,
-  database: "noodletown",
-  entities: ["src/entities/*{.ts,.js}"],
+  database: process.env.PGDATABASE,
+  entities: [__dirname + "/../entities/*{.ts,.js}"],
   synchronize: true,
   logging: true,
-  ssl: true,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
