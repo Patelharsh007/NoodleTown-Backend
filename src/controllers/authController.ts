@@ -88,15 +88,14 @@ export const login = async (req: Request, res: Response) => {
           logUser.id,
           logUser.email,
           logUser.userName
-          // logUser.profileImage
         );
 
         res.cookie("access_token", accessToken, {
           httpOnly: true,
-          secure: false,
-          sameSite: "lax",
-          path: "/", // Available to all paths on the domain
-          maxAge: 24 * 60 * 60 * 1000, //hr*60*60*1000
+          secure: process.env.NODE_ENV === "production",
+          sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+          path: "/",
+          maxAge: 24 * 60 * 60 * 1000,
         });
 
         res.status(201).json({
@@ -129,10 +128,10 @@ export const logout = async (req: Request, res: Response) => {
     try {
       // Clear the access_token cookie
       res.clearCookie("access_token", {
-        httpOnly: true, // Make sure the cookie is not accessible from JavaScript (XSS protection)
-        secure: false,
-        sameSite: "lax", // Prevent CSRF attacks
-        path: "/", // Ensure the correct path is cleared
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        path: "/",
       });
 
       // Respond with a success message
