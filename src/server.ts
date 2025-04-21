@@ -13,13 +13,10 @@ import { orderRouter } from "./routes/order/orderRoute";
 import { stripeRouter } from "./routes/stripe/stripeRouter";
 import { scheduleOrderStatusUpdates } from "./services/orderStatusService";
 
-//configiring with .env file
 dotenv.config();
 
-//Creating Express App
 const app = express();
 
-// Initialize order status scheduler
 scheduleOrderStatusUpdates();
 
 //stripe webhook
@@ -34,6 +31,7 @@ app.use(
   cors({
     origin: [
       "https://noodle-town-frontend.vercel.app",
+      process.env.FRONTEND_URL!,
       "http://localhost:3000",
       "http://localhost:3001",
       "http://localhost:3002",
