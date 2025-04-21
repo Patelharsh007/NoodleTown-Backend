@@ -13,6 +13,7 @@ export const getOrders = async (userId: number) => {
   return await orderRepository.find({
     where: { user: { id: userId } },
     relations: ["items"],
+    order: { id: "DESC" },
   });
 };
 
