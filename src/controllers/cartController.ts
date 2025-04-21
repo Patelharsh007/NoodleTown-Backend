@@ -172,14 +172,17 @@ export const incrementItem = async (req: Request, res: Response) => {
           message: "Item not found in cart",
         });
       }
+      return;
     } catch (error) {
       res.status(500).json({
         status: "error",
         message: "Internal Server error.",
       });
+      return;
     }
   } else {
     res.status(400).json({ status: "error", message: "No mealId provided." });
+    return;
   }
 };
 
