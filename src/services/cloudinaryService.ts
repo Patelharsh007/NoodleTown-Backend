@@ -37,7 +37,7 @@ export const extractPublicIdFromUrl = (url: string): string | null => {
       0,
       fileWithExtension.lastIndexOf(".")
     ); // Remove extension
-    const folderPath = parts.slice(parts.length - 2, parts.length - 1)[0]; // e.g., profile_pictures
+    const folderPath = parts.slice(parts.length - 2, parts.length - 1)[0];
     return `${folderPath}/${publicId}`;
   } catch (error) {
     console.error("Error extracting public ID from URL:", error);
@@ -49,26 +49,26 @@ export const deleteImageFromCloudinary = async (
   publicId: string
 ): Promise<void> => {
   if (!publicId) {
-    throw new Error('Public ID is required for image deletion');
+    throw new Error("Public ID is required for image deletion");
   }
 
   return new Promise((resolve, reject) => {
     cloudinary.uploader.destroy(publicId, (error, result) => {
       if (error) {
-        console.error('Cloudinary deletion error:', error);
+        console.error("Cloudinary deletion error:", error);
         return reject(new Error(`Failed to delete image: ${error.message}`));
       }
-      
+
       if (!result) {
-        console.error('No result returned from Cloudinary');
-        return reject(new Error('No response from Cloudinary'));
+        console.error("No result returned from Cloudinary");
+        return reject(new Error("No response from Cloudinary"));
       }
 
       if (result.result !== "ok") {
-        console.error('Cloudinary deletion failed:', result);
+        console.error("Cloudinary deletion failed:", result);
         return reject(new Error(`Failed to delete image: ${result.result}`));
       }
-      
+
       resolve();
     });
   });

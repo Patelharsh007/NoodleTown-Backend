@@ -1,11 +1,8 @@
 import { Request, Response } from "express";
-import { AppDataSource } from "../db/db.config";
-import { RestaurantEntity } from "../entities/Restaurant";
 import { restaurants } from "../data/restaurantsData";
 import {
   getBrands,
   // getFilteredMenu,
-  getMenuCategories,
   getRestaurantById,
   getRestaurantMeal,
   getSearchResult,

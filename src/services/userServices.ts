@@ -30,7 +30,6 @@ export const updateUserProfileImage = async (
     throw new Error("User not found");
   }
 
-  // If user already has a profile image, delete the old one
   if (user.profileImage) {
     try {
       const oldPublicId = extractPublicIdFromUrl(user.profileImage);
@@ -39,7 +38,6 @@ export const updateUserProfileImage = async (
       }
     } catch (error) {
       console.error("Error deleting old profile image:", error);
-      // Continue with the update even if deletion fails
     }
   }
 

@@ -5,7 +5,6 @@ import {
   RegisterValidation,
 } from "../validations/authValidation";
 
-// Helper function to format validation errors
 const formatValidationErrors = (errors: any[]) => {
   const formattedErrors: any[] = [];
 
@@ -13,7 +12,6 @@ const formatValidationErrors = (errors: any[]) => {
     const field = error.property;
     const constraints = error.constraints;
 
-    // Check if there are multiple constraints (like length and pattern)
     if (constraints) {
       Object.values(constraints).forEach((message) => {
         formattedErrors.push({ field, message });
@@ -24,16 +22,12 @@ const formatValidationErrors = (errors: any[]) => {
   return formattedErrors;
 };
 
-// Middleware to validate registration input
 export const validateRegister = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   const { userName, email, password } = req.body;
-
-  // console.log("validateRegister - req.body validate:", req.body);
-  // console.log("validateRegister - req.file validate:", req.file); // Should be undefined here
 
   const registerValidation = new RegisterValidation();
   registerValidation.userName = userName;

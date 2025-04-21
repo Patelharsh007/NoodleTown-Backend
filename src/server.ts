@@ -42,7 +42,6 @@ app.use(
   })
 );
 
-// Add CORS preflight handling
 app.options("*", cors());
 
 //Routes

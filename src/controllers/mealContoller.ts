@@ -16,10 +16,8 @@ import {
 export const uploadMealData = async (req: Request, res: Response) => {
   const data = meals;
   try {
-    // Get the repository for the entity
     const myEntityRepository = AppDataSource.getRepository(MealEntity);
 
-    // Insert all the data in one go
     const result = await myEntityRepository.insert(data);
 
     console.log(`${result.identifiers.length} records inserted.`);

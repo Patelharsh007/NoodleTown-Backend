@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import * as fs from "fs";
 
 import {
   createNewUser,
@@ -80,7 +79,6 @@ export const login = async (req: Request, res: Response) => {
         profileImage: user.profileImage,
       };
 
-      // const passwordMatch = await bcrypt.compare(password, user.password);
       const passwordMatch = await verifyPassword(password, user.password);
 
       if (passwordMatch) {
@@ -134,7 +132,6 @@ export const logout = async (req: Request, res: Response) => {
         path: "/",
       });
 
-      // Respond with a success message
       res.status(200).json({
         status: "success",
         message: "Logged out successfully",

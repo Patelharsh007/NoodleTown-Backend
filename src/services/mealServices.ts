@@ -8,7 +8,7 @@ export const getMealById = async (id: string) => {
     relations: ["restaurant"],
     select: {
       restaurant: {
-        title: true, // Assuming 'name' is the column for the restaurant name
+        title: true,
       },
     },
   });
@@ -23,8 +23,8 @@ export const weatherMeals = async () => {
 export const getRandomNMeals = async (n: string) => {
   const randomMeals = await mealRepository
     .createQueryBuilder("meal")
-    .orderBy("RANDOM()") // PostgreSQL function to randomize the order
-    .limit(n as unknown as number) // Limit the result to 'n' records
+    .orderBy("RANDOM()")
+    .limit(n as unknown as number)
     .getMany();
 
   return randomMeals;
@@ -64,7 +64,6 @@ export const getMenuCategories = async (id: string) => {
   return categoryCount;
 };
 
-//Return unique categories and its count
 export const getMenu = async (id: string, categoryFilter: string) => {
   if (categoryFilter === undefined) {
     return await mealRepository.find({

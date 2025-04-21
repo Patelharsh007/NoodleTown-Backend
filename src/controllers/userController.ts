@@ -86,7 +86,6 @@ export const changeProfileImage = async (req: Request, res: Response) => {
   const profileImage = req.file;
 
   try {
-    // Validate the uploaded image
     if (!profileImage) {
       res.status(400).json({
         status: "error",
@@ -95,7 +94,6 @@ export const changeProfileImage = async (req: Request, res: Response) => {
       return;
     }
 
-    // Upload the new image to Cloudinary
     const uploadResult = await uploadBufferToCloudinary(
       profileImage.buffer,
       "profile_pictures"
@@ -108,7 +106,7 @@ export const changeProfileImage = async (req: Request, res: Response) => {
       });
       return;
     }
-    // Update the user's profile image URL in the database
+
     const updatedUser = await updateUserProfileImage(
       userId,
       uploadResult.secure_url

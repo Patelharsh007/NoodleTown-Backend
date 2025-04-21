@@ -1,5 +1,4 @@
 import express from "express";
-
 import { authenticateUserMiddleware } from "../../middlewares/authenticateUserMiddleware";
 import {
   getAddresses,
@@ -18,9 +17,6 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 const router = express.Router();
 
-// router.use(authenticateUserMiddleware);
-
-// router.get("/all", verifyTokenMiddleware, getUsers);
 router.get("/verifyUser", authenticateUserMiddleware, verifyUser);
 
 router.use(authenticateUserMiddleware);
@@ -28,6 +24,7 @@ router.use(authenticateUserMiddleware);
 //update password
 router.post("/updatePassword", updatePassword);
 
+//update profile pic
 router.post(
   "/changeProfileImage",
   upload.single("profileImage"),
