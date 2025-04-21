@@ -34,7 +34,7 @@ router.post(
 
       try {
         await handleSuccessfulPayment(session);
-        console.log(`✅ Order created successfully for session ${session.id}`);
+        console.log(`Order created successfully for session ${session.id}`);
         res.status(200).send("Order created successfully");
       } catch (err: any) {
         console.error("Error creating order:", err.message);
