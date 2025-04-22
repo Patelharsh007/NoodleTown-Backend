@@ -26,9 +26,11 @@ export const getCartData = async (req: Request, res: Response) => {
           cartItem,
         });
       } else {
-        res
-          .status(404)
-          .json({ status: "error", message: "No cart data found." });
+        res.status(200).json({
+          status: "success",
+          message: "No cart data found.",
+          cartItem: [],
+        });
       }
     } catch (error) {
       console.error("Error retrieving data:", error);
@@ -62,7 +64,7 @@ export const getCartMealData = async (req: Request, res: Response) => {
         });
       } else {
         res.status(200).json({
-          status: "error",
+          status: "success",
           message: "Item not found in cart",
           isInCart: false,
         });
