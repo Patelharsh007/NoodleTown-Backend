@@ -41,9 +41,6 @@ export class RestaurantEntity {
   @Column("jsonb")
   menuImages: string[];
 
-  // @Column("jsonb")
-  // categories: string[];
-
   @Column({ type: "boolean" })
   isFeatured: boolean;
 

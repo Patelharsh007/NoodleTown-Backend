@@ -48,7 +48,6 @@ export const validateRegister = async (
   next();
 };
 
-// Middleware to validate login input
 export const validateLogin = async (
   req: Request,
   res: Response,

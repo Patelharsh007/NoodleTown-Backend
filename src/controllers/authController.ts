@@ -21,9 +21,9 @@ export const register = async (req: Request, res: Response) => {
         status: "error",
         message: "Email is already registered.",
       });
+      return;
     }
 
-    // Upload profile image to Cloudinary
     let profileImageUrl: string | undefined;
     if (profileImage) {
       const uploadResult = await uploadBufferToCloudinary(
@@ -33,11 +33,8 @@ export const register = async (req: Request, res: Response) => {
       profileImageUrl = uploadResult.secure_url;
     }
 
-    // Hash the password
     const hashPassword = await encryptPassword(password);
 
-    // Create a new user
-    // console.log("profile url", profileImageUrl);
     const user = await createNewUser({
       userName,
       email,
@@ -68,7 +65,6 @@ export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   try {
-    //find user with email
     const user = await findUserByEmail(email);
 
     if (user) {
@@ -124,7 +120,6 @@ export const login = async (req: Request, res: Response) => {
 export const logout = async (req: Request, res: Response) => {
   {
     try {
-      // Clear the access_token cookie
       res.clearCookie("access_token", {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",

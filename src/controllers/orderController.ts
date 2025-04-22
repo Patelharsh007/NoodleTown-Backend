@@ -1,5 +1,3 @@
-//payment for order
-
 import { Request, Response } from "express";
 import { getCartbyUser, emptyCart } from "../services/cartServices";
 import {
@@ -74,7 +72,6 @@ export const createOrderAndPayment = async (req: Request, res: Response) => {
       return;
     }
 
-    // Create temporary order data without saving to database
     const orderData = {
       userId,
       addressId,
@@ -84,10 +81,9 @@ export const createOrderAndPayment = async (req: Request, res: Response) => {
         (acc, item) => acc + item.meal.price * item.quantity,
         0
       ),
-      delivery: 40, // default delivery fee
+      delivery: 40,
     };
 
-    // Create payment session with temporary order data
     const { session } = await createPaymentSession(userId, orderData);
 
     res.status(200).json({

@@ -10,7 +10,6 @@ export const getCartbyUser = async (userId: number) => {
 
 export const getCartMealbyUser = async (mealId: string, userId: number) => {
   return await cartRepository.findOne({
-    // where: { email: email, mealId: mealId },
     where: { user: { id: userId } },
     relations: ["meal"],
   });

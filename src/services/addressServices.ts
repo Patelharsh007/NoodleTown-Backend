@@ -73,11 +73,11 @@ export const updateUserAddress = async (
     return "duplicate";
   }
 
-  // Update the address fields
   Object.assign(address, updatedFields);
 
   return await addressRepository.save(address);
 };
+
 //delete address
 export const deleteUserAddress = async (userId: number, addressId: string) => {
   const address = await addressRepository.findOne({

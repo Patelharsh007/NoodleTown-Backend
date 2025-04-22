@@ -1,8 +1,5 @@
-import {
-  addressRepository,
-  userRepository,
-} from "../repositories/dataRepositories";
-import { Address, User } from "../types/type";
+import { userRepository } from "../repositories/dataRepositories";
+
 import {
   deleteImageFromCloudinary,
   extractPublicIdFromUrl,
@@ -40,8 +37,6 @@ export const updateUserProfileImage = async (
       console.error("Error deleting old profile image:", error);
     }
   }
-
-  // Update with new image URL
   user.profileImage = newProfileImageUrl;
   await userRepository.save(user);
   return user;

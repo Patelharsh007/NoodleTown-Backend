@@ -24,7 +24,7 @@ export class UserEntity {
   password: string;
 
   @Column({ type: "varchar", length: 255, nullable: true })
-  profileImage: string; // Cloudinary image URL
+  profileImage: string;
 
   @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
   @Index()

@@ -1,6 +1,5 @@
 import { IsEmail, IsNotEmpty, MinLength } from "class-validator";
 
-//validators for register
 export class RegisterValidation {
   @MinLength(3, { message: "Username must be at least 3 characters long." })
   @IsNotEmpty({ message: "Username is required." })
@@ -15,7 +14,6 @@ export class RegisterValidation {
   password: string;
 }
 
-//validators for login
 export class LoginValidation {
   @IsEmail({}, { message: "Please provide a valid email address." })
   @IsNotEmpty()

@@ -22,7 +22,7 @@ export const placeOrder = async (
   discount: number,
   addressId: UUID
 ) => {
-  const delivery = 40; //default from forntend
+  const delivery = 40;
 
   const cartItems = await getCartbyUser(userId);
 

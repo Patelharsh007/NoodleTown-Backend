@@ -198,7 +198,7 @@ export const decrementItem = async (req: Request, res: Response) => {
       const data = await findCartByMealAndUser(mealId, userId);
       if (data) {
         if (data.quantity === 1) {
-          await removeCartItem(mealId, userId); // Remove meal from record
+          await removeCartItem(mealId, userId);
           res.status(200).json({
             status: "success",
             message: "Item removed from cart.",

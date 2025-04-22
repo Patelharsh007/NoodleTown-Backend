@@ -43,13 +43,10 @@ export const getMenuCategories = async (id: string) => {
     return [];
   }
 
-  //all distinct categories
   const uniqueCategories = meals.map((meal) => meal.category);
 
-  //added recommended for popular meals
   const categories = [...new Set(["Recommended"].concat(uniqueCategories))];
 
-  //counts of meal per category
   const categoryCount = categories.map((category) => {
     if (category === "Recommended") {
       return { category, count: meals.filter((meal) => meal.isPopular).length };
@@ -89,10 +86,8 @@ export const getCarosuelCategories = async () => {
     return [];
   }
 
-  //added recommended for popular meals
   const Categories = [...new Set(meals.map((meal) => meal.category))];
 
-  //counts of meal per category
   const categoryCount = Categories.map((category) => {
     return {
       category,
@@ -100,7 +95,6 @@ export const getCarosuelCategories = async () => {
     };
   });
 
-  //sorting in descending and geeting top 5
   const carouselCategory = categoryCount
     .sort((a, b) => b.count - a.count)
     .slice(0, 5)
@@ -120,7 +114,7 @@ export const getCarosuelItems = async (category: string) => {
       relations: ["restaurant"],
       select: {
         restaurant: {
-          title: true, // Assuming 'name' is the column for the restaurant name
+          title: true,
         },
       },
     });

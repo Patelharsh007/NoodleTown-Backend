@@ -25,7 +25,6 @@ export const createPaymentSession = async (
 ) => {
   const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
-  // 1. Add all cart items with correct price
   for (const item of orderData.cartItems) {
     lineItems.push({
       price_data: {
@@ -40,7 +39,6 @@ export const createPaymentSession = async (
     });
   }
 
-  // 2. Add delivery fee
   if (orderData.delivery > 0) {
     lineItems.push({
       price_data: {
@@ -54,7 +52,6 @@ export const createPaymentSession = async (
     });
   }
 
-  // 3. Apply discount as a negative line item
   let couponId: string | undefined = undefined;
 
   if (orderData.discount > 0) {
@@ -122,14 +119,11 @@ export const handleSuccessfulPayment = async (
   const userId = parseInt(session.metadata?.userId || "0");
   const addressId = session.metadata?.addressId || "";
   const discount = parseFloat(session.metadata?.discount || "0");
-  const subTotal = parseFloat(session.metadata?.subTotal || "0");
-  const delivery = parseFloat(session.metadata?.delivery || "0");
 
   if (!userId || !addressId) {
     throw new Error("Missing required metadata in session");
   }
 
-  // Create the order only after successful payment
   const order = await placeOrder(
     userId,
     discount,
@@ -137,15 +131,11 @@ export const handleSuccessfulPayment = async (
   );
   const orderItems = await setOrderItems(order, userId);
 
-  // Update order with payment details
   order.stripePaymentId = session.id;
   order.status = "processing";
   order.paymentStatus = "completed";
   await orderRepository.save(order);
-
-  // Clear the cart
   await emptyCart(userId);
-
   return { order, orderItems };
 };
 

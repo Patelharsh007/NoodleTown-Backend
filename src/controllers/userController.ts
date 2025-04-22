@@ -25,7 +25,6 @@ export const verifyUser = async (req: Request, res: Response) => {
   }
 };
 
-// update password
 export const updatePassword = async (req: Request, res: Response) => {
   const { currentPassword, newPassword, confirmNew } = req.body;
   const userId = req.user?.id;
@@ -80,7 +79,6 @@ export const updatePassword = async (req: Request, res: Response) => {
   }
 };
 
-//update profile pic
 export const changeProfileImage = async (req: Request, res: Response) => {
   const userId = req.user?.id as number;
   const profileImage = req.file;

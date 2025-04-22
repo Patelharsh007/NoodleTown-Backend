@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { restaurants } from "../data/restaurantsData";
 import {
   getBrands,
-  // getFilteredMenu,
   getRestaurantById,
   getRestaurantMeal,
   getSearchResult,
@@ -63,7 +62,6 @@ export const restaurantbyID = async (req: Request, res: Response) => {
 export const uploadData = async (req: Request, res: Response) => {
   const data = restaurants;
   try {
-    // Insert all the data in one go
     const result = await restaurantRepository.insert(data);
 
     console.log(`${result.identifiers.length} records inserted.`);

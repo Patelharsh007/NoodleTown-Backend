@@ -1,12 +1,10 @@
-import { title } from "process";
 import { restaurantRepository } from "../repositories/dataRepositories";
-import { Brackets, ILike } from "typeorm";
-import { RestaurantEntity } from "../entities/Restaurant";
+import { Brackets } from "typeorm";
 
 //get brands for brand page
 export const getBrands = async () => {
   const restaurants = await restaurantRepository.find({
-    select: ["restaurantId", "logo", "title"], // Specify the columns to fetch
+    select: ["restaurantId", "logo", "title"],
   });
   return restaurants;
 };
@@ -47,13 +45,10 @@ export const getMenuCategories = async (id: string) => {
     return [];
   }
 
-  //all distinct categories
   const uniqueCategories = restaurant[0].meals.map((meal) => meal.category);
 
-  //added recommended for popular meals
   const categories = [...new Set(["Recommended"].concat(uniqueCategories))];
 
-  //counts of meal per category
   const categoryCount = categories.map((category) => {
     if (category === "Recommended") {
       return {
