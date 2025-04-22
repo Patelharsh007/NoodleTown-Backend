@@ -105,7 +105,7 @@ export const login = async (req: Request, res: Response) => {
         });
       } else {
         res
-          .status(401)
+          .status(400)
           .json({ status: "success", message: "Incorrect password entered" });
       }
     } else {
