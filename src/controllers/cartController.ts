@@ -146,85 +146,158 @@ export const removeFromCart = async (req: Request, res: Response) => {
   }
 };
 
+// export const incrementItem = async (req: Request, res: Response) => {
+//   const mealId = req.params.id;
+//   // const userEmail = req.user?.email;
+//   const userId = req.user?.id;
+
+//   if (mealId && userId) {
+//     try {
+//       const data = await findCartByMealAndUser(mealId, userId);
+//       if (data) {
+//         if (data.quantity >= 5) {
+//           res.status(400).json({
+//             status: "error",
+//             message: "Item quantity cannot exceed limit of 5.",
+//           });
+//         } else {
+//           const updatedData = await incrementCartItem(mealId, userId);
+//           res.status(200).json({
+//             status: "success",
+//             message: "Item incremented in cart successfully.",
+//             updatedData,
+//           });
+//         }
+//       } else {
+//         res.status(404).json({
+//           status: "error",
+//           message: "Item not found in cart",
+//         });
+//       }
+//       return;
+//     } catch (error) {
+//       res.status(500).json({
+//         status: "error",
+//         message: "Internal Server error.",
+//       });
+//       return;
+//     }
+//   } else {
+//     res.status(400).json({ status: "error", message: "No mealId provided." });
+//     return;
+//   }
+// };
+
 export const incrementItem = async (req: Request, res: Response) => {
   const mealId = req.params.id;
-  // const userEmail = req.user?.email;
   const userId = req.user?.id;
 
-  if (mealId && userId) {
-    try {
-      const data = await findCartByMealAndUser(mealId, userId);
-      if (data) {
-        if (data.quantity >= 5) {
-          res.status(400).json({
-            status: "error",
-            message: "Item quantity cannot exceed limit of 5.",
-          });
-        } else {
-          const updatedData = await incrementCartItem(mealId, userId);
-          res.status(200).json({
-            status: "success",
-            message: "Item incremented in cart successfully.",
-            updatedData,
-          });
-        }
-      } else {
-        res.status(404).json({
-          status: "error",
-          message: "Item not found in cart",
-        });
-      }
-      return;
-    } catch (error) {
-      res.status(500).json({
+  if (!mealId || !userId) {
+    res.status(400).json({ status: "error", message: "Invalid request data." });
+    return;
+  }
+
+  try {
+    const updatedData = await incrementCartItem(mealId, userId);
+
+    if (!updatedData) {
+      res.status(400).json({
         status: "error",
-        message: "Internal Server error.",
+        message: "Item not found in cart.",
       });
       return;
     }
-  } else {
-    res.status(400).json({ status: "error", message: "No mealId provided." });
-    return;
+    if (updatedData === 5) {
+      res.status(400).json({
+        status: "error",
+        message: "Item cannot exceed maximum quantity limit",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      status: "success",
+      message: "Item incremented in cart successfully.",
+      updatedData,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: "Internal Server Error",
+    });
   }
 };
 
+// export const decrementItem = async (req: Request, res: Response) => {
+//   const mealId = req.params.id;
+//   // const userEmail = req.user?.email;
+//   const userId = req.user?.id;
+
+//   if (mealId && userId) {
+//     try {
+//       const data = await findCartByMealAndUser(mealId, userId);
+//       if (data) {
+//         if (data.quantity === 1) {
+//           await removeCartItem(mealId, userId);
+//           res.status(200).json({
+//             status: "success",
+//             message: "Item removed from cart.",
+//           });
+//         } else {
+//           const updatedData = await decrementCartItem(mealId, userId);
+//           res.status(200).json({
+//             status: "success",
+//             message: "Item decremented in cart successfully.",
+//             updatedData,
+//           });
+//         }
+//       } else {
+//         res.status(404).json({
+//           status: "error",
+//           message: "Item not found in cart",
+//         });
+//       }
+//     } catch (error) {
+//       res.status(500).json({
+//         status: "error",
+//         message: "Internal Server error.",
+//       });
+//     }
+//   } else {
+//     res.status(400).json({ status: "error", message: "No mealId provided." });
+//   }
+// };
+
 export const decrementItem = async (req: Request, res: Response) => {
   const mealId = req.params.id;
-  // const userEmail = req.user?.email;
   const userId = req.user?.id;
 
-  if (mealId && userId) {
-    try {
-      const data = await findCartByMealAndUser(mealId, userId);
-      if (data) {
-        if (data.quantity === 1) {
-          await removeCartItem(mealId, userId);
-          res.status(200).json({
-            status: "success",
-            message: "Item removed from cart.",
-          });
-        } else {
-          const updatedData = await decrementCartItem(mealId, userId);
-          res.status(200).json({
-            status: "success",
-            message: "Item decremented in cart successfully.",
-            updatedData,
-          });
-        }
-      } else {
-        res.status(404).json({
-          status: "error",
-          message: "Item not found in cart",
-        });
-      }
-    } catch (error) {
-      res.status(500).json({
-        status: "error",
-        message: "Internal Server error.",
+  if (!mealId || !userId) {
+    res.status(400).json({ status: "error", message: "Invalid request data." });
+    return;
+  }
+
+  try {
+    const updatedData = await decrementCartItem(mealId, userId);
+
+    if (updatedData === null) {
+      res.status(200).json({
+        status: "success",
+        message: "Item removed from cart.",
       });
+      return;
     }
-  } else {
-    res.status(400).json({ status: "error", message: "No mealId provided." });
+
+    res.status(200).json({
+      status: "success",
+      message: "Item decremented in cart successfully.",
+      updatedData,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: "Internal Server Error.",
+    });
   }
 };
 
