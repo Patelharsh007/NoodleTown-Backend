@@ -6,8 +6,8 @@ const PROCESSING_TO_SHIPPED_TIME = 5; // minutes
 const SHIPPED_TO_DELIVERED_TIME = 30; // minutes
 
 export const scheduleOrderStatusUpdates = () => {
-  // Run every minute
-  cron.schedule("* * * * *", async () => {
+  // Run every 5 minute
+  cron.schedule("*/5 * * * *", async () => {
     try {
       const now = new Date();
 
