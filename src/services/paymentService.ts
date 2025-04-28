@@ -4,6 +4,7 @@ import { orderRepository } from "../repositories/dataRepositories";
 import { OrderItemEntity } from "../entities/OrderItem";
 import { placeOrder, setOrderItems } from "./orderServices";
 import { emptyCart } from "./cartServices";
+import { UUID } from "crypto";
 
 if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error(
@@ -124,13 +125,8 @@ export const handleSuccessfulPayment = async (
     throw new Error("Missing required metadata in session");
   }
 
-  const order = await placeOrder(
-    userId,
-    discount,
-    addressId as `${string}-${string}-${string}-${string}-${string}`
-  );
+  const order = await placeOrder(userId, discount, addressId as UUID);
   const orderItems = await setOrderItems(order, userId);
-
   order.stripePaymentId = session.id;
   order.status = "processing";
   order.paymentStatus = "completed";
@@ -141,6 +137,5 @@ export const handleSuccessfulPayment = async (
 
 export const verifyPaymentSession = async (sessionId: string) => {
   const session = await stripe.checkout.sessions.retrieve(sessionId);
-
   return session;
 };
