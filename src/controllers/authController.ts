@@ -12,7 +12,7 @@ import { uploadBufferToCloudinary } from "../services/cloudinaryService";
 import { User } from "../types/type";
 
 export const register = async (req: Request, res: Response) => {
-  const { userName, email, password }: User = req.body;
+  const { user_name, email, password }: User = req.body;
   const profileImage = req.file;
   try {
     const existingUser = await findUserByEmail(email);
@@ -36,7 +36,7 @@ export const register = async (req: Request, res: Response) => {
     const hashPassword = await encryptPassword(password);
 
     const user = await createNewUser({
-      userName,
+      user_name,
       email,
       password: hashPassword,
       profile_image: profileImageUrl,
@@ -49,7 +49,7 @@ export const register = async (req: Request, res: Response) => {
         id: user.id,
         userName: user.user_name,
         email: user.email,
-        profileImage: user.profile_image,
+        profile_image: user.profile_image,
       },
     });
   } catch (error) {

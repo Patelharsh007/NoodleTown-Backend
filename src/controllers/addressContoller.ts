@@ -69,12 +69,12 @@ export const addAddress = async (req: Request, res: Response) => {
       });
       return;
     }
-    console.log("user", user);
-    const userWithUserName = {
-      ...user,
-      userName: user.user_name || "defaultUserName",
-    };
-    const newAddress = await addUserAddress(userWithUserName, address);
+    // console.log("user", user);
+    // const userWithUserName = {
+    //   ...user,
+    //   userName: user.user_name || "defaultUserName",
+    // };
+    const newAddress = await addUserAddress(user, address);
 
     if (!newAddress) {
       res.status(400).json({

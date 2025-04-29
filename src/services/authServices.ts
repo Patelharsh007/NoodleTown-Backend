@@ -23,13 +23,13 @@ export const findUserById = async (userId: number) => {
 };
 
 export const createNewUser = async ({
-  userName,
+  user_name,
   email,
   password,
   profile_image,
 }: User) => {
   const newUser = userRepository.create({
-    user_name: userName,
+    user_name,
     email,
     password,
     profile_image,

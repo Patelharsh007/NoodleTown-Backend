@@ -17,13 +17,13 @@ export class UserEntity {
   @Column({ type: "varchar", length: 255, nullable: false })
   user_name: string;
 
-  @Column({ type: "varchar", length: 255, unique: true, nullable: false })
+  @Column({ type: "varchar", length: 255, unique: false })
   email: string;
 
   @Column({ type: "varchar", length: 255, nullable: false })
   password: string;
 
-  @Column({ type: "varchar", length: 255, nullable: true })
+  @Column({ type: "varchar", length: 255 })
   profile_image: string;
 
   @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
