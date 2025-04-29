@@ -21,10 +21,10 @@ export class OrderEntity {
   status: string;
 
   @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-  orderedAt: Date;
+  ordered_at: Date;
 
   @Column()
-  subTotal: number;
+  sub_total: number;
 
   @Column()
   discount: number;
@@ -37,7 +37,7 @@ export class OrderEntity {
 
   @Column("jsonb")
   address: {
-    recipientName: string;
+    name: string;
     street: string;
     city: string;
     state: string;
@@ -54,13 +54,13 @@ export class OrderEntity {
   })
   items: OrderItemEntity[];
 
-  @Column({ type: "varchar", unique: true })
-  stripePaymentId: string;
+  @Column({ type: "varchar", unique: true, nullable: true })
+  stripe_payment_id: string;
 
   @Column({
     type: "enum",
     enum: ["pending", "completed", "failed"],
     default: "pending",
   })
-  paymentStatus: string;
+  payment_status: string;
 }

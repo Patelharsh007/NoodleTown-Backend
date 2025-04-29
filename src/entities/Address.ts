@@ -7,22 +7,14 @@ import {
 } from "typeorm";
 import { UserEntity } from "./User";
 
-@Unique([
-  "user",
-  "recipientName",
-  "street",
-  "city",
-  "state",
-  "pincode",
-  "country",
-])
+@Unique(["user", "name", "street", "city", "state", "pincode", "country"])
 @Entity({ name: "addresses" })
 export class AddressEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Column()
-  recipientName: string;
+  name: string;
 
   @Column()
   street: string;

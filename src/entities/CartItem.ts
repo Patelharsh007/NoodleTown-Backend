@@ -22,6 +22,6 @@ export class CartItemEntity {
   @JoinColumn({ name: "mealId", referencedColumnName: "mealId" })
   meal: MealEntity;
 
-  @ManyToOne(() => UserEntity, (user) => user.cartItems)
+  @ManyToOne(() => UserEntity, (user) => user.cart_items)
   user: UserEntity;
 }
