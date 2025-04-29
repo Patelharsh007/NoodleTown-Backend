@@ -23,7 +23,7 @@ export class UserEntity {
   @Column({ type: "varchar", length: 255, nullable: false })
   password: string;
 
-  @Column({ type: "varchar", length: 255, nullable: false })
+  @Column({ type: "varchar", length: 255, nullable: true })
   profile_image: string;
 
   @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
