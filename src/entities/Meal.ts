@@ -17,10 +17,10 @@ export class MealEntity {
   mealId: string;
 
   @Column({ type: "varchar" })
-  restaurantId: string;
+  restaurant_id: string;
 
   @ManyToOne(() => RestaurantEntity, (restaurant) => restaurant.meals)
-  @JoinColumn({ name: "restaurantId", referencedColumnName: "restaurantId" })
+  @JoinColumn({ name: "restaurantId", referencedColumnName: "restaurant_id" })
   restaurant: RestaurantEntity;
 
   @OneToMany(() => CartItemEntity, (cartItem) => cartItem.meal)

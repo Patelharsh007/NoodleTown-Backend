@@ -7,7 +7,7 @@ export class RestaurantEntity {
   id: number;
 
   @Column({ type: "varchar", unique: true })
-  restaurantId: string;
+  restaurant_id: string;
 
   @OneToMany(() => MealEntity, (meal) => meal.restaurant, {
     cascade: ["remove"],
@@ -21,28 +21,28 @@ export class RestaurantEntity {
   logo: string;
 
   @Column("jsonb")
-  posterImages: string[];
+  poster_images: string[];
 
   @Column("jsonb")
   cuisines: string[];
 
   @Column({ type: "decimal", precision: 10, scale: 2 })
-  avgCostPerPerson: number;
+  avg_cost_per_person: number;
 
   @Column({ type: "varchar", length: 500 })
   address: string;
 
   @Column({ type: "boolean" })
-  isOpen: boolean;
+  is_open: boolean;
 
   @Column({ type: "varchar", length: 255 })
   timing: string;
 
   @Column("jsonb")
-  menuImages: string[];
+  menu_images: string[];
 
   @Column({ type: "boolean" })
-  isFeatured: boolean;
+  is_featured: boolean;
 
   @Column({ type: "decimal", precision: 3, scale: 2 })
   rating: number;
