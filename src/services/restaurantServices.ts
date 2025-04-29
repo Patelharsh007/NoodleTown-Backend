@@ -4,7 +4,7 @@ import { Brackets } from "typeorm";
 //get brands for brand page
 export const getBrands = async () => {
   const restaurants = await restaurantRepository.find({
-    select: ["restaurant_id", "logo", "title"],
+    select: ["id", "logo", "title"],
   });
   return restaurants;
 };
@@ -13,7 +13,7 @@ export const getBrands = async () => {
 export const getRestaurantById = async (id: string) => {
   const restaurantDetail = await restaurantRepository.findOne({
     where: {
-      restaurant_id: id,
+      id: id,
     },
   });
   return restaurantDetail;
@@ -23,10 +23,10 @@ export const getRestaurantById = async (id: string) => {
 export const getRestaurantMeal = async (id: string) => {
   const restaurantDetail = await restaurantRepository.find({
     where: {
-      restaurant_id: id,
+      id: id,
     },
     relations: ["meals"],
-    select: ["restaurant_id", "meals"],
+    select: ["id", "meals"],
   });
   return restaurantDetail;
 };
@@ -35,10 +35,10 @@ export const getRestaurantMeal = async (id: string) => {
 export const getMenuCategories = async (id: string) => {
   const restaurant = await restaurantRepository.find({
     where: {
-      restaurant_id: id,
+      id: id,
     },
     relations: ["meals"],
-    select: ["restaurant_id", "meals"],
+    select: ["id", "meals"],
   });
 
   if (restaurant.length === 0) {
@@ -53,7 +53,7 @@ export const getMenuCategories = async (id: string) => {
     if (category === "Recommended") {
       return {
         category,
-        count: restaurant[0].meals.filter((meal) => meal.isPopular).length,
+        count: restaurant[0].meals.filter((meal) => meal.is_popular).length,
       };
     } else {
       return {
