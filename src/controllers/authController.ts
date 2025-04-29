@@ -12,7 +12,7 @@ import { uploadBufferToCloudinary } from "../services/cloudinaryService";
 import { User } from "../types/type";
 
 export const register = async (req: Request, res: Response) => {
-  const { userName, email, password }: User = req.body;
+  const { user_name, email, password }: User = req.body;
   const profileImage = req.file;
   try {
     const existingUser = await findUserByEmail(email);
@@ -36,10 +36,10 @@ export const register = async (req: Request, res: Response) => {
     const hashPassword = await encryptPassword(password);
 
     const user = await createNewUser({
-      userName,
+      user_name,
       email,
       password: hashPassword,
-      profileImage: profileImageUrl,
+      profile_image: profileImageUrl,
     });
 
     res.status(201).json({
@@ -47,9 +47,9 @@ export const register = async (req: Request, res: Response) => {
       message: "User Registered Successfully.",
       user: {
         id: user.id,
-        userName: user.userName,
+        userName: user.user_name,
         email: user.email,
-        profileImage: user.profileImage,
+        profileImage: user.profile_image,
       },
     });
   } catch (error) {
@@ -70,9 +70,9 @@ export const login = async (req: Request, res: Response) => {
     if (user) {
       const logUser = {
         id: user.id,
-        userName: user.userName,
+        userName: user.user_name,
         email: user.email,
-        profileImage: user.profileImage,
+        profileImage: user.profile_image,
       };
 
       const passwordMatch = await verifyPassword(password, user.password);
