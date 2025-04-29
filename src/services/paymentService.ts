@@ -40,18 +40,18 @@ export const createPaymentSession = async (
     });
   }
 
-  if (orderData.delivery > 0) {
-    lineItems.push({
-      price_data: {
-        currency: "inr",
-        product_data: {
-          name: "Delivery Charges",
-        },
-        unit_amount: orderData.delivery * 100,
-      },
-      quantity: 1,
-    });
-  }
+  // if (orderData.delivery > 0) {
+  //   lineItems.push({
+  //     price_data: {
+  //       currency: "inr",
+  //       product_data: {
+  //         name: "Delivery Charges",
+  //       },
+  //       unit_amount: orderData.delivery * 100,
+  //     },
+  //     quantity: 1,
+  //   });
+  // }
 
   let couponId: string | undefined = undefined;
 
