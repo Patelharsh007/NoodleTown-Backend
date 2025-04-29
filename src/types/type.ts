@@ -1,9 +1,9 @@
 export interface User {
   id?: number;
-  userName: string;
+  user_name: string;
   email: string;
   password: string;
-  profileImage?: string;
+  profile_image?: string;
 }
 
 export interface UserReq {
@@ -14,7 +14,7 @@ export interface UserReq {
 
 export interface Address {
   id?: string;
-  recipientName: string;
+  name: string;
   street: string;
   city: string;
   state: string;
