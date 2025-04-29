@@ -7,7 +7,7 @@ export class OrderItemEntity {
   id: string;
 
   @Column()
-  itemName: string;
+  item_name: string;
 
   @Column()
   image: string;
@@ -19,7 +19,8 @@ export class OrderItemEntity {
   price: number;
 
   @Column()
-  itemTotal: number;
+  item_total: number;
+
   @ManyToOne(() => OrderEntity, (order) => order.items, { onDelete: "CASCADE" })
   order: OrderEntity;
 }

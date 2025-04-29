@@ -74,11 +74,11 @@ export const setOrderItems = async (order: OrderEntity, userId: number) => {
   const orderItems = cartItems.map((item) =>
     orderItemsRepository.create({
       order,
-      itemName: item.meal.title,
+      item_name: item.meal.title,
       image: item.meal.image,
       quantity: item.quantity,
       price: Number(item.meal.price),
-      itemTotal: item.meal.price * item.quantity,
+      item_total: item.meal.price * item.quantity,
     })
   );
 
