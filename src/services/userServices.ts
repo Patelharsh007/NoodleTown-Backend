@@ -27,9 +27,9 @@ export const updateUserProfileImage = async (
     throw new Error("User not found");
   }
 
-  if (user.profileImage) {
+  if (user.profile_image) {
     try {
-      const oldPublicId = extractPublicIdFromUrl(user.profileImage);
+      const oldPublicId = extractPublicIdFromUrl(user.profile_image);
       if (oldPublicId) {
         await deleteImageFromCloudinary(oldPublicId);
       }
@@ -37,7 +37,7 @@ export const updateUserProfileImage = async (
       console.error("Error deleting old profile image:", error);
     }
   }
-  user.profileImage = newProfileImageUrl;
+  user.profile_image = newProfileImageUrl;
   await userRepository.save(user);
   return user;
 };
