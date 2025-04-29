@@ -12,14 +12,14 @@ export class CartItemEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  mealId: string;
+  // @Column()
+  // meal_id: string;
 
   @Column({ default: 1 })
   quantity: number;
 
-  @ManyToOne(() => MealEntity, (meal) => meal.cartItems)
-  @JoinColumn({ name: "mealId", referencedColumnName: "mealId" })
+  @ManyToOne(() => MealEntity, (meal) => meal.cart_items)
+  // @JoinColumn({ name: "mealId", referencedColumnName: "mealId" })
   meal: MealEntity;
 
   @ManyToOne(() => UserEntity, (user) => user.cart_items)
