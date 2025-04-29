@@ -1,13 +1,19 @@
-import { Column, PrimaryGeneratedColumn, Entity, OneToMany } from "typeorm";
+import {
+  Column,
+  PrimaryGeneratedColumn,
+  Entity,
+  OneToMany,
+  PrimaryColumn,
+} from "typeorm";
 import { MealEntity } from "./Meal";
 
 @Entity({ name: "restaurants" })
 export class RestaurantEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  // @PrimaryGeneratedColumn()
+  // id: number;
 
-  @Column({ type: "varchar", unique: true })
-  restaurant_id: string;
+  @PrimaryColumn({ type: "varchar", unique: true })
+  id: string;
 
   @OneToMany(() => MealEntity, (meal) => meal.restaurant, {
     cascade: ["remove"],
