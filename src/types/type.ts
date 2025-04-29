@@ -3,7 +3,7 @@ export interface User {
   userName: string;
   email: string;
   password: string;
-  profileImage?: string;
+  profile_image?: string;
 }
 
 export interface UserReq {
