@@ -34,9 +34,9 @@ export const getRandomNMeals = async (n: string) => {
 export const getMenuCategories = async (id: string) => {
   const meals = await mealRepository.find({
     where: {
-      restaurantId: id,
+      restaurant_id: id,
     },
-    select: ["restaurantId", "category", "isPopular"],
+    select: ["restaurant_id", "category", "isPopular"],
   });
 
   if (meals.length == 0) {
@@ -65,7 +65,7 @@ export const getMenu = async (id: string, categoryFilter: string) => {
   if (categoryFilter === undefined) {
     return await mealRepository.find({
       where: {
-        restaurantId: id,
+        restaurant_id: id,
         isPopular: true,
       },
     });
@@ -73,7 +73,7 @@ export const getMenu = async (id: string, categoryFilter: string) => {
 
   return await mealRepository.find({
     where: {
-      restaurantId: id,
+      restaurant_id: id,
       category: categoryFilter,
     },
   });
