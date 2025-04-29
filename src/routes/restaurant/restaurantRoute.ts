@@ -13,7 +13,7 @@ import {
 const router = express.Router();
 
 // Just to upload data to neondb
-// router.post("/uploadData", uploadData);
+router.post("/uploadData", uploadData);
 
 //get top brands for menu page
 router.get("/topbrands", topbrands);
