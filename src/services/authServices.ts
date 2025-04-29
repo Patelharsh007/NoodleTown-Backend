@@ -26,13 +26,13 @@ export const createNewUser = async ({
   userName,
   email,
   password,
-  profileImage,
+  profile_image,
 }: User) => {
   const newUser = userRepository.create({
-    userName,
+    user_name: userName,
     email,
     password,
-    profileImage,
+    profile_image,
   });
   return await userRepository.save(newUser);
 };
