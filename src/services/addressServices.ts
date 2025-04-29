@@ -16,7 +16,7 @@ export const addUserAddress = async (user: User, address: Address) => {
   const existingAddress = await addressRepository.findOne({
     where: {
       user: { id: user.id },
-      recipientName: address.recipientName,
+      name: address.name,
       street: address.street,
       city: address.city,
       state: address.state,
@@ -60,7 +60,7 @@ export const updateUserAddress = async (
   const duplicate = await addressRepository.findOne({
     where: {
       user: { id: userId },
-      recipientName: updatedFields.recipientName ?? address.recipientName,
+      name: updatedFields.name ?? address.name,
       street: updatedFields.street ?? address.street,
       city: updatedFields.city ?? address.city,
       state: updatedFields.state ?? address.state,

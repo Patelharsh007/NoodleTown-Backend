@@ -49,20 +49,20 @@ export const placeOrder = async (
   const order = orderRepository.create({
     user,
     status: "pending",
-    subTotal,
+    sub_total: subTotal,
     discount,
     delivery: delivery,
     total,
     address: {
-      recipientName: addressData.recipientName,
+      name: addressData.name,
       street: addressData.street,
       city: addressData.city,
       state: addressData.state,
       country: addressData.country,
       pincode: addressData.pincode,
     },
-    stripePaymentId: "default",
-    paymentStatus: "pending",
+    stripe_payment_id: "default",
+    payment_status: "pending",
   });
 
   return await orderRepository.save(order);
@@ -95,7 +95,7 @@ export const updateOrder = async (orderId: string) => {
   }
 
   order.status = "processing";
-  order.paymentStatus = "completed";
+  order.payment_status = "completed";
 
   await orderRepository.save(order);
 };

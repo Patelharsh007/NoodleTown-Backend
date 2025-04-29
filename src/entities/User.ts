@@ -15,7 +15,7 @@ export class UserEntity {
   id: number;
 
   @Column({ type: "varchar", length: 255, nullable: true })
-  userName: string;
+  user_name: string;
 
   @Column({ type: "varchar", length: 255, unique: true })
   email: string;
@@ -24,23 +24,23 @@ export class UserEntity {
   password: string;
 
   @Column({ type: "varchar", length: 255, nullable: true })
-  profileImage: string;
+  profile_image: string;
 
   @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
   @Index()
-  createdAt: Date;
+  created_at: Date;
 
   @Column({
     type: "timestamp",
     default: () => "CURRENT_TIMESTAMP",
     onUpdate: "CURRENT_TIMESTAMP",
   })
-  updatedAt: Date;
+  updated_at: Date;
 
   @OneToMany(() => CartItemEntity, (cartItem) => cartItem.user, {
     cascade: true,
   })
-  cartItems: CartItemEntity[];
+  cart_items: CartItemEntity[];
 
   @OneToMany(() => OrderEntity, (order) => order.user)
   orders: OrderEntity[];

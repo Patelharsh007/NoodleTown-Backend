@@ -15,12 +15,12 @@ export const scheduleOrderStatusUpdates = () => {
       const processingOrders = await orderRepository.find({
         where: {
           status: "processing",
-          paymentStatus: "completed",
+          payment_status: "completed",
         },
       });
 
       for (const order of processingOrders) {
-        const orderTime = new Date(order.orderedAt);
+        const orderTime = new Date(order.ordered_at);
         const minutesSinceOrder =
           (now.getTime() - orderTime.getTime()) / (1000 * 60);
 
@@ -35,12 +35,12 @@ export const scheduleOrderStatusUpdates = () => {
       const shippedOrders = await orderRepository.find({
         where: {
           status: "shipped",
-          paymentStatus: "completed",
+          payment_status: "completed",
         },
       });
 
       for (const order of shippedOrders) {
-        const orderTime = new Date(order.orderedAt);
+        const orderTime = new Date(order.ordered_at);
         const minutesSinceOrder =
           (now.getTime() - orderTime.getTime()) / (1000 * 60);
 
