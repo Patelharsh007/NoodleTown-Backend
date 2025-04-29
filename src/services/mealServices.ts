@@ -3,7 +3,7 @@ import { mealRepository } from "../repositories/dataRepositories";
 export const getMealById = async (id: string) => {
   const mealDetail = await mealRepository.findOne({
     where: {
-      mealId: id,
+      id: id,
     },
     relations: ["restaurant"],
     select: {
@@ -34,9 +34,16 @@ export const getRandomNMeals = async (n: string) => {
 export const getMenuCategories = async (id: string) => {
   const meals = await mealRepository.find({
     where: {
-      restaurant_id: id,
+      restaurant: { id: id },
     },
-    select: ["restaurant_id", "category", "isPopular"],
+    relations: ["restaurant"],
+    select: {
+      restaurant: {
+        id: true,
+      },
+      category: true,
+      is_popular: true,
+    },
   });
 
   if (meals.length == 0) {
@@ -49,7 +56,10 @@ export const getMenuCategories = async (id: string) => {
 
   const categoryCount = categories.map((category) => {
     if (category === "Recommended") {
-      return { category, count: meals.filter((meal) => meal.isPopular).length };
+      return {
+        category,
+        count: meals.filter((meal) => meal.is_popular).length,
+      };
     } else {
       return {
         category,
@@ -65,15 +75,15 @@ export const getMenu = async (id: string, categoryFilter: string) => {
   if (categoryFilter === undefined) {
     return await mealRepository.find({
       where: {
-        restaurant_id: id,
-        isPopular: true,
+        is_popular: true,
+        restaurant: { id: id },
       },
     });
   }
 
   return await mealRepository.find({
     where: {
-      restaurant_id: id,
+      restaurant: { id: id },
       category: categoryFilter,
     },
   });
