@@ -20,7 +20,7 @@ export class MealEntity {
   restaurant_id: string;
 
   @ManyToOne(() => RestaurantEntity, (restaurant) => restaurant.meals)
-  @JoinColumn({ name: "restaurantId", referencedColumnName: "restaurant_id" })
+  @JoinColumn({ name: "restaurant_id", referencedColumnName: "restaurant_id" })
   restaurant: RestaurantEntity;
 
   @OneToMany(() => CartItemEntity, (cartItem) => cartItem.meal)
