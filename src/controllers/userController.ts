@@ -20,7 +20,7 @@ export const verifyUser = async (req: Request, res: Response) => {
       status: "success",
       message: "User Authenticated",
       user: req.user,
-      profileImage: user.profileImage,
+      profileImage: user.profile_image,
     });
   }
 };
