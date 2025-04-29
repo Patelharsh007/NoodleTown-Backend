@@ -54,7 +54,7 @@ export const placeOrder = async (
     delivery: delivery,
     total,
     address: {
-      recipientName: addressData.recipientName,
+      recipientName: addressData.name,
       street: addressData.street,
       city: addressData.city,
       state: addressData.state,

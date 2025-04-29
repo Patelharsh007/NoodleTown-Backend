@@ -14,7 +14,7 @@ export interface UserReq {
 
 export interface Address {
   id?: string;
-  recipientName: string;
+  name: string;
   street: string;
   city: string;
   state: string;
