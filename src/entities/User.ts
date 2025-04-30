@@ -14,14 +14,16 @@ export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+
   @Column({ type: "varchar", length: 255, nullable: true })
   user_name: string;
 
-  @Column({ type: "varchar", length: 255, unique: true })
+  @Column({ type: "varchar", length: 255, unique: false })
   email: string;
 
-  @Column({ type: "varchar", length: 255 })
+  @Column({ type: "varchar", length: 255, nullable: false })
   password: string;
+
 
   @Column({ type: "varchar", length: 255, nullable: true })
   profile_image: string;

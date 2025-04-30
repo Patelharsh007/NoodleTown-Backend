@@ -49,7 +49,9 @@ export const register = async (req: Request, res: Response) => {
         id: user.id,
         userName: user.user_name,
         email: user.email,
+
         profileImage: user.profile_image,
+
       },
     });
   } catch (error) {

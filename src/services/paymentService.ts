@@ -5,9 +5,11 @@ import { OrderItemEntity } from "../entities/OrderItem";
 import { placeOrder, setOrderItems } from "./orderServices";
 import { emptyCart } from "./cartServices";
 import { UUID } from "crypto";
+
 import { CartItemEntity } from "../entities/CartItem";
 import { PaymentStatus } from "../types/type";
 import { OrderStatus } from "../types/type";
+
 
 if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error(
@@ -42,6 +44,21 @@ export const createPaymentSession = async (
       quantity: item.quantity,
     });
   }
+
+
+  // if (orderData.delivery > 0) {
+  //   lineItems.push({
+  //     price_data: {
+  //       currency: "inr",
+  //       product_data: {
+  //         name: "Delivery Charges",
+  //       },
+  //       unit_amount: orderData.delivery * 100,
+  //     },
+  //     quantity: 1,
+  //   });
+  // }
+
 
   let couponId: string | undefined = undefined;
 
@@ -116,6 +133,7 @@ export const handleSuccessfulPayment = async (
     throw new Error("Missing required metadata in session");
   }
 
+
   const order = await placeOrder(
     userId,
     discount,
@@ -127,6 +145,7 @@ export const handleSuccessfulPayment = async (
   // order.stripe_payment_id = session.id;
   order.status = OrderStatus.PROCESSING;
   order.payment_status = PaymentStatus.COMPLETED;
+
   await orderRepository.save(order);
   await emptyCart(userId);
   // return { order, orderItems };
