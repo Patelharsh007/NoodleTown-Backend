@@ -7,6 +7,17 @@ export const getCartbyUser = async (userId: number) => {
   return await cartRepository.find({
     where: { user: { id: userId } },
     relations: ["meal"],
+    select: {
+      id: true,
+      quantity: true,
+      meal: {
+        id: true,
+        price: true,
+        title: true,
+        image: true,
+        short_description: true,
+      },
+    },
     order: { meal: { title: "ASC" } },
   });
 };
