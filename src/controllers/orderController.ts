@@ -1,11 +1,6 @@
 import { Request, Response } from "express";
 import { getCartbyUser, emptyCart } from "../services/cartServices";
-import {
-  placeOrder,
-  setOrderItems,
-  updateOrder,
-  getOrders,
-} from "../services/orderServices";
+import { getOrders } from "../services/orderServices";
 import {
   createPaymentSession,
   verifyPaymentSession,

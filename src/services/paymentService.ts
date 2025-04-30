@@ -4,6 +4,10 @@ import { orderRepository } from "../repositories/dataRepositories";
 import { OrderItemEntity } from "../entities/OrderItem";
 import { placeOrder, setOrderItems } from "./orderServices";
 import { emptyCart } from "./cartServices";
+import { UUID } from "crypto";
+import { CartItemEntity } from "../entities/CartItem";
+import { PaymentStatus } from "../types/type";
+import { OrderStatus } from "../types/type";
 
 if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error(
@@ -18,7 +22,7 @@ export const createPaymentSession = async (
     userId: number;
     addressId: string;
     discount: number;
-    cartItems: any[];
+    cartItems: CartItemEntity[];
     subTotal: number;
     delivery: number;
   }
@@ -38,19 +42,6 @@ export const createPaymentSession = async (
       quantity: item.quantity,
     });
   }
-
-  // if (orderData.delivery > 0) {
-  //   lineItems.push({
-  //     price_data: {
-  //       currency: "inr",
-  //       product_data: {
-  //         name: "Delivery Charges",
-  //       },
-  //       unit_amount: orderData.delivery * 100,
-  //     },
-  //     quantity: 1,
-  //   });
-  // }
 
   let couponId: string | undefined = undefined;
 
@@ -119,6 +110,7 @@ export const handleSuccessfulPayment = async (
   const userId = parseInt(session.metadata?.userId || "0");
   const addressId = session.metadata?.addressId || "";
   const discount = parseFloat(session.metadata?.discount || "0");
+  const session_id = session.id;
 
   if (!userId || !addressId) {
     throw new Error("Missing required metadata in session");
@@ -127,20 +119,21 @@ export const handleSuccessfulPayment = async (
   const order = await placeOrder(
     userId,
     discount,
-    addressId as `${string}-${string}-${string}-${string}-${string}`
+    addressId as UUID,
+    session_id
   );
   const orderItems = await setOrderItems(order, userId);
 
-  order.stripe_payment_id = session.id;
-  order.status = "processing";
-  order.payment_status = "completed";
+  // order.stripe_payment_id = session.id;
+  order.status = OrderStatus.PROCESSING;
+  order.payment_status = PaymentStatus.COMPLETED;
   await orderRepository.save(order);
   await emptyCart(userId);
-  return { order, orderItems };
+  // return { order, orderItems };
+  return;
 };
 
 export const verifyPaymentSession = async (sessionId: string) => {
   const session = await stripe.checkout.sessions.retrieve(sessionId);
-
   return session;
 };

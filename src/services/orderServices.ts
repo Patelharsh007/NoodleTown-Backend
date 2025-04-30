@@ -8,6 +8,8 @@ import {
 import { getCartbyUser } from "./cartServices";
 import { OrderEntity } from "../entities/Order";
 import { findUserById } from "./authServices";
+import { OrderStatus } from "../types/type";
+import { PaymentStatus } from "../types/type";
 
 export const getOrders = async (userId: number) => {
   return await orderRepository.find({
@@ -20,7 +22,8 @@ export const getOrders = async (userId: number) => {
 export const placeOrder = async (
   userId: number,
   discount: number,
-  addressId: UUID
+  addressId: UUID,
+  session_id: string
 ) => {
   const delivery = 40;
 
@@ -48,7 +51,7 @@ export const placeOrder = async (
 
   const order = orderRepository.create({
     user,
-    status: "pending",
+    status: OrderStatus.PROCESSING,
     sub_total: subTotal,
     discount,
     delivery: delivery,
@@ -61,8 +64,8 @@ export const placeOrder = async (
       country: addressData.country,
       pincode: addressData.pincode,
     },
-    stripe_payment_id: "default",
-    payment_status: "pending",
+    stripe_payment_id: session_id,
+    payment_status: PaymentStatus.COMPLETED,
   });
 
   return await orderRepository.save(order);
@@ -85,17 +88,17 @@ export const setOrderItems = async (order: OrderEntity, userId: number) => {
   return await orderItemsRepository.save(orderItems);
 };
 
-export const updateOrder = async (orderId: string) => {
-  const order = await orderRepository.findOne({
-    where: { id: Number(orderId) },
-  });
+// export const updateOrder = async (orderId: string) => {
+//   const order = await orderRepository.findOne({
+//     where: { id: Number(orderId) },
+//   });
 
-  if (!order) {
-    throw new Error("Order not found");
-  }
+//   if (!order) {
+//     throw new Error("Order not found");
+//   }
 
-  order.status = "processing";
-  order.payment_status = "completed";
+//   order.status = "processing";
+//   order.payment_status = "completed";
 
-  await orderRepository.save(order);
-};
+//   await orderRepository.save(order);
+// };

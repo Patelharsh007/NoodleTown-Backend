@@ -7,6 +7,7 @@ import {
 } from "typeorm";
 import { UserEntity } from "./User";
 import { OrderItemEntity } from "./OrderItem";
+import { OrderStatus, PaymentStatus } from "../types/type";
 
 @Entity({ name: "orders" })
 export class OrderEntity {
@@ -15,7 +16,7 @@ export class OrderEntity {
 
   @Column({
     type: "enum",
-    enum: ["pending", "completed", "cancelled", "processing", "shipped"],
+    enum: OrderStatus,
     default: "pending",
   })
   status: string;
@@ -59,7 +60,7 @@ export class OrderEntity {
 
   @Column({
     type: "enum",
-    enum: ["pending", "completed", "failed"],
+    enum: PaymentStatus,
     default: "pending",
   })
   payment_status: string;
