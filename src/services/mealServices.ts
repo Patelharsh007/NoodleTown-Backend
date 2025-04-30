@@ -16,7 +16,9 @@ export const getMealById = async (id: string) => {
 };
 
 export const weatherMeals = async () => {
-  const mealsDetail = await mealRepository.find();
+  const mealsDetail = await mealRepository.find({
+    select: ["id", "image", "title", "short_description"],
+  });
   return mealsDetail.sort(() => Math.random() - 0.5).slice(0, 6);
 };
 
