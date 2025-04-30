@@ -1,19 +1,26 @@
 import { Request, Response, NextFunction } from "express";
+import * as classValidater from "class-validator";
 import { validate } from "class-validator";
 import {
   LoginValidation,
   RegisterValidation,
 } from "../validations/authValidation";
 
-const formatValidationErrors = (errors: any[]) => {
-  const formattedErrors: any[] = [];
+interface FormattedError {
+  field: string;
+  message: string;
+}
 
-  errors.forEach((error) => {
-    const field = error.property;
-    const constraints = error.constraints;
+const formatValidationErrors = (errors: classValidater.ValidationError[]) => {
+  const formattedErrors: FormattedError[] = [];
+
+  errors.forEach((error: classValidater.ValidationError) => {
+    const field: string = error.property;
+    const constraints: { [type: string]: string } | undefined =
+      error.constraints;
 
     if (constraints) {
-      Object.values(constraints).forEach((message) => {
+      Object.values(constraints).forEach((message: string) => {
         formattedErrors.push({ field, message });
       });
     }

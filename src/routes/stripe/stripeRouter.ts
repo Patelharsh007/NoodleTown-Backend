@@ -23,9 +23,9 @@ router.post(
 
     try {
       event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
-    } catch (err: any) {
-      console.error("Webhook signature error:", err.message);
-      res.status(400).send(`Webhook Error: ${err.message}`);
+    } catch (err) {
+      console.error("Webhook signature error:", (err as Error).message);
+      res.status(400).send(`Webhook Error: ${(err as Error).message}`);
       return;
     }
 
@@ -34,10 +34,10 @@ router.post(
 
       try {
         await handleSuccessfulPayment(session);
-        console.log(`Order created successfully for session ${session.id}`);
+        // console.log(`Order created successfully for session ${session.id}`);
         res.status(200).send("Order created successfully");
-      } catch (err: any) {
-        console.error("Error creating order:", err.message);
+      } catch (err) {
+        // console.error("Error creating order:", (err as Error).message);
         res.status(500).send("Failed to create order");
       }
     } else {
