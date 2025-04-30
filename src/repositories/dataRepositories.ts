@@ -7,6 +7,7 @@ import { CartItemEntity } from "../entities/CartItem";
 import { AddressEntity } from "../entities/Address";
 import { OrderEntity } from "../entities/Order";
 import { OrderItemEntity } from "../entities/OrderItem";
+import { CouponEntity } from "../entities/Coupon";
 
 export const userRepository: Repository<UserEntity> =
   AppDataSource.getRepository(UserEntity);
@@ -28,3 +29,6 @@ export const orderRepository: Repository<OrderEntity> =
 
 export const orderItemsRepository: Repository<OrderItemEntity> =
   AppDataSource.getRepository(OrderItemEntity);
+
+export const couponRepository: Repository<CouponEntity> =
+  AppDataSource.getRepository(CouponEntity);

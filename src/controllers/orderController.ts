@@ -1,11 +1,47 @@
 import { Request, Response } from "express";
 import { getCartbyUser, emptyCart } from "../services/cartServices";
-import { getOrders } from "../services/orderServices";
+import { getCoupon, getOrders } from "../services/orderServices";
 import {
   createPaymentSession,
   verifyPaymentSession,
 } from "../services/paymentService";
 import { UUID } from "crypto";
+
+export const getCouponDiscount = async (req: Request, res: Response) => {
+  const coupon_code = req.body.coupon_code;
+  console.log(coupon_code);
+
+  try {
+    if (!coupon_code) {
+      res.status(400).json({
+        status: "error",
+        message: "Coupon Code not passed",
+      });
+      return;
+    }
+
+    const coupon = await getCoupon(coupon_code);
+    if (!coupon) {
+      res.status(400).json({
+        status: "error",
+        message: "Invalid Coupon Code",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      status: "success",
+      message: "Valid Coupon Code",
+      coupon,
+    });
+  } catch (error) {
+    console.log("error", error);
+    res.status(500).json({
+      status: "error",
+      message: "Internal Server error.",
+    });
+  }
+};
 
 export const getOrdersbyUser = async (req: Request, res: Response) => {
   const userId = req.user?.id as number;

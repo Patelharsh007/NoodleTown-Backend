@@ -2,6 +2,7 @@ import { UUID } from "crypto";
 import {
   addressRepository,
   cartRepository,
+  couponRepository,
   orderItemsRepository,
   orderRepository,
 } from "../repositories/dataRepositories";
@@ -88,17 +89,14 @@ export const setOrderItems = async (order: OrderEntity, userId: number) => {
   return await orderItemsRepository.save(orderItems);
 };
 
-// export const updateOrder = async (orderId: string) => {
-//   const order = await orderRepository.findOne({
-//     where: { id: Number(orderId) },
-//   });
+export const getCoupon = async (coupon_code: string) => {
+  const coupon = await couponRepository.findOne({
+    where: { coupon_code },
+  });
 
-//   if (!order) {
-//     throw new Error("Order not found");
-//   }
+  if (!coupon) {
+    return;
+  }
 
-//   order.status = "processing";
-//   order.payment_status = "completed";
-
-//   await orderRepository.save(order);
-// };
+  return coupon;
+};

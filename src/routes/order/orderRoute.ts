@@ -4,6 +4,7 @@ import {
   createOrderAndPayment,
   verifyStripePayment,
   getOrdersbyUser,
+  getCouponDiscount,
 } from "../../controllers/orderController";
 
 const router = express.Router();
@@ -13,5 +14,6 @@ router.use(authenticateUserMiddleware);
 router.post("/createOrder", createOrderAndPayment);
 router.get("/verifyPayment", verifyStripePayment);
 router.get("/getOrders", getOrdersbyUser);
+router.post("/getCoupons", getCouponDiscount);
 
 export const orderRouter = router;
