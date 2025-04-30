@@ -41,8 +41,14 @@ export class RestaurantEntity {
   @Column({ type: "boolean" })
   is_open: boolean;
 
-  @Column({ type: "varchar", length: 255 })
-  timing: string;
+  // @Column({ type: "varchar", length: 255 })
+  // timing: string;
+
+  @Column({ type: "time", default: "11:00:00" })
+  open_time: string;
+
+  @Column({ type: "time", default: "19:00:00" })
+  close_time: string;
 
   @Column("jsonb")
   menu_images: string[];
