@@ -7,6 +7,7 @@ import {
 } from "typeorm";
 import { UserEntity } from "./User";
 import { OrderItemEntity } from "./OrderItem";
+import { OrderStatus, PaymentStatus } from "../types/type";
 
 @Entity({ name: "orders" })
 export class OrderEntity {
@@ -15,16 +16,16 @@ export class OrderEntity {
 
   @Column({
     type: "enum",
-    enum: ["pending", "completed", "cancelled", "processing", "shipped"],
+    enum: OrderStatus,
     default: "pending",
   })
   status: string;
 
   @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-  orderedAt: Date;
+  ordered_at: Date;
 
   @Column()
-  subTotal: number;
+  sub_total: number;
 
   @Column()
   discount: number;
@@ -37,7 +38,7 @@ export class OrderEntity {
 
   @Column("jsonb")
   address: {
-    recipientName: string;
+    name: string;
     street: string;
     city: string;
     state: string;
@@ -54,13 +55,13 @@ export class OrderEntity {
   })
   items: OrderItemEntity[];
 
-  @Column({ type: "varchar", unique: true })
-  stripePaymentId: string;
+  @Column({ type: "varchar", unique: true, nullable: true })
+  stripe_payment_id: string;
 
   @Column({
     type: "enum",
-    enum: ["pending", "completed", "failed"],
+    enum: PaymentStatus,
     default: "pending",
   })
-  paymentStatus: string;
+  payment_status: string;
 }

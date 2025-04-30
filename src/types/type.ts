@@ -21,3 +21,16 @@ export interface Address {
   pincode: number;
   country: string;
 }
+
+export enum OrderStatus {
+  PENDING = "pending",
+  COMPLETED = "completed",
+  CANCELLED = "cancelled",
+  PROCESSING = "processing",
+  SHIPPED = "shipped",
+}
+export enum PaymentStatus {
+  PENDING = "pending",
+  COMPLETED = "completed",
+  FAILED = "failed",
+}

@@ -3,7 +3,7 @@ import { mealRepository } from "../repositories/dataRepositories";
 export const getMealById = async (id: string) => {
   const mealDetail = await mealRepository.findOne({
     where: {
-      mealId: id,
+      id: id,
     },
     relations: ["restaurant"],
     select: {
@@ -16,7 +16,9 @@ export const getMealById = async (id: string) => {
 };
 
 export const weatherMeals = async () => {
-  const mealsDetail = await mealRepository.find();
+  const mealsDetail = await mealRepository.find({
+    select: ["id", "image", "title", "short_description"],
+  });
   return mealsDetail.sort(() => Math.random() - 0.5).slice(0, 6);
 };
 
@@ -34,9 +36,16 @@ export const getRandomNMeals = async (n: string) => {
 export const getMenuCategories = async (id: string) => {
   const meals = await mealRepository.find({
     where: {
-      restaurantId: id,
+      restaurant: { id: id },
     },
-    select: ["restaurantId", "category", "isPopular"],
+    relations: ["restaurant"],
+    select: {
+      restaurant: {
+        id: true,
+      },
+      category: true,
+      is_popular: true,
+    },
   });
 
   if (meals.length == 0) {
@@ -49,7 +58,10 @@ export const getMenuCategories = async (id: string) => {
 
   const categoryCount = categories.map((category) => {
     if (category === "Recommended") {
-      return { category, count: meals.filter((meal) => meal.isPopular).length };
+      return {
+        category,
+        count: meals.filter((meal) => meal.is_popular).length,
+      };
     } else {
       return {
         category,
@@ -65,15 +77,15 @@ export const getMenu = async (id: string, categoryFilter: string) => {
   if (categoryFilter === undefined) {
     return await mealRepository.find({
       where: {
-        restaurantId: id,
-        isPopular: true,
+        is_popular: true,
+        restaurant: { id: id },
       },
     });
   }
 
   return await mealRepository.find({
     where: {
-      restaurantId: id,
+      restaurant: { id: id },
       category: categoryFilter,
     },
   });

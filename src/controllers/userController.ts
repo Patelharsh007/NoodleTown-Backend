@@ -22,14 +22,6 @@ export const verifyUser = async (req: Request, res: Response) => {
       user: req.user,
       profileImage: user.profile_image,
     });
-    return;
-  } else {
-    res.status(400).json({
-      status: "error",
-      message: "User not found",
-      user: null,
-      profileImage: null,
-    });
   }
 };
 

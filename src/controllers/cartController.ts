@@ -191,6 +191,7 @@ export const removeFromCart = async (req: Request, res: Response) => {
 export const incrementItem = async (req: Request, res: Response) => {
   const mealId = req.params.id;
   const userId = req.user?.id;
+  // console.log("In increment------------------");
 
   if (!mealId || !userId) {
     res.status(400).json({ status: "error", message: "Invalid request data." });

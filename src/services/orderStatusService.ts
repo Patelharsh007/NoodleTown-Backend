@@ -1,6 +1,8 @@
 import cron from "node-cron";
 import { orderRepository } from "../repositories/dataRepositories";
 import { OrderEntity } from "../entities/Order";
+import { OrderStatus } from "../types/type";
+import { PaymentStatus } from "../types/type";
 
 const PROCESSING_TO_SHIPPED_TIME = 5; // minutes
 const SHIPPED_TO_DELIVERED_TIME = 30; // minutes
@@ -14,18 +16,18 @@ export const scheduleOrderStatusUpdates = () => {
       // Update processing orders to shipped
       const processingOrders = await orderRepository.find({
         where: {
-          status: "processing",
-          paymentStatus: "completed",
+          status: OrderStatus.PROCESSING,
+          payment_status: PaymentStatus.COMPLETED,
         },
       });
 
       for (const order of processingOrders) {
-        const orderTime = new Date(order.orderedAt);
+        const orderTime = new Date(order.ordered_at);
         const minutesSinceOrder =
           (now.getTime() - orderTime.getTime()) / (1000 * 60);
 
         if (minutesSinceOrder >= PROCESSING_TO_SHIPPED_TIME) {
-          order.status = "shipped";
+          order.status = OrderStatus.SHIPPED;
           await orderRepository.save(order);
           console.log(`Order ${order.id} status updated to shipped`);
         }
@@ -34,18 +36,18 @@ export const scheduleOrderStatusUpdates = () => {
       // Update shipped orders to delivered
       const shippedOrders = await orderRepository.find({
         where: {
-          status: "shipped",
-          paymentStatus: "completed",
+          status: OrderStatus.PROCESSING,
+          payment_status: PaymentStatus.COMPLETED,
         },
       });
 
       for (const order of shippedOrders) {
-        const orderTime = new Date(order.orderedAt);
+        const orderTime = new Date(order.ordered_at);
         const minutesSinceOrder =
           (now.getTime() - orderTime.getTime()) / (1000 * 60);
 
         if (minutesSinceOrder >= SHIPPED_TO_DELIVERED_TIME) {
-          order.status = "completed";
+          order.status = OrderStatus.COMPLETED;
           await orderRepository.save(order);
           console.log(`Order ${order.id} status updated to completed`);
         }

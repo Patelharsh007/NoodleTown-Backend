@@ -4,7 +4,7 @@ import { Brackets } from "typeorm";
 //get brands for brand page
 export const getBrands = async () => {
   const restaurants = await restaurantRepository.find({
-    select: ["restaurantId", "logo", "title"],
+    select: ["id", "logo", "title"],
   });
   return restaurants;
 };
@@ -13,7 +13,7 @@ export const getBrands = async () => {
 export const getRestaurantById = async (id: string) => {
   const restaurantDetail = await restaurantRepository.findOne({
     where: {
-      restaurantId: id,
+      id: id,
     },
   });
   return restaurantDetail;
@@ -23,10 +23,10 @@ export const getRestaurantById = async (id: string) => {
 export const getRestaurantMeal = async (id: string) => {
   const restaurantDetail = await restaurantRepository.find({
     where: {
-      restaurantId: id,
+      id: id,
     },
     relations: ["meals"],
-    select: ["restaurantId", "meals"],
+    select: ["id", "meals"],
   });
   return restaurantDetail;
 };
@@ -35,10 +35,10 @@ export const getRestaurantMeal = async (id: string) => {
 export const getMenuCategories = async (id: string) => {
   const restaurant = await restaurantRepository.find({
     where: {
-      restaurantId: id,
+      id: id,
     },
     relations: ["meals"],
-    select: ["restaurantId", "meals"],
+    select: ["id", "meals"],
   });
 
   if (restaurant.length === 0) {
@@ -53,7 +53,7 @@ export const getMenuCategories = async (id: string) => {
     if (category === "Recommended") {
       return {
         category,
-        count: restaurant[0].meals.filter((meal) => meal.isPopular).length,
+        count: restaurant[0].meals.filter((meal) => meal.is_popular).length,
       };
     } else {
       return {
@@ -67,10 +67,11 @@ export const getMenuCategories = async (id: string) => {
   return categoryCount;
 };
 
-export const getSearchResult = async (city: string, value: string) => {
+const searchRestaurant = async (city: string, value: string) => {
   const restaurants = await restaurantRepository
     .createQueryBuilder("restaurant")
-    .leftJoinAndSelect("restaurant.meals", "meal")
+    .select(["restaurant"])
+    .leftJoin("restaurant.meals", "meal")
     .where("LOWER(restaurant.address) LIKE LOWER(:addresspattern)", {
       addresspattern: `%${city}%`,
     })
@@ -88,13 +89,52 @@ export const getSearchResult = async (city: string, value: string) => {
       })
     )
     .getMany();
+  return restaurants;
+};
 
-  const restaurantData = restaurants.map((resturant) => ({
-    ...resturant,
-    meals: undefined,
-  }));
+export const getSearchRestaurantResult = async (
+  city: string,
+  value: string
+) => {
+  const restaurants = await searchRestaurant(city, value);
+  return restaurants;
+};
 
-  const mealsData = restaurants.map((restaurant) => restaurant.meals).flat();
+const searchMeal = async (city: string, value: string) => {
+  const meals = await restaurantRepository
+    .createQueryBuilder("restaurant")
+    .leftJoin("restaurant.meals", "meal")
+    .select([
+      "restaurant.id",
+      "meal.id",
+      "meal.title",
+      "meal.category",
+      "meal.image",
+      "meal.short_description",
+      "meal.price",
+    ])
+    .where("LOWER(restaurant.address) LIKE LOWER(:addresspattern)", {
+      addresspattern: `%${city}%`,
+    })
+    .andWhere(
+      new Brackets((qb) => {
+        qb.where("LOWER(restaurant.address) LIKE LOWER(:value)", {
+          value: `%${value}%`,
+        })
+          .orWhere("LOWER(meal.title) LIKE LOWER(:value)", {
+            value: `%${value}%`,
+          })
+          .orWhere("LOWER(meal.category) LIKE LOWER(:value)", {
+            value: `%${value}%`,
+          });
+      })
+    )
+    .getMany();
+  return meals;
+};
 
-  return { restaurants, restaurantData, mealsData };
+export const getSearchMealResult = async (city: string, value: string) => {
+  const meals = await searchMeal(city, value);
+  const mealsData = meals.map((restaurant) => restaurant.meals).flat();
+  return mealsData;
 };

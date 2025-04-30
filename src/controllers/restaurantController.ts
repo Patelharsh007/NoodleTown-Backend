@@ -4,7 +4,8 @@ import {
   getBrands,
   getRestaurantById,
   getRestaurantMeal,
-  getSearchResult,
+  getSearchRestaurantResult,
+  getSearchMealResult,
 } from "../services/restaurantServices";
 import { restaurantRepository } from "../repositories/dataRepositories";
 
@@ -107,7 +108,10 @@ export const searchBarRestaurant = async (req: Request, res: Response) => {
   if (cityParam && valueParam) {
     console.log(cityParam, valueParam);
     try {
-      const { restaurantData } = await getSearchResult(cityParam, valueParam);
+      const restaurantData = await getSearchRestaurantResult(
+        cityParam,
+        valueParam
+      );
 
       if (restaurantData.length > 0) {
         res.status(201).json({
@@ -134,7 +138,7 @@ export const searchBarMeal = async (req: Request, res: Response) => {
   if (cityParam && valueParam) {
     console.log(cityParam, valueParam);
     try {
-      const { mealsData } = await getSearchResult(cityParam, valueParam);
+      const mealsData = await getSearchMealResult(cityParam, valueParam);
 
       if (mealsData.length > 0) {
         res.status(201).json({

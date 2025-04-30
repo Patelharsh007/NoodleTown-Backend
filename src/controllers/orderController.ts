@@ -1,16 +1,46 @@
 import { Request, Response } from "express";
 import { getCartbyUser, emptyCart } from "../services/cartServices";
-import {
-  placeOrder,
-  setOrderItems,
-  updateOrder,
-  getOrders,
-} from "../services/orderServices";
+import { getCoupon, getOrders } from "../services/orderServices";
 import {
   createPaymentSession,
   verifyPaymentSession,
 } from "../services/paymentService";
 import { UUID } from "crypto";
+
+export const getCouponDiscount = async (req: Request, res: Response) => {
+  const coupon_code = req.body.coupon_code;
+
+  try {
+    if (!coupon_code) {
+      res.status(400).json({
+        status: "error",
+        message: "Coupon Code not passed",
+      });
+      return;
+    }
+
+    const coupon = await getCoupon(coupon_code);
+    if (!coupon) {
+      res.status(400).json({
+        status: "error",
+        message: "Invalid Coupon Code",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      status: "success",
+      message: "Valid Coupon Code",
+      coupon,
+    });
+  } catch (error) {
+    console.log("error", error);
+    res.status(500).json({
+      status: "error",
+      message: "Internal Server error.",
+    });
+  }
+};
 
 export const getOrdersbyUser = async (req: Request, res: Response) => {
   const userId = req.user?.id as number;
@@ -51,7 +81,7 @@ export const getOrdersbyUser = async (req: Request, res: Response) => {
 export const createOrderAndPayment = async (req: Request, res: Response) => {
   const userId = req.user?.id as number;
   const addressId = req.body.addressId as UUID;
-  const discount = (req.body.discount as number) || 0;
+  const coupon_code = req.body.coupon_code as string;
 
   try {
     if (!userId) {
@@ -72,10 +102,27 @@ export const createOrderAndPayment = async (req: Request, res: Response) => {
       return;
     }
 
+    if (!coupon_code) {
+      res.status(400).json({
+        status: "error",
+        message: "Coupon Code not passed",
+      });
+      return;
+    }
+
+    const coupon = await getCoupon(coupon_code);
+    if (!coupon) {
+      res.status(400).json({
+        status: "error",
+        message: "Invalid Coupon Code",
+      });
+      return;
+    }
+
     const orderData = {
       userId,
       addressId,
-      discount,
+      discount: coupon.amount,
       cartItems,
       subTotal: cartItems.reduce(
         (acc, item) => acc + item.meal.price * item.quantity,

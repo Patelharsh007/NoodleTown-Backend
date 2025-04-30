@@ -1,9 +1,23 @@
-import { cartRepository } from "../repositories/dataRepositories";
+import {
+  cartRepository,
+  mealRepository,
+} from "../repositories/dataRepositories";
 
 export const getCartbyUser = async (userId: number) => {
   return await cartRepository.find({
     where: { user: { id: userId } },
     relations: ["meal"],
+    select: {
+      id: true,
+      quantity: true,
+      meal: {
+        id: true,
+        price: true,
+        title: true,
+        image: true,
+        short_description: true,
+      },
+    },
     order: { meal: { title: "ASC" } },
   });
 };
@@ -17,13 +31,20 @@ export const getCartMealbyUser = async (mealId: string, userId: number) => {
 
 export const findCartByMealAndUser = async (mealId: string, userId: number) => {
   return await cartRepository.findOne({
-    where: { user: { id: userId }, mealId: mealId },
+    where: { user: { id: userId }, meal: { id: mealId } },
+    relations: ["meal"],
   });
 };
 
 export const addMealToCart = async (mealId: string, userId: number) => {
+  const meal = await mealRepository.findOne({ where: { id: mealId } });
+
+  if (!meal) {
+    throw new Error("No meal available");
+  }
+
   const cartItemData = {
-    mealId,
+    meal,
     user: { id: userId },
   };
   return await cartRepository.save(cartItemData);
@@ -31,7 +52,8 @@ export const addMealToCart = async (mealId: string, userId: number) => {
 
 // export const incrementCartItem = async (mealId: string, userId: number) => {
 //   const data = await cartRepository.findOne({
-//     where: { mealId: mealId, user: { id: userId } },
+//     where: { meal: { id: mealId }, user: { id: userId } },
+//     relations: ["meal"],
 //   });
 
 //   if (data) {
@@ -42,8 +64,11 @@ export const addMealToCart = async (mealId: string, userId: number) => {
 
 export const incrementCartItem = async (mealId: string, userId: number) => {
   const cartItem = await cartRepository.findOne({
-    where: { mealId, user: { id: userId } },
+    where: { meal: { id: mealId }, user: { id: userId } },
+    relations: ["meal"],
   });
+
+  // console.log("In service", cartItem);
 
   if (!cartItem) return null;
 
@@ -60,7 +85,7 @@ export const incrementCartItem = async (mealId: string, userId: number) => {
     .execute();
 
   return await cartRepository.findOne({
-    where: { mealId, user: { id: userId } },
+    where: { meal: { id: mealId }, user: { id: userId } },
   });
 };
 
@@ -77,14 +102,15 @@ export const incrementCartItem = async (mealId: string, userId: number) => {
 
 export const decrementCartItem = async (mealId: string, userId: number) => {
   const cartItem = await cartRepository.findOne({
-    where: { mealId, user: { id: userId } },
+    where: { meal: { id: mealId }, user: { id: userId } },
+    relations: ["meal"],
   });
 
   if (!cartItem) return null;
 
   if (cartItem.quantity <= 1) {
     // Remove item from cart
-    await cartRepository.delete({ mealId, user: { id: userId } });
+    await cartRepository.delete({ meal: { id: mealId }, user: { id: userId } });
     return null;
   }
 
@@ -97,13 +123,13 @@ export const decrementCartItem = async (mealId: string, userId: number) => {
     .execute();
 
   return await cartRepository.findOne({
-    where: { mealId, user: { id: userId } },
+    where: { meal: { id: mealId }, user: { id: userId } },
   });
 };
 
 export const removeCartItem = async (mealId: string, userId: number) => {
   const data = await cartRepository.findOne({
-    where: { mealId: mealId, user: { id: userId } },
+    where: { meal: { id: mealId }, user: { id: userId } },
   });
 
   if (data) {

@@ -6,6 +6,11 @@ import { placeOrder, setOrderItems } from "./orderServices";
 import { emptyCart } from "./cartServices";
 import { UUID } from "crypto";
 
+import { CartItemEntity } from "../entities/CartItem";
+import { PaymentStatus } from "../types/type";
+import { OrderStatus } from "../types/type";
+
+
 if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error(
     "STRIPE_SECRET_KEY is not defined in the environment variables."
@@ -19,7 +24,7 @@ export const createPaymentSession = async (
     userId: number;
     addressId: string;
     discount: number;
-    cartItems: any[];
+    cartItems: CartItemEntity[];
     subTotal: number;
     delivery: number;
   }
@@ -40,6 +45,7 @@ export const createPaymentSession = async (
     });
   }
 
+
   // if (orderData.delivery > 0) {
   //   lineItems.push({
   //     price_data: {
@@ -52,6 +58,7 @@ export const createPaymentSession = async (
   //     quantity: 1,
   //   });
   // }
+
 
   let couponId: string | undefined = undefined;
 
@@ -120,19 +127,29 @@ export const handleSuccessfulPayment = async (
   const userId = parseInt(session.metadata?.userId || "0");
   const addressId = session.metadata?.addressId || "";
   const discount = parseFloat(session.metadata?.discount || "0");
+  const session_id = session.id;
 
   if (!userId || !addressId) {
     throw new Error("Missing required metadata in session");
   }
 
-  const order = await placeOrder(userId, discount, addressId as UUID);
+
+  const order = await placeOrder(
+    userId,
+    discount,
+    addressId as UUID,
+    session_id
+  );
   const orderItems = await setOrderItems(order, userId);
-  order.stripePaymentId = session.id;
-  order.status = "processing";
-  order.paymentStatus = "completed";
+
+  // order.stripe_payment_id = session.id;
+  order.status = OrderStatus.PROCESSING;
+  order.payment_status = PaymentStatus.COMPLETED;
+
   await orderRepository.save(order);
   await emptyCart(userId);
-  return { order, orderItems };
+  // return { order, orderItems };
+  return;
 };
 
 export const verifyPaymentSession = async (sessionId: string) => {

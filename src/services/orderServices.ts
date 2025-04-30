@@ -2,12 +2,15 @@ import { UUID } from "crypto";
 import {
   addressRepository,
   cartRepository,
+  couponRepository,
   orderItemsRepository,
   orderRepository,
 } from "../repositories/dataRepositories";
 import { getCartbyUser } from "./cartServices";
 import { OrderEntity } from "../entities/Order";
 import { findUserById } from "./authServices";
+import { OrderStatus } from "../types/type";
+import { PaymentStatus } from "../types/type";
 
 export const getOrders = async (userId: number) => {
   return await orderRepository.find({
@@ -20,7 +23,8 @@ export const getOrders = async (userId: number) => {
 export const placeOrder = async (
   userId: number,
   discount: number,
-  addressId: UUID
+  addressId: UUID,
+  session_id: string
 ) => {
   const delivery = 40;
 
@@ -48,21 +52,23 @@ export const placeOrder = async (
 
   const order = orderRepository.create({
     user,
-    status: "pending",
-    subTotal,
+    status: OrderStatus.PROCESSING,
+    sub_total: subTotal,
     discount,
     delivery: delivery,
     total,
     address: {
-      recipientName: addressData.name,
+
+      name: addressData.name,
+
       street: addressData.street,
       city: addressData.city,
       state: addressData.state,
       country: addressData.country,
       pincode: addressData.pincode,
     },
-    stripePaymentId: "default",
-    paymentStatus: "pending",
+    stripe_payment_id: session_id,
+    payment_status: PaymentStatus.COMPLETED,
   });
 
   return await orderRepository.save(order);
@@ -74,28 +80,25 @@ export const setOrderItems = async (order: OrderEntity, userId: number) => {
   const orderItems = cartItems.map((item) =>
     orderItemsRepository.create({
       order,
-      itemName: item.meal.title,
+      item_name: item.meal.title,
       image: item.meal.image,
       quantity: item.quantity,
       price: Number(item.meal.price),
-      itemTotal: item.meal.price * item.quantity,
+      item_total: item.meal.price * item.quantity,
     })
   );
 
   return await orderItemsRepository.save(orderItems);
 };
 
-export const updateOrder = async (orderId: string) => {
-  const order = await orderRepository.findOne({
-    where: { id: Number(orderId) },
+export const getCoupon = async (coupon_code: string) => {
+  const coupon = await couponRepository.findOne({
+    where: { coupon_code },
   });
 
-  if (!order) {
-    throw new Error("Order not found");
+  if (!coupon) {
+    return;
   }
 
-  order.status = "processing";
-  order.paymentStatus = "completed";
-
-  await orderRepository.save(order);
+  return coupon;
 };
